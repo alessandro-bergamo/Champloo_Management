@@ -10,30 +10,30 @@ public interface OrderModel
 {
 
     //Method that creates an order
-    public boolean createOrder();
+    boolean createOrder(OrderBean newOrder);
 
     //Method that modifies an order
-    public boolean modifyOrder();
+    boolean modifyOrder(OrderBean order);
 
     //Method that cancels an order
-    public boolean cancelOrder();
+    boolean cancelOrder(OrderBean order);
 
     //Method that retrieves an order by his ID
-    public OrderBean retrieveByID(int order_id);
+    OrderBean retrieveByID(int id_order);
 
     //Method that retrieves orders having a username
-    public HashSet<OrderBean> retrieveByUsername(String username);
+    HashSet<OrderBean> retrieveByUsername(String username);
 
     //Method that retrieves order having a date
-    public HashSet<OrderBean> retrieveByDate(Date date);
+    HashSet<OrderBean> retrieveByDate(Date date);
 
     //Method that retrieves cancelled orders
-    public HashSet<OrderBean> retrieveCancelledOrders(int status_order);
+    HashSet<OrderBean> retrieveCancelledOrders(int status_order);
 
     //Method that retrieves all the orders
-    public HashSet<OrderBean> retrieveAll();
+    HashSet<OrderBean> retrieveAll();
 
-    //Method that retrieves all the Order Item contained in an order.
-    public OrderItemBean retrieveByOrder(int order_id);
+    //Method that retrieves all the Order_Items contained in an order.
+    HashSet<OrderItemBean> retrieveByOrder(int id_order);
 
 }

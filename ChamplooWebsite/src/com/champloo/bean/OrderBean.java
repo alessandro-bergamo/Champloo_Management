@@ -8,12 +8,12 @@ public class OrderBean
 
     public AddressBean getOrder_address()
     {
-        return order_address;
+        return address;
     }
 
-    public void setOrder_address(AddressBean order_address)
+    public void setOrder_address(AddressBean address)
     {
-        this.order_address = order_address;
+        this.address = address;
     }
 
     public float getTotal_price()
@@ -46,28 +46,28 @@ public class OrderBean
         this.delivery_date = delivery_date;
     }
 
-    public int getOrder_id() { return order_id; }
+    public int getOrder_id() { return id_order; }
 
-    public void setOrder_id(int order_id) { this.order_id = order_id; }
+    public void setOrder_id(int id_order) { this.id_order = id_order; }
 
-    public int getOrder_status() { return order_status; }
+    public int getStatus_order() { return status_order; }
 
-    public void setOrder_status(int order_status) { this.order_status = order_status; }
+    public void setStatus_order(int status_order) { this.status_order = status_order; }
 
-    public PaymentMethodBean getOrder_payment_method() { return order_payment_method; }
+    public PaymentMethodBean getPayment_method() { return payment_method; }
 
-    public void setOrder_payment_method(PaymentMethodBean order_payment_method) { this.order_payment_method = order_payment_method; }
+    public void setPayment_method(PaymentMethodBean payment_method) { this.payment_method = payment_method; }
 
-    public HashSet<OrderItemBean> getOrder_items() { return order_items; }
+    public HashSet<OrderItemBean> getItems_order() { return items_order; }
 
-    public void setOrder_items(HashSet<OrderItemBean> order_items) { this.order_items = order_items; }
+    public void setItems_order(HashSet<OrderItemBean> items_order) { this.items_order = items_order; }
 
-    private int order_id;
-    private int order_status;
+    private int id_order;
+    private int status_order;
     private float total_price;
     private Date creation_date, delivery_date;
-    private PaymentMethodBean order_payment_method;
-    private AddressBean order_address;
-    private HashSet<OrderItemBean> order_items;
+    private PaymentMethodBean payment_method;
+    private AddressBean address;
+    private HashSet<OrderItemBean> items_order;
 
 }
