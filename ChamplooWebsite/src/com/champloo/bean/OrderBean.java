@@ -6,16 +6,6 @@ import java.util.HashSet;
 public class OrderBean
 {
 
-    public AddressBean getOrder_address()
-    {
-        return address;
-    }
-
-    public void setOrder_address(AddressBean address)
-    {
-        this.address = address;
-    }
-
     public float getTotal_price()
     {
         return total_price;
@@ -46,28 +36,31 @@ public class OrderBean
         this.delivery_date = delivery_date;
     }
 
-    public int getOrder_id() { return id_order; }
-
-    public void setOrder_id(int id_order) { this.id_order = id_order; }
-
     public int getStatus_order() { return status_order; }
 
     public void setStatus_order(int status_order) { this.status_order = status_order; }
 
-    public PaymentMethodBean getPayment_method() { return payment_method; }
+    public int getId_order() { return id_order; }
 
-    public void setPayment_method(PaymentMethodBean payment_method) { this.payment_method = payment_method; }
+    public void setId_order(int id_order) { this.id_order = id_order; }
 
-    public HashSet<OrderItemBean> getItems_order() { return items_order; }
+    public int getId_order_item() { return id_order_item; }
 
-    public void setItems_order(HashSet<OrderItemBean> items_order) { this.items_order = items_order; }
+    public void setId_order_item(int id_order_item) { this.id_order_item = id_order_item; }
 
-    private int id_order;
-    private int status_order;
+    public String getPayment_method() { return payment_method; }
+
+    public void setPayment_method(String payment_method) { this.payment_method = payment_method; }
+
+    public String getAddress() { return address; }
+
+    public void setAddress(String address) { this.address = address; }
+
+
+
+    private int id_order, status_order, id_order_item;
     private float total_price;
     private Date creation_date, delivery_date;
-    private PaymentMethodBean payment_method;
-    private AddressBean address;
-    private HashSet<OrderItemBean> items_order;
+    private String payment_method, address;
 
 }

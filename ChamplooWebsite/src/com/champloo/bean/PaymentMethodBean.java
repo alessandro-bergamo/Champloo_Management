@@ -33,15 +33,14 @@ public class PaymentMethodBean
 
     public void setRegistration_method_date(Date registration_method_date) { this.registration_method_date = registration_method_date; }
 
-    public UserBean getUser() { return user; }
+    public String getUsername() { return username; }
 
-    public void setUser(UserBean user) { this.user = user; }
+    public void setUsername(String username) { this.username = username; }
 
 
 
     private int id_method, card_cvc;
-    private String card_number, card_bank, card_owner;
+    private String card_number, card_bank, card_owner, username;
     private Date expiry_date, registration_method_date;
-    private UserBean user;
 
 }

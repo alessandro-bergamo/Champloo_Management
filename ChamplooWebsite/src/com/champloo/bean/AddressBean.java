@@ -27,14 +27,13 @@ public class AddressBean
 
     public void setCAP(String CAP) { this.CAP = CAP; }
 
-    public UserBean getUser() { return user; }
+    public String getUsername() { return username; }
 
-    public void setUser(UserBean user) { this.user = user; }
+    public void setUsername(String username) { this.username = username; }
 
 
 
     private int id_address, civic_number;
-    private String address, city, province, CAP;
-    private UserBean user;
+    private String address, city, province, CAP, username;
 
 }

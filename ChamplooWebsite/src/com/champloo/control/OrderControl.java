@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
+
 @WebServlet(name = "Order")
 public class OrderControl extends HttpServlet
 {
-    private static final long serialVersionUID = 1L;
-
-    private static OrderDAO model_order = new OrderDAO();
 
     public OrderControl()
     {
@@ -52,5 +51,11 @@ public class OrderControl extends HttpServlet
     {
         doGet(request, response);
     }
+
+
+
+    private static final long serialVersionUID = 1L;
+
+    private static OrderDAO model_order = new OrderDAO();
 
 }
