@@ -11,10 +11,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Creates an order
-     * @param newOrder
-     * @return order_created
+     * param newOrder
+     * return order_created
      */
-    @Override
+
     public boolean createOrder(OrderBean newOrder)
     {
         return false;
@@ -23,10 +23,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Modifies an order
-     * @param order
-     * @return order_modified
+     * param order
+     * return order_modified
      */
-    @Override
+ 
     public boolean modifyOrder(OrderBean order)
     {
         return false;
@@ -35,10 +35,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Cancels an order
-     * @param order
-     * @return order_canceled
+     * param order
+     * return order_canceled
      */
-    @Override
+    
     public boolean cancelOrder(OrderBean order)
     {
         return false;
@@ -47,10 +47,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves the order by his ID
-     * @param order_id
-     * @return order
+     * param order_id
+     * return order
      */
-    @Override
+    
     public OrderBean retrieveByID(int order_id)
     {
         return null;
@@ -59,10 +59,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders with a specific username
-     * @param username
-     * @return orders
+     * param username
+     * return orders
      */
-    @Override
+    
     public HashSet<OrderBean> retrieveByUsername(String username)
     {
         return null;
@@ -71,10 +71,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders beyond this date, date included
-     * @param date
-     * @return orders
+     * param date
+     * return orders
      */
-    @Override
+    
     public HashSet<OrderBean> retrieveByDate(Date date)
     {
         return null;
@@ -83,10 +83,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the canceled orders
-     * @param status_order
-     * @return canceled_orders
+     * param status_order
+     * return canceled_orders
      */
-    @Override
+    
     public HashSet<OrderBean> retrieveCancelledOrders(int status_order)
     {
         return null;
@@ -95,9 +95,9 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders
-     * @return orders
+     * return orders
      */
-    @Override
+    
     public HashSet<OrderBean> retrieveAll()
     {
         return null;
@@ -106,10 +106,10 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the Order Items of a certain order
-     * @param order_id
-     * @return order_items
+     * param order_id
+     * return order_items
      */
-    @Override
+    
     public HashSet<OrderItemBean> retrieveByOrder(int order_id)
     {
         return null;
