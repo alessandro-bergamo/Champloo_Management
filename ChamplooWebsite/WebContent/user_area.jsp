@@ -64,7 +64,7 @@
                                     <li>Accesso anticipato ai contenuti in offerta ed agli ultimi arrivi.</li>
                                 </ul>
                                 <div class="button1">
-                                    <a href="registrazione.html"><input type="submit" name="Submit" value="REGISTRATI"></a>
+                                    <a href="registrazione.jsp"><input type="submit" name="Submit" value="REGISTRATI"></a>
                                 </div>
                                 <div class="clear"></div>
                             </div>
