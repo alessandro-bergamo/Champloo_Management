@@ -16,7 +16,7 @@
                                         </a>
                                     </div>
                                     <div class="footer_about_text">
-                                        <p>Vendiamo capi d'abbigliamento d'alta qualità per pagarci la droga. Evviva la prostituzione.</p>
+                                        <p>Dal 2017, punto di riferimento della street-culture in Italia, nonchè uno dei graffiti shop più forniti in Europa.</p>
                                     </div>
                                 </div>
                             </div>
@@ -67,9 +67,9 @@
                             <div class="col">
                                 <div class="footer_bar_content d-flex flex-md-row flex-column align-items-center justify-content-start">
                                     <div class="copyright order-md-1 order-2">
-                                    <nav class="footer_nav ml-md-auto order-md-2 order-1">
-
-                                    </nav>
+                                        <nav class="footer_nav ml-md-auto order-md-2 order-1">
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>

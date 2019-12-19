@@ -47,7 +47,7 @@ body
 	font-size: 14px;
 	font-weight: 400;
 	background: #FFFFFF;
-	color: #a5a5a5;
+	color: white;
 }
 div
 {
@@ -474,7 +474,7 @@ section
 	font-weight: 300 !important;
 	color: #2e2e2e !important;
 }
-.search_input::input-placeholder
+.search_input::placeholder
 {
 	font-size: 16px !important;
 	font-weight: 300 !important;
@@ -1291,7 +1291,7 @@ input[type="date"], focus {
 .home_title
 {
 	font-size: 48px;
-	font-weight: 400;
+	font-weight: bold;
 	color: #FFFFFF;
 	text-align: center;
 	line-height: 1.2;
@@ -2109,7 +2109,7 @@ input[type="date"], focus {
 	font-weight: 500 !important;
 	color: #4a4a4a !important;
 }
-.newsletter_input::input-placeholder
+.newsletter_input::placeholder
 {
 	font-size: 16px !important;
 	font-weight: 500 !important;

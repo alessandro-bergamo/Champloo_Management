@@ -1,76 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Prodotto</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Little Closet template">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
-<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="plugins/flexslider/flexslider.css">
-<link rel="stylesheet" type="text/css" href="styles/product.css">
-<link rel="stylesheet" type="text/css" href="styles/product_responsive.css">
+	<title>Champloo Store</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Little Closet template">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Icona -->
+	<link href="images/icona.png" rel="shortcut icon"/>
+
+	<!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+
+	<!-- STILI CSS -->
+	<link rel="stylesheet" type="text/css" href="styles/product.css">
+	<link rel="stylesheet" type="text/css" href="styles/product_responsive.css">
+
 </head>
 <body>
 
 <!-- Menu -->
 
-<div class="menu">
+	<div class="menu">
+		<!-- Search -->
+		<div class="menu_search">
+			<form action="#" id="menu_search_form" class="menu_search_form">
+					<input type="text" class="search_input" placeholder="Search Item" required="required">
+				<button class="menu_search_button"><img src="images/search.png" alt=""></button>
+			</form>
+		</div>
+		<!-- Navigation -->
+		<div class="menu_nav">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="category.html">Donna</a></li>
+				<li><a href="category.html">Uomo</a></li>
+				<li><a href="#">Contatti</a></li>
+			</ul>
+		</div>
+		<!-- Contact Info -->
+		<div class="menu_contact">
+			<div class="menu_phone d-flex flex-row align-items-center justify-content-start">
+				<div><div></div></div>
+				<div></div>
+			</div>
+			<div class="menu_social">
+				<ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">
+					<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-    <!-- Search -->
-    <div class="menu_search">
-        <form action="#" id="menu_search_form" class="menu_search_form">
-            <input type="text" class="search_input" placeholder="Search Item" required="required">
-            <button class="menu_search_button"><img src="images/search.png" alt=""></button>
-        </form>
-    </div>
-    <!-- Navigation -->
-    <div class="menu_nav">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Donna</a></li>
-            <li><a href="#">Uomo</a></li>
-            <li><a href="#">Contatti</a></li>
-        </ul>
-    </div>
-    <!-- Contact Info -->
-    <div class="menu_contact">
-        <div class="menu_phone d-flex flex-row align-items-center justify-content-start">
-            <div><div></div></div>
-            <div></div>
-        </div>
-        <div class="menu_social">
-            <ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">
-                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+	<div class="super_container">
 
-<div class="super_container">
+    	<!-- Header -->
+		<%@ include file="header.jsp" %>
 
-    <!-- Header -->
-
-    			<%@ include file="header.jsp" %>
-
-
-           <!-- Home -->
+		<!-- Home -->
 
 		<div class="home">
 			<div class="home_container d-flex flex-column align-items-center justify-content-end">
 				<div class="home_content text-center">
-					<div class="home_title">Pagina del prodotto</div>
-					<div class="breadcrumbs d-flex flex-column align-items-center justify-content-center">
-						<ul class="d-flex flex-row align-items-start justify-content-start text-center">
-							<li><a href="#">Home</a></li>
-							<li><a href="category.html">Donna</a></li>
-							<li>Nuovi prodotti</li>
-						</ul>
-					</div>
+					<div class="home_title">Nome prodotto</div>
 				</div>
 			</div>
 		</div>
@@ -153,7 +156,18 @@
 							<div class="product_name">Nome oggetto</div>
 							<div class="product_category">In <a href="category.html">Nome categoria</a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
-								<div class="rating_r rating_r_4 product_rating"><i></i><i></i><i></i><i></i><i></i></div>
+								<div class="rate">
+									<input type="radio" id="star5" name="rate" value="5" />
+									<label for="star5" title="5 Stelle">5 stars</label>
+									<input type="radio" id="star4" name="rate" value="4" />
+									<label for="star4" title="4 Stelle">4 stars</label>
+									<input type="radio" id="star3" name="rate" value="3" />
+									<label for="star3" title="3 Stelle">3 stars</label>
+									<input type="radio" id="star2" name="rate" value="2" />
+									<label for="star2" title="2 Stelle">2 stars</label>
+									<input type="radio" id="star1" name="rate" value="1" />
+									<label for="star1" title="1 Stella">1 star</label>
+								</div>
 								<div class="product_reviews">4.7 su (3514)</div>
 								<div class="product_reviews_link"><a href="#">Recensioni</a></div>
 							</div>
@@ -192,9 +206,6 @@
 							</div>
 							<div class="product_buttons">
 								<div class="text-right d-flex flex-row align-items-start justify-content-start">
-									<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-										<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
-									</div>
 									<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 										<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
 									</div>

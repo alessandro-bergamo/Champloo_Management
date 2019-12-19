@@ -1,4 +1,43 @@
 package com.champloo.control;
 
-public class PaymentMethodControl {
+import com.champloo.model.PaymentMethodDAO;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "PaymentMethod")
+public class PaymentMethodControl extends HttpServlet
+{
+
+    public PaymentMethodControl() { super(); }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String action = request.getParameter("action");
+
+        RequestDispatcher dispatcher;
+        if(action.equals(""))
+            dispatcher = getServletContext().getRequestDispatcher("home.jsp");
+        else
+            dispatcher = getServletContext().getRequestDispatcher("home.jsp");
+
+        dispatcher.forward(request, response);
+    }
+
+
+    protected void goPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        doGet(request, response);
+    }
+
+
+
+    private static PaymentMethodDAO model_pmethod = new PaymentMethodDAO();
+    private static final long serialVersionUID = 1L;
+
 }
