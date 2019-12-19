@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="ml-auto text-right">
                                             <div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-                                            <div class="product_price text-right">$3<span>.99</span></div>
+                                            <div class="product_price text-right">32<span>.99 &euro;</span></div>
                                         </div>
                                     </div>
                                     <div class="product_buttons">

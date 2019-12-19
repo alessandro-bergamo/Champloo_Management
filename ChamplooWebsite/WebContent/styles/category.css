@@ -740,7 +740,7 @@ section
 	width: 100%;
 	height: 234px;
 	padding-top: 79px;
-	background: #4a4a4a;
+	background: white;
 }
 .home_container	
 {
@@ -751,7 +751,7 @@ section
 .home_title
 {
 	font-size: 36px;
-	color: #FFFFFF;
+	color: black;
 	font-weight: 700;
 	line-height: 0.75;
 }
@@ -785,6 +785,7 @@ section
 	color: #2fce98;
 }
 
+
 /*********************************
 6. Products
 *********************************/
@@ -792,7 +793,7 @@ section
 .products_bar
 {
 	width: 100%;
-	height: 167px;
+	height: 100px;
 	background: #FFFFFF;
 	z-index: 1;
 }
@@ -1095,7 +1096,7 @@ section
 }
 .product_buttons > div > div
 {
-	width: 50%;
+	width: 100%;
 	height: 100%;
 	border-top: solid 1px #ededed;
 	background: rgba(255,255,255,0);
