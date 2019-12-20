@@ -14,7 +14,6 @@ public class OrderDAO implements OrderModel
      * param newOrder
      * return order_created
      */
-
     public boolean createOrder(OrderBean newOrder)
     {
         return false;
@@ -26,7 +25,6 @@ public class OrderDAO implements OrderModel
      * param order
      * return order_modified
      */
- 
     public boolean modifyOrder(OrderBean order)
     {
         return false;
@@ -38,7 +36,6 @@ public class OrderDAO implements OrderModel
      * param order
      * return order_canceled
      */
-    
     public boolean cancelOrder(OrderBean order)
     {
         return false;
@@ -50,7 +47,6 @@ public class OrderDAO implements OrderModel
      * param order_id
      * return order
      */
-    
     public OrderBean retrieveByID(int order_id)
     {
         return null;
@@ -62,7 +58,6 @@ public class OrderDAO implements OrderModel
      * param username
      * return orders
      */
-    
     public HashSet<OrderBean> retrieveByUsername(String username)
     {
         return null;
@@ -74,7 +69,6 @@ public class OrderDAO implements OrderModel
      * param date
      * return orders
      */
-    
     public HashSet<OrderBean> retrieveByDate(Date date)
     {
         return null;
@@ -86,7 +80,6 @@ public class OrderDAO implements OrderModel
      * param status_order
      * return canceled_orders
      */
-    
     public HashSet<OrderBean> retrieveCancelledOrders(int status_order)
     {
         return null;
@@ -97,7 +90,6 @@ public class OrderDAO implements OrderModel
      * Retrieves all the orders
      * return orders
      */
-    
     public HashSet<OrderBean> retrieveAll()
     {
         return null;
@@ -109,7 +101,6 @@ public class OrderDAO implements OrderModel
      * param order_id
      * return order_items
      */
-    
     public HashSet<OrderItemBean> retrieveByOrder(int order_id)
     {
         return null;

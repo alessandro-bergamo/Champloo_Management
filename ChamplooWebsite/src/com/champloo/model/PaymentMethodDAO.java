@@ -23,7 +23,6 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param PMethod
      * @return method_deleted
      */
- 
     public boolean deletePMethod(PaymentMethodBean PMethod)
     {
         return false;
@@ -35,7 +34,6 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param id_pmethod
      * @return payment_method
      */
-  
     public PaymentMethodBean retrieveByID(int id_pmethod)
     {
         return null;
@@ -47,7 +45,6 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param username
      * @return payment_methods
      */
-   
     public HashSet<PaymentMethodBean> retrieveByUsername(String username)
     {
         return null;
