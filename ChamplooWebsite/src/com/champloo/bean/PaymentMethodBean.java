@@ -1,6 +1,6 @@
 package com.champloo.bean;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PaymentMethodBean
 {
@@ -25,13 +25,13 @@ public class PaymentMethodBean
 
     public void setCard_owner(String card_owner) { this.card_owner = card_owner; }
 
-    public Date getExpiry_date() { return expiry_date; }
+    public LocalDate getExpiry_date() { return expiry_date; }
 
-    public void setExpiry_date(Date expiry_date) { this.expiry_date = expiry_date; }
+    public void setExpiry_date(LocalDate expiry_date) { this.expiry_date = expiry_date; }
 
-    public Date getRegistration_method_date() { return registration_method_date; }
+    public LocalDate getRegistration_method_date() { return registration_method_date; }
 
-    public void setRegistration_method_date(Date registration_method_date) { this.registration_method_date = registration_method_date; }
+    public void setRegistration_method_date(LocalDate registration_method_date) { this.registration_method_date = registration_method_date; }
 
     public String getUsername() { return username; }
 
@@ -41,6 +41,6 @@ public class PaymentMethodBean
 
     private int id_method, card_cvc;
     private String card_number, card_bank, card_owner, username;
-    private Date expiry_date, registration_method_date;
+    private LocalDate expiry_date, registration_method_date;
 
 }

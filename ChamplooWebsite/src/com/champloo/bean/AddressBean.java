@@ -23,9 +23,9 @@ public class AddressBean
 
     public void setProvince(String province) { this.province = province; }
 
-    public String getCAP() { return CAP; }
+    public int getCAP() { return CAP; }
 
-    public void setCAP(String CAP) { this.CAP = CAP; }
+    public void setCAP(int CAP) { this.CAP = CAP; }
 
     public String getUsername() { return username; }
 
@@ -33,7 +33,7 @@ public class AddressBean
 
 
 
-    private int id_address, civic_number;
-    private String address, city, province, CAP, username;
+    private int id_address, civic_number, CAP;
+    private String address, city, province, username;
 
 }

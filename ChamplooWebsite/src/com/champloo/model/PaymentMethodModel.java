@@ -2,17 +2,18 @@ package com.champloo.model;
 
 import com.champloo.bean.PaymentMethodBean;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 
 public interface PaymentMethodModel
 {
 
-    boolean insertPMethod(PaymentMethodBean newPMethod);
+    boolean insertPMethod(PaymentMethodBean newPMethod) throws SQLException;
 
-    boolean deletePMethod(PaymentMethodBean PMethod);
+    boolean deletePMethod(PaymentMethodBean PMethod) throws SQLException;
 
-    PaymentMethodBean retrieveByID(int id_pmethod);
+    PaymentMethodBean retrieveByID(String card_number) throws SQLException;
 
-    HashSet<PaymentMethodBean> retrieveByUsername(String username);
+    HashSet<PaymentMethodBean> retrieveByUsername(String username) throws SQLException;
 
 }
