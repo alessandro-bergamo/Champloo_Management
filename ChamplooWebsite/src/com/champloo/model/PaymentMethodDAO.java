@@ -123,13 +123,14 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
             results = preparedStatement.executeQuery();
 
-            PMethod.setUsername(results.getString(1));
-            PMethod.setCard_number(results.getString(2));
-            PMethod.setCard_bank(results.getString(3));
-            PMethod.setCard_cvc(results.getInt(4));
-            PMethod.setExpiry_date(results.getDate(5).toLocalDate());
-            PMethod.setRegistration_method_date(results.getDate(6).toLocalDate());
-            PMethod.setCard_owner(results.getString(7));
+            PMethod.setId_method(results.getInt(1));
+            PMethod.setUsername(results.getString(2));
+            PMethod.setCard_number(results.getString(3));
+            PMethod.setCard_bank(results.getString(4));
+            PMethod.setCard_cvc(results.getInt(5));
+            PMethod.setExpiry_date(results.getDate(6).toLocalDate());
+            PMethod.setRegistration_method_date(results.getDate(7).toLocalDate());
+            PMethod.setCard_owner(results.getString(8));
         } finally {
             try {
                 if (statement != null)
@@ -174,13 +175,14 @@ public class PaymentMethodDAO implements PaymentMethodModel
             {
                 PaymentMethodBean PMethod = new PaymentMethodBean();
 
-                PMethod.setUsername(results.getString(1));
-                PMethod.setCard_number(results.getString(2));
-                PMethod.setCard_bank(results.getString(3));
-                PMethod.setCard_cvc(results.getInt(4));
-                PMethod.setExpiry_date(results.getDate(5).toLocalDate());
-                PMethod.setRegistration_method_date(results.getDate(6).toLocalDate());
-                PMethod.setCard_owner(results.getString(7));
+                PMethod.setId_method(results.getInt(1));
+                PMethod.setUsername(results.getString(2));
+                PMethod.setCard_number(results.getString(3));
+                PMethod.setCard_bank(results.getString(4));
+                PMethod.setCard_cvc(results.getInt(5));
+                PMethod.setExpiry_date(results.getDate(6).toLocalDate());
+                PMethod.setRegistration_method_date(results.getDate(7).toLocalDate());
+                PMethod.setCard_owner(results.getString(8));
 
                 payment_methods.add(PMethod);
             }
