@@ -10,7 +10,7 @@ public interface AddressModel
 
     boolean insertAddress(AddressBean newAddress) throws SQLException;
 
-    boolean deleteAddress(AddressBean address) throws SQLException;
+    boolean deleteAddress(int id_address) throws SQLException;
 
     AddressBean retrieveByID(int id_address) throws SQLException;
 

@@ -4,7 +4,6 @@ import com.champloo.bean.PaymentMethodBean;
 import com.champloo.model.PaymentMethodDAO;
 
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +23,6 @@ public class PaymentMethodControl extends HttpServlet
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
         String operation = request.getParameter("operation");
 
         if(operation.equals("insert"))
@@ -33,7 +31,7 @@ public class PaymentMethodControl extends HttpServlet
 
             try
             {
-                payment_method.setId_method(Integer.parseInt(request.getParameter("id")));
+                payment_method.setId_method(1);
                 payment_method.setCard_cvc(Integer.parseInt(request.getParameter("cvc")));
                 payment_method.setCard_number(request.getParameter("number"));
                 payment_method.setCard_bank(request.getParameter("bank"));
@@ -47,13 +45,20 @@ public class PaymentMethodControl extends HttpServlet
             {
                 e.printStackTrace();
             }
+        } else if(operation.equals("delete"))
+        {
+            try {
+                model_pmethod.deletePMethod(Integer.parseInt(request.getParameter("id")));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
 
-        if(operation.equals("insert"))
-            response.sendRedirect("index.jsp");
+        if(operation.equals("insert") || operation.equals("delete"))
+            response.sendRedirect("user_area.jsp");
         else
-            response.sendRedirect("reso.jsp");
+            response.sendRedirect("index.jsp");
 
     }
 

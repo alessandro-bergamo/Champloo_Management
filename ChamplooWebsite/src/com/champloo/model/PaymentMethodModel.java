@@ -10,7 +10,7 @@ public interface PaymentMethodModel
 
     boolean insertPMethod(PaymentMethodBean newPMethod) throws SQLException;
 
-    boolean deletePMethod(PaymentMethodBean PMethod) throws SQLException;
+    boolean deletePMethod(int id_method) throws SQLException;
 
     PaymentMethodBean retrieveByID(String card_number) throws SQLException;
 

@@ -27,13 +27,11 @@ public class AddressBean
 
     public void setCAP(int CAP) { this.CAP = CAP; }
 
-    public String getUsername() { return username; }
+    public int getRegistred_User() { return Registred_User; }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setRegistred_User(int registred_User) { Registred_User = registred_User; }
 
-
-
-    private int id_address, civic_number, CAP;
-    private String address, city, province, username;
+    private int id_address, civic_number, CAP, Registred_User;
+    private String address, city, province;
 
 }

@@ -48,10 +48,10 @@ public class AddressDAO implements AddressModel
 
     /**
      * Deletes a Shipping Address
-     * @param address
+     * @param id_address
      * @return address_deleted
      */
-    public boolean deleteAddress(AddressBean address) throws SQLException
+    public boolean deleteAddress(int id_address) throws SQLException
     {
         int address_deleted = 0;
 
@@ -62,7 +62,7 @@ public class AddressDAO implements AddressModel
             e.printStackTrace();
         }
 
-        query="DELETE FROM shipping_addresses WHERE id_address = '"+address.getId_address()+"'";
+        query="DELETE FROM shipping_addresses WHERE id_address = '"+id_address+"'";
 
         try {
             statement = connection.createStatement();
@@ -107,7 +107,7 @@ public class AddressDAO implements AddressModel
             results = preparedStatement.executeQuery();
 
             address.setId_address(results.getInt(1));
-            address.setUsername(String.valueOf(results.getInt(2)));
+            address.setRegistred_User(results.getInt(2));
             address.setAddress(results.getString(3));
             address.setCity(results.getString(4));
             address.setProvince(results.getString(5));
@@ -158,7 +158,7 @@ public class AddressDAO implements AddressModel
                 AddressBean address = new AddressBean();
 
                 address.setId_address(results.getInt(1));
-                address.setUsername(String.valueOf(results.getInt(2)));
+                address.setRegistred_User(results.getInt(2));
                 address.setAddress(results.getString(3));
                 address.setCity(results.getString(4));
                 address.setProvince(results.getString(5));

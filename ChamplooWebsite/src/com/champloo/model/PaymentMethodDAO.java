@@ -64,10 +64,10 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
     /**
      * Deletes a Payment Method
-     * @param PMethod
+     * @param id_method
      * @return method_deleted
      */
-    public boolean deletePMethod(PaymentMethodBean PMethod) throws SQLException
+    public boolean deletePMethod(int id_method) throws SQLException
     {
         int method_deleted = 0;
 
@@ -78,7 +78,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
             e.printStackTrace();
         }
 
-        query="DELETE FROM payement_methods WHERE card_number = '"+PMethod.getCard_number()+"'";
+        query="DELETE FROM payement_methods WHERE card_number = '"+id_method+"'";
 
         try {
             statement = connection.createStatement();
