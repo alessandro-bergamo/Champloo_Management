@@ -1,7 +1,7 @@
 package com.champloo.bean;
 
-import java.util.Date;
-import java.util.HashSet;
+import java.sql.Date;
+
 
 public class OrderBean
 {
@@ -44,10 +44,6 @@ public class OrderBean
 
     public void setId_order(int id_order) { this.id_order = id_order; }
 
-    public int getId_order_item() { return id_order_item; }
-
-    public void setId_order_item(int id_order_item) { this.id_order_item = id_order_item; }
-
     public String getPayment_method() { return payment_method; }
 
     public void setPayment_method(String payment_method) { this.payment_method = payment_method; }
@@ -57,10 +53,20 @@ public class OrderBean
     public void setAddress(String address) { this.address = address; }
 
 
+    public String getOrder_owner() { return order_owner; }
 
-    private int id_order, status_order, id_order_item;
+    public void setOrder_owner(String order_owner) { this.order_owner = order_owner; }
+
+    public int getRegistred_User() { return Registred_User; }
+
+    public void setRegistred_User(int registred_User) { Registred_User = registred_User; }
+
+
+
+
+    private int id_order, status_order, Registred_User;
     private float total_price;
     private Date creation_date, delivery_date;
-    private String payment_method, address;
+    private String payment_method, address, order_owner;
 
 }

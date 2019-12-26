@@ -25,9 +25,12 @@ public class OrderItemBean
 
     public void setId_product(int id_product) { this.id_product = id_product; }
 
+    public int getId_order_item() { return id_order_item; }
+
+    public void setId_order_item(int id_order_item) { this.id_order_item = id_order_item; }
 
 
-    private int qnt_in_order, id_order, id_product;
+    private int qnt_in_order, id_order, id_product, id_order_item;
     private float price_in_order;
 
 }
