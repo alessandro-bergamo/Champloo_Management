@@ -1,10 +1,8 @@
 package com.champloo.storage;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+
 
 public class ConnectionPool
 {
@@ -19,7 +17,7 @@ public class ConnectionPool
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url="jdbc:mysql://root:root@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            String url="jdbc:mysql://root:davidxd98@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             connection=DriverManager.getConnection(url);
 
             return connection;

@@ -34,7 +34,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
         if(results.first())
             return false;
 
-        query="INSERT INTO payment_methods(Registred_User, card_number, card_bank, card_cvc, expiry_date, registration_method_date, card_owener) VALUES (?,?,?,?,?,?,?)";
+        query="INSERT INTO payment_methods(Registred_User, card_number, card_bank, card_cvc, expiry_date, registration_method_date, card_owner) VALUES (?,?,?,?,?,?,?)";
 
         try {
             preparedStatement=connection.prepareStatement(query);

@@ -2,7 +2,7 @@ package com.champloo.control;
 
 import com.champloo.bean.PaymentMethodBean;
 import com.champloo.model.PaymentMethodDAO;
-import oracle.jrockit.jfr.StringConstantPool;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-@WebServlet(name = "PaymentMethod")
+
+
+@WebServlet("/PaymentMethod")
 public class PaymentMethodControl extends HttpServlet
 {
 
@@ -48,17 +50,15 @@ public class PaymentMethodControl extends HttpServlet
         }
 
 
-        RequestDispatcher dispatcher;
-        if(action.equals(""))
-            dispatcher = getServletContext().getRequestDispatcher("home.jsp");
+        if(operation.equals("insert"))
+            response.sendRedirect("index.jsp");
         else
-            dispatcher = getServletContext().getRequestDispatcher("home.jsp");
+            response.sendRedirect("reso.jsp");
 
-        dispatcher.forward(request, response);
     }
 
 
-    protected void goPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doGet(request, response);
     }
