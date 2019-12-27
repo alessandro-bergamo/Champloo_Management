@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
+import java.util.HashSet;
 
 
 @WebServlet("/PaymentMethod")
@@ -52,6 +52,15 @@ public class PaymentMethodControl extends HttpServlet
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else if(operation.equals("retrieveMethods"))
+        {
+            HashSet<PaymentMethodBean> pMethods = null;
+            try {
+                pMethods = model_pmethod.retrieveByUserID(Integer.parseInt(request.getParameter("id_user")));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("methods", pMethods);
         }
 
 

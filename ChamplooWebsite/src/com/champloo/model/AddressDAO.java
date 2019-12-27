@@ -132,7 +132,7 @@ public class AddressDAO implements AddressModel
      * @param id_user
      * @return addresses
      */
-    public HashSet<AddressBean> retrieveByUsername(int id_user) throws SQLException
+    public HashSet<AddressBean> retrieveByUserID(int id_user) throws SQLException
     {
         HashSet<AddressBean> addresses = new HashSet<>();
 

@@ -11,50 +11,65 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashSet;
+
 
 
 @WebServlet("/Address")
-public class AddressControl extends HttpServlet
-{
+public class AddressControl extends HttpServlet {
 
-    public AddressControl() { super(); }
+    public AddressControl()
+    {
+        super();
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
 
-        if(operation.equals("insert"))
+        if (operation.equals("insert"))
         {
             AddressBean newAddress = new AddressBean();
 
             try {
-            newAddress.setId_address(1);
-            newAddress.setRegistred_User(Integer.parseInt(request.getParameter("user")));
-            newAddress.setAddress(request.getParameter("address"));
-            newAddress.setCity(request.getParameter("city"));
-            newAddress.setProvince(request.getParameter("province"));
-            newAddress.setCivic_number(Integer.parseInt(request.getParameter("civic_number")));
-            newAddress.setCAP(Integer.parseInt(request.getParameter("cap")));
+                newAddress.setId_address(1);
+                newAddress.setRegistred_User(Integer.parseInt(request.getParameter("user")));
+                newAddress.setAddress(request.getParameter("address"));
+                newAddress.setCity(request.getParameter("city"));
+                newAddress.setProvince(request.getParameter("province"));
+                newAddress.setCivic_number(Integer.parseInt(request.getParameter("civic_number")));
+                newAddress.setCAP(Integer.parseInt(request.getParameter("cap")));
 
-            model_address.insertAddress(newAddress);
+                model_address.insertAddress(newAddress);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if(operation.equals("delete"))
+        } else if (operation.equals("delete"))
         {
             try {
                 model_address.deleteAddress(Integer.parseInt(request.getParameter("id")));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else if (operation.equals("retrieveMethods"))
+        {
+            HashSet<AddressBean> addresses = null;
+            try {
+                addresses = model_address.retrieveByUserID(Integer.parseInt(request.getParameter("id_user")));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("addresses", addresses);
         }
 
 
-        if(operation.equals("insert") || operation.equals("delete"))
+        if (operation.equals("insert") || operation.equals("delete") || operation.equals("retrieveMethods"))
             response.sendRedirect("user_area.jsp");
         else
             response.sendRedirect("index.jsp");
+
     }
+
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

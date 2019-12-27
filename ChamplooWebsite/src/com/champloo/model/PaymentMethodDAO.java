@@ -102,7 +102,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param card_number
      * @return payment_method
      */
-    public PaymentMethodBean retrieveByID(String card_number) throws SQLException
+    public PaymentMethodBean retrieveByCardNumber(String card_number) throws SQLException
     {
 
         PaymentMethodBean PMethod = new PaymentMethodBean();
@@ -147,10 +147,10 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
     /**
      * Retrieve all the Payment Methods of an user
-     * @param username
+     * @param user_id
      * @return payment_methods
      */
-    public HashSet<PaymentMethodBean> retrieveByUsername(String username) throws SQLException
+    public HashSet<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException
     {
         HashSet<PaymentMethodBean> payment_methods = new HashSet<>();
 
@@ -167,7 +167,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
             preparedStatement=connection.prepareStatement(query);
 
-            preparedStatement.setString(1, username);
+            preparedStatement.setInt(1, user_id);
 
             results=preparedStatement.executeQuery();
 

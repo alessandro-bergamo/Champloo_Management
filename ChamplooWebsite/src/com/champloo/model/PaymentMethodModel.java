@@ -12,8 +12,8 @@ public interface PaymentMethodModel
 
     boolean deletePMethod(int id_method) throws SQLException;
 
-    PaymentMethodBean retrieveByID(String card_number) throws SQLException;
+    PaymentMethodBean retrieveByCardNumber(String card_number) throws SQLException;
 
-    HashSet<PaymentMethodBean> retrieveByUsername(String username) throws SQLException;
+    HashSet<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException;
 
 }

@@ -210,7 +210,7 @@ public class OrderControl extends HttpServlet
             }
         }
 
-
+        //FIX REDIRECT
         if(operation.equals("insertOrder"))
             response.sendRedirect("user_area.jsp");
         else if(operation.equals("showOrdersPerUser"))
