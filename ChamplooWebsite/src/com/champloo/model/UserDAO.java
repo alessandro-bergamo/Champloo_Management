@@ -96,6 +96,7 @@ public class UserDAO implements UserModel {
 			if(resultSetUser.getRow() == 0) {
 				return userBean;
 			} else {
+				resultSetUser.first();
 				userBean.setID(resultSetUser.getInt(1));
 				userBean.setFirstName(resultSetUser.getString(2));
 				userBean.setSurname(resultSetUser.getString(3));
@@ -119,8 +120,30 @@ public class UserDAO implements UserModel {
 	 *@return all users in the database 
 	 */
 	public ArrayList<UserBean> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<UserBean> arrayList = new ArrayList<UserBean>();
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSetUsers = statement.executeQuery("select * from RegisteredUsers");
+			while(resultSetUsers.next()) {
+				UserBean userBean = new UserBean();
+				userBean.setID(resultSetUsers.getInt(1));
+				userBean.setFirstName(resultSetUsers.getString(2));
+				userBean.setSurname(resultSetUsers.getString(3));
+				userBean.setUsername(resultSetUsers.getString(4));
+				userBean.setPassword(resultSetUsers.getString(5));
+				userBean.setEmail(resultSetUsers.getString(6));
+				userBean.setRegistration_date(resultSetUsers.getDate(7));
+				userBean.setType(resultSetUsers.getInt(8));
+				
+				arrayList.add(userBean);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return arrayList;
 	}
 	
 	/**
@@ -129,8 +152,24 @@ public class UserDAO implements UserModel {
 	 * @return boolean result of the operation
 	 */
 	public boolean updateUser(UserBean user) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			if(resultSetUser.getRow() == 0) {
+				return false;
+			}
+			
+			Statement updateStatement = connection.createStatement();
+			statement.executeUpdate(this.updateUserFields("firstname", user.getUsername(), user.getFirstName()));
+			statement.executeUpdate(this.updateUserFields("surname", user.getUsername(), user.getSurname()));
+			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
+			statement.executeUpdate(this.updateUserFields("email", user.getUsername(), user.getEmail()));
+			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -139,8 +178,20 @@ public class UserDAO implements UserModel {
 	 * @return boolean result of the operation
 	 */
 	public boolean deleteUser(UserBean user) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			if(resultSetUser.getRow() == 0) {
+				return false;
+			}
+			
+			Statement stmt = connection.createStatement();
+			String SQL = "DELETE FROM RegisteredUsers WHERE username = '"+user.getFirstName()+"'";
+			stmt.executeUpdate(SQL);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
 	/**
@@ -152,6 +203,13 @@ public class UserDAO implements UserModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	//metodo di servizio interno alla classe
+	private static String updateUserFields(String set, String username, String value) {
+
+        return "update RegisteredUsers set " +  set + "='" + value + "' where username ='" + username + "'";  
+
+    }
 
 }
 
