@@ -249,9 +249,55 @@ public class OrderDAO implements OrderModel
      * param date
      * return orders
      */
-    public HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date)
+    public HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws SQLException
     {
-        return null;
+        HashSet<OrderBean> orders = new HashSet<OrderBean>();
+
+        if(start_date == null && end_date != null)
+            query="SELECT * FROM orders WHERE creation_date <= '"+end_date+"'";     //tutti gli ordini effettuati prima di "end"
+        else if(start_date != null && end_date == null)
+            query="SELECT * FROM orders WHERE creation_date >= '"+start_date+"'";       //tutti gli ordini effettuati dopo di "start"
+        else if(start_date != null && end_date != null)
+            query="SELECT * FROM orders WHERE creation_date >= '"+start_date+"' AND order_date <= '"+end_date+"'";      //tutti gli ordini effettuati compresi tra "start" ed "end"
+        else if(start_date == null && end_date == null)
+            query="SELECT * FROM orders ";      //tutti gli ordini
+
+        try {
+            connection = connectionPool.InitializeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        statement = connection.createStatement();
+        results = statement.executeQuery(query);
+
+        try {
+            while(results.next())
+            {
+                OrderBean order = new OrderBean();
+
+                order.setId_order(results.getInt(1));
+                order.setRegistred_User(results.getInt(2));
+                order.setAddress(results.getString(3));
+                order.setPayment_method(results.getString(4));
+                order.setOrder_owner(results.getString(5));
+                order.setCreation_date(results.getDate(6));
+                order.setDelivery_date(results.getDate(7));
+                order.setStatus_order(results.getInt(8));
+
+                orders.add(order);
+            }
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+            } finally {
+                if (connection != null)
+                    connection.close();
+            }
+        }
+
+        return orders;
     }
 
 

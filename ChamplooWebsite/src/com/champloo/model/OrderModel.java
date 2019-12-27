@@ -29,7 +29,7 @@ public interface OrderModel
     HashSet<OrderBean> retrieveByUserID(int user_id) throws SQLException;
 
     //Method that retrieves order having a start date and an end date
-    HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date);
+    HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws Exception;
 
     //Method that retrieves cancelled orders
     HashSet<OrderBean> retrieveCancelledOrders(int status_order) throws SQLException;
