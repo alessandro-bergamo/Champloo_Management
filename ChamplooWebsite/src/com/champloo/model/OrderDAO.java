@@ -202,9 +202,9 @@ public class OrderDAO implements OrderModel
      * param username
      * return orders
      */
-    public HashSet<OrderBean> retrieveByUserID(int user_id) throws SQLException
+    public ArrayList<OrderBean> retrieveByUserID(int user_id) throws SQLException
     {
-        HashSet<OrderBean> orders = new HashSet<OrderBean>();
+        ArrayList<OrderBean> orders = new ArrayList<OrderBean>();
 
         if(user_id==0)
             query = "SELECT * FROM orders";
@@ -393,9 +393,9 @@ public class OrderDAO implements OrderModel
      * param order_id
      * return order_items
      */
-    public HashSet<OrderItemBean> retrieveByOrder(int order_id) throws SQLException
+    public ArrayList<OrderItemBean> retrieveByOrder(int order_id) throws SQLException
     {
-        HashSet<OrderItemBean> items_in_order = new HashSet<OrderItemBean>();
+        ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
 
         query = "SELECT * FROM order_item WHERE Order_number = '"+order_id+"'";
 
