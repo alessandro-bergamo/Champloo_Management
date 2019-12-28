@@ -17,7 +17,7 @@ public class UserDAO implements UserModel {
 	 * @param connection connection already initialized
 	 */
 	public UserDAO(Connection connection) {
-		// ***INIZIALIZZARE CONNESSIONE***
+		this.connection = connection;
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class UserDAO implements UserModel {
 				insertQuery.setString(4, newUser.getUsername());
 				insertQuery.setString(5, newUser.getPassword());
 				insertQuery.setString(6, newUser.getEmail());
-				insertQuery.setDate(7, newUser.getRegistration_date());
+				insertQuery.setDate(7, convert(newUser.getRegistration_date()));
 				insertQuery.setInt(8, newUser.getType());
 				insertQuery.execute();
 			} else 
@@ -204,11 +204,17 @@ public class UserDAO implements UserModel {
 		return false;
 	}
 	
-	//metodo di servizio interno alla classe
+	//metodo di servizio interno alla classe. Rappresenta la stringa SQL per l'update dei field
 	private static String updateUserFields(String set, String username, String value) {
 
         return "update RegisteredUsers set " +  set + "='" + value + "' where username ='" + username + "'";  
 
+    }
+	
+	//metodo di servizio interno alla classe. Converte uno java.util.Date in java.sql.Date( necessario per quando si va a registrare l'utente in registerUser)
+	private static java.sql.Date convert(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
     }
 
 }
