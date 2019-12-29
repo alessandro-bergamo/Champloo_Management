@@ -27,7 +27,6 @@ public class UserControl extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("operation");
-		
 		if(operation != null) {
 			if(operation.equals("registerUser")) {
 				UserBean user = new UserBean();
