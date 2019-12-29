@@ -8,16 +8,29 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import com.champloo.bean.*;
 import com.champloo.model.*;
+import com.champloo.storage.ConnectionPool;
+import com.champloo.storage.ConnectionPool2;
 
 public class UserDAO implements UserModel {
+	private static ConnectionPool2 connectionPool2;
 	private Connection connection;
 	
 	/**
 	 * Constructor for the object
 	 * @param connection connection already initialized
 	 */
-	public UserDAO(Connection connection) {
-		this.connection = connection;
+	public UserDAO() {
+		//parametri astratti, aggiungere reali successivamente
+		
+		try {
+			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
+			connectionPool2 = ConnectionPool2.create("", "", "");
+			connection = connectionPool2.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
