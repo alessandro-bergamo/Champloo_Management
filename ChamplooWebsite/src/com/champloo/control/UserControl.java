@@ -1,6 +1,7 @@
 package com.champloo.control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,12 @@ import com.champloo.storage.ConnectionPool;
 @WebServlet("/UserControl")
 public class UserControl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static UserDAO userDAO = new UserDAO();
+	private static final int NORMAL_USER = 1;
+	private static final int USERS_ADMIN = 2;
+	private static final int ORDERS_ADMIN = 3;
+	private static final int PRODUCTS_ADMIN = 4;
+	// DISCUTERNE CON ALESSANDRO private static final int BANNED_USER = ?
        
     public UserControl() {
         super();
@@ -27,6 +34,7 @@ public class UserControl extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("operation");
+		
 		if(operation != null) {
 			if(operation.equals("registerUser")) {
 				UserBean user = new UserBean();
@@ -42,39 +50,29 @@ public class UserControl extends HttpServlet {
 				user.setSurname(lastName);
 				user.setPassword(password);
 				user.setRegistration_date(new Date(System.currentTimeMillis()));
+				user.setType(NORMAL_USER);
 				//SET DEL TIPO DELLO USER DISCUTERNE
 				
-				ConnectionPool connectionPool = new ConnectionPool();
-				if(connectionPool.getConnection() == null) {
-					try {
-						connectionPool.setConnection(connectionPool.InitializeConnection());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
-				
-				UserDAO userDAO = new UserDAO(connectionPool.getConnection());
 				userDAO.registerUser(user);
+				response.sendRedirect("userArea.jsp");
+				
 			}
 			
-			if(operation.equals("getAllUsers")) {
-				ConnectionPool connectionPool = new ConnectionPool();
-				if(connectionPool.getConnection() == null) {
-					try {
-						connectionPool.setConnection(connectionPool.InitializeConnection());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
+			
+			if(operation.equals("updateUser")) {
+				UserBean user = (UserBean) request.getSession().getAttribute("user");
+				UserBean updatedUser = new UserBean();
 				
-				//DA IMPLEMENTARE O RIFARE
-				UserDAO userDAO = new UserDAO(connectionPool.getConnection());
-				userDAO.getAllUsers();
+				
 			}
+			
+			if(operation.equals("deleteUser")) {
+				UserBean user = (UserBean) request.getSession().getAttribute("user");
+				response.sendRedirect("userArea.jsp");
+			}
+			
+			
+			
 		}
 	}
 

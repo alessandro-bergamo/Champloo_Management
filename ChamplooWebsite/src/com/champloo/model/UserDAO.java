@@ -25,7 +25,6 @@ public class UserDAO implements UserModel {
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
 			connectionPool2 = ConnectionPool2.create("", "", "");
-			connection = connectionPool2.getConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,6 +39,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean registerUser(UserBean newUser) {
 		try {
+			connection = connectionPool2.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUserName = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + newUser.getUsername() + "'");
 			ResultSet resultSetEmail = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + newUser.getEmail() + "'");
@@ -55,10 +55,13 @@ public class UserDAO implements UserModel {
 				insertQuery.setDate(7, convert(newUser.getRegistration_date()));
 				insertQuery.setInt(8, newUser.getType());
 				insertQuery.execute();
+				
 			} else 
 				return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		return true;
 	}
@@ -69,9 +72,11 @@ public class UserDAO implements UserModel {
 	 * @return retrivied user
 	 */
 	public UserBean getUserByEmail(String user_email) {
+		
 		Statement statement;
 		UserBean userBean = new UserBean();
 		try {
+			connection = connectionPool2.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user_email + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -90,6 +95,8 @@ public class UserDAO implements UserModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		
 		return userBean;
@@ -104,6 +111,7 @@ public class UserDAO implements UserModel {
 		Statement statement;
 		UserBean userBean = new UserBean();
 		try {
+			connection = connectionPool2.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + username + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -123,6 +131,8 @@ public class UserDAO implements UserModel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		
 		return userBean;
@@ -136,6 +146,7 @@ public class UserDAO implements UserModel {
 		ArrayList<UserBean> arrayList = new ArrayList<UserBean>();
 		
 		try {
+			connection = connectionPool2.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUsers = statement.executeQuery("select * from RegisteredUsers");
 			while(resultSetUsers.next()) {
@@ -154,6 +165,8 @@ public class UserDAO implements UserModel {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		
 		return arrayList;
@@ -166,6 +179,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean updateUser(UserBean user) {
 		try {
+			connection = connectionPool2.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -180,6 +194,8 @@ public class UserDAO implements UserModel {
 			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		
 		return true;
@@ -192,6 +208,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean deleteUser(UserBean user) {
 		try {
+			connection = connectionPool2.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -203,6 +220,8 @@ public class UserDAO implements UserModel {
 			stmt.executeUpdate(SQL);
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			connectionPool2.releaseConnection(connection);
 		}
 		return true;
 	}
