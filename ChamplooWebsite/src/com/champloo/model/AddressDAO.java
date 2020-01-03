@@ -71,7 +71,7 @@ public class AddressDAO implements AddressModel
         query="DELETE FROM shipping_addresses WHERE id_address = '"+id_address+"'";
 
         try {
-            statement = connection.createStatement();
+			statement = connection.createStatement();
             address_deleted = statement.executeUpdate(query);
         } finally {
             try {
@@ -177,6 +177,5 @@ public class AddressDAO implements AddressModel
     String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
-    ResultSet results;
-
+    ResultSet results;					
 }

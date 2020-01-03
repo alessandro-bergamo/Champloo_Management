@@ -9,27 +9,24 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class OrderDAO implements OrderModel
-{
-    /**
-     * Creates an order
-     * param newOrder
-     * return order_created
-     */
-	
+{    	
 	public OrderDAO()
 	{
-		//parametri astratti, aggiungere reali successivamente
-		
+		//parametri astratti, aggiungere reali successivamente		
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
 			connectionPool = ConnectionPool.create("", "", "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
+	/**
+     * Creates an order
+     * param newOrder
+     * return order_created
+     */
     public synchronized boolean createOrder(OrderBean newOrder, ArrayList<ProductBean> products_in_order) throws SQLException
     {
         int order_created = 0;
@@ -425,12 +422,10 @@ public class OrderDAO implements OrderModel
         return items_in_order;
     }
 
-
     private static ConnectionPool connectionPool;
     private Connection connection;
     String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
     ResultSet results;
-
 }

@@ -232,7 +232,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			String SQL = "update RegisteredUsers set type_user ='" + 
+			String SQL = "update RegisteredUsers set type_user ='"; 
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {

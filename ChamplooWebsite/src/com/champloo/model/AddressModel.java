@@ -1,7 +1,6 @@
 package com.champloo.model;
 
 import com.champloo.bean.AddressBean;
-
 import java.sql.SQLException;
 import java.util.HashSet;
 

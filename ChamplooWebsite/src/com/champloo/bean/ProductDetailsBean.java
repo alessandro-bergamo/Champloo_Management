@@ -2,13 +2,10 @@ package com.champloo.bean;
 
 public class ProductDetailsBean {
 	
-	private int id_prod_details, product, discount_percent, qnt_stock, number_feedback_users;
+	private int id_prod_details, product, discount_percent, qnt_stock, number_feedback_users, status;
 	private float price, discounted_price, average_rating;
 	private String color, size, img_path_folder;
-	
-	
-	
-	
+			
 	public int getId_prod_details() {
 		return id_prod_details;
 	}
@@ -38,6 +35,12 @@ public class ProductDetailsBean {
 	}
 	public void setNumber_feedback_users(int number_feedback_users) {
 		this.number_feedback_users = number_feedback_users;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public float getPrice() {
 		return price;
@@ -75,8 +78,5 @@ public class ProductDetailsBean {
 	public void setImg_path_folder(String img_path_folder) {
 		this.img_path_folder = img_path_folder;
 	}
-	
-	
-	
 
 }

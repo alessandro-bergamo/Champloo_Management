@@ -4,6 +4,7 @@ public class ProductBean {
 	
 	private int id_prod;
 	private String name, brand, model, type, description;
+	
 	public int getId_prod() {
 		return id_prod;
 	}
@@ -40,9 +41,5 @@ public class ProductBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	
-	
 	
 }
