@@ -1,13 +1,11 @@
 package com.champloo.control;
 
-
 import com.champloo.bean.OrderBean;
 import com.champloo.bean.OrderItemBean;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.UserBean;
 import com.champloo.model.CartDAO;
 import com.champloo.model.OrderDAO;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 @WebServlet("/Order")
 public class OrderControl extends HttpServlet
 {
@@ -29,7 +26,6 @@ public class OrderControl extends HttpServlet
     {
         super();
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -142,7 +138,7 @@ public class OrderControl extends HttpServlet
             {
                 request.removeAttribute("orders");
 
-                HashMap<Integer, ArrayList> item_in_order = new HashMap<>();
+                HashMap<Integer, ArrayList> item_in_order = new HashMap<Integer, ArrayList>();
 
                 ArrayList<OrderBean> ordersByUser = new ArrayList<OrderBean>();
                 ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
@@ -220,13 +216,10 @@ public class OrderControl extends HttpServlet
 
     }
 
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doGet(request, response);
     }
-
-
 
     private static final long serialVersionUID = 1L;
     private static OrderDAO model_order = new OrderDAO();

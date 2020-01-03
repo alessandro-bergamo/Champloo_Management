@@ -3,21 +3,34 @@ package com.champloo.model;
 import com.champloo.bean.AddressBean;
 import com.champloo.bean.PaymentMethodBean;
 import com.champloo.storage.ConnectionPool;
-
 import java.sql.*;
 import java.util.HashSet;
 
 public class AddressDAO implements AddressModel
 {
-//gg
     /**
      * Insert a new Shipping Address
      * @param newAddress
      * @return address_added
      */
+	
+	public AddressDAO()
+	{
+		//parametri astratti, aggiungere reali successivamente
+		
+				try {
+					//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
+					connectionPool = ConnectionPool.create("", "", "");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	}
+	
     public boolean insertAddress(AddressBean newAddress) throws SQLException
     {
         int address_added = 0;
+        connection = connectionPool.getConnection();
 
         query="INSERT INTO shipping_addresses(Registred_User, address, city, province, civic_number, CAP) VALUES (?,?,?,?,?,?)";
 
@@ -37,14 +50,12 @@ public class AddressDAO implements AddressModel
                 if (preparedStatement != null)
                     preparedStatement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return (address_added != 0);
     }
-
 
     /**
      * Deletes a Shipping Address
@@ -55,12 +66,7 @@ public class AddressDAO implements AddressModel
     {
         int address_deleted = 0;
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="DELETE FROM shipping_addresses WHERE id_address = '"+id_address+"'";
 
@@ -72,14 +78,12 @@ public class AddressDAO implements AddressModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return (address_deleted != 0);
     }
-
 
     /**
      * Retrieve a Shipping Address by his ID
@@ -90,12 +94,7 @@ public class AddressDAO implements AddressModel
     {
         AddressBean address = new AddressBean();
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="SELECT * FROM shipping_addresses WHERE id_address = ?";
 
@@ -118,8 +117,7 @@ public class AddressDAO implements AddressModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -134,14 +132,9 @@ public class AddressDAO implements AddressModel
      */
     public HashSet<AddressBean> retrieveByUserID(int id_user) throws SQLException
     {
-        HashSet<AddressBean> addresses = new HashSet<>();
+        HashSet<AddressBean> addresses = new HashSet<AddressBean>();
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="SELECT * FROM shipping_addresses WHERE Registred_User = ?";
 
@@ -172,17 +165,14 @@ public class AddressDAO implements AddressModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return addresses;
     }
 
-
-
-    private ConnectionPool connectionPool = new ConnectionPool();
+    private static ConnectionPool connectionPool;
     private Connection connection;
     String query;
     PreparedStatement preparedStatement;		// parametric queries

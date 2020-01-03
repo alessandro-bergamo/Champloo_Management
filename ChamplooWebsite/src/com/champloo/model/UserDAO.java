@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import com.champloo.bean.*;
 import com.champloo.model.*;
 import com.champloo.storage.ConnectionPool;
-import com.champloo.storage.ConnectionPool2;
 
 public class UserDAO implements UserModel {
-	private static ConnectionPool2 connectionPool2;
+	private static ConnectionPool connectionPool;
 	private Connection connection;
 	
 	/**
@@ -24,7 +23,7 @@ public class UserDAO implements UserModel {
 		
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool2 = ConnectionPool2.create("", "", "");
+			connectionPool = ConnectionPool.create("", "", "");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +38,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean registerUser(UserBean newUser) {
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUserName = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + newUser.getUsername() + "'");
 			ResultSet resultSetEmail = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + newUser.getEmail() + "'");
@@ -61,7 +60,7 @@ public class UserDAO implements UserModel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		return true;
 	}
@@ -76,7 +75,7 @@ public class UserDAO implements UserModel {
 		Statement statement;
 		UserBean userBean = new UserBean();
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user_email + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -96,7 +95,7 @@ public class UserDAO implements UserModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		
 		return userBean;
@@ -111,7 +110,7 @@ public class UserDAO implements UserModel {
 		Statement statement;
 		UserBean userBean = new UserBean();
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + username + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -132,7 +131,7 @@ public class UserDAO implements UserModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		
 		return userBean;
@@ -146,7 +145,7 @@ public class UserDAO implements UserModel {
 		ArrayList<UserBean> arrayList = new ArrayList<UserBean>();
 		
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUsers = statement.executeQuery("select * from RegisteredUsers");
 			while(resultSetUsers.next()) {
@@ -166,7 +165,7 @@ public class UserDAO implements UserModel {
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		
 		return arrayList;
@@ -179,7 +178,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean updateUser(UserBean user) {
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -195,7 +194,7 @@ public class UserDAO implements UserModel {
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		
 		return true;
@@ -208,7 +207,7 @@ public class UserDAO implements UserModel {
 	 */
 	public boolean deleteUser(UserBean user) {
 		try {
-			connection = connectionPool2.getConnection();
+			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
 			if(resultSetUser.getRow() == 0) {
@@ -221,7 +220,7 @@ public class UserDAO implements UserModel {
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
-			connectionPool2.releaseConnection(connection);
+			connectionPool.releaseConnection(connection);
 		}
 		return true;
 	}

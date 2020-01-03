@@ -2,10 +2,8 @@ package com.champloo.model;
 
 import com.champloo.bean.PaymentMethodBean;
 import com.champloo.storage.ConnectionPool;
-
 import java.sql.*;
 import java.util.HashSet;
-
 
 public class PaymentMethodDAO implements PaymentMethodModel
 {
@@ -15,17 +13,22 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param newPMethod
      * @return method_added
      */
+	
+	 public PaymentMethodDAO() {
+		 try {
+				//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
+				connectionPool = ConnectionPool.create("", "", "");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
     public boolean insertPMethod(PaymentMethodBean newPMethod) throws SQLException
     {
         int method_added = 0;
-
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        connection = connectionPool.getConnection();
+        
         query = "SELECT * FROM payment_methods WHERE card_number = '"+newPMethod.getCard_number()+"'";
 
         statement = connection.createStatement();
@@ -53,16 +56,14 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 if (preparedStatement != null)
                     preparedStatement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return (method_added != 0);	//qualunqe valore diverso da 0 indica il successo dell'operazione
     }
 
-
-    /**
+	/**
      * Deletes a Payment Method
      * @param id_method
      * @return method_deleted
@@ -71,12 +72,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
     {
         int method_deleted = 0;
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="DELETE FROM payement_methods WHERE card_number = '"+id_method+"'";
 
@@ -88,8 +84,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -107,12 +102,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
         PaymentMethodBean PMethod = new PaymentMethodBean();
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="SELECT * FROM payment_methods WHERE card_number = ?";
 
@@ -136,8 +126,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -152,14 +141,9 @@ public class PaymentMethodDAO implements PaymentMethodModel
      */
     public HashSet<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException
     {
-        HashSet<PaymentMethodBean> payment_methods = new HashSet<>();
+        HashSet<PaymentMethodBean> payment_methods = new HashSet<PaymentMethodBean>();
 
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connection = connectionPool.getConnection();
 
         query="SELECT * FROM payement_methods WHERE card_owner = ?";
 
@@ -191,17 +175,14 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return payment_methods;
     }
 
-
-
-    private ConnectionPool connectionPool = new ConnectionPool();
+    private static ConnectionPool connectionPool;
     private Connection connection;
     String query;
     PreparedStatement preparedStatement;		// parametric queries

@@ -1,4 +1,13 @@
 package com.champloo.model;
 
-public interface ProductModel {
+import java.util.ArrayList;
+
+import com.champloo.bean.ProductBean;
+
+public interface ProductModel 
+{
+	public boolean addProduct(ProductBean newProduct);
+	
+	public ArrayList<ProductBean> retrieveByModel(String model_prod);
+	
 }

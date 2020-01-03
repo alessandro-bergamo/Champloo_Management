@@ -4,24 +4,36 @@ import com.champloo.bean.OrderBean;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.OrderItemBean;
 import com.champloo.storage.ConnectionPool;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-
-
 public class OrderDAO implements OrderModel
 {
-
     /**
      * Creates an order
      * param newOrder
      * return order_created
      */
+	
+	public OrderDAO()
+	{
+		//parametri astratti, aggiungere reali successivamente
+		
+		try {
+			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
+			connectionPool = ConnectionPool.create("", "", "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
     public synchronized boolean createOrder(OrderBean newOrder, ArrayList<ProductBean> products_in_order) throws SQLException
     {
         int order_created = 0;
+        connection = connectionPool.getConnection();
 
         ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
 
@@ -37,47 +49,39 @@ public class OrderDAO implements OrderModel
             items_in_order.add(item_in_order);
         }
 
+        query = "INSERT INTO order_item (Order_number, Product_details, payed_price, qnt_in_order) VALUES (?, ?, ?, ?)";
 
         try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+             for(int I=0; I<items_in_order.size(); I++)
+             {
+            	 preparedStatement = connection.prepareStatement(query);
 
-            query = "INSERT INTO order_item (Order_number, Product_details, payed_price, qnt_in_order) VALUES (?, ?, ?, ?)";
+                 preparedStatement.setInt(1, items_in_order.get(I).getId_order());
+                 preparedStatement.setInt(2, items_in_order.get(I).getId_product());
+                 preparedStatement.setFloat(3, items_in_order.get(I).getPrice_in_order());
+                 preparedStatement.setInt(4, items_in_order.get(I).getQnt_in_order());
 
-            try {
-                for(int I=0; I<items_in_order.size(); I++)
-                {
-                    preparedStatement = connection.prepareStatement(query);
-
-                    preparedStatement.setInt(1, items_in_order.get(I).getId_order());
-                    preparedStatement.setInt(2, items_in_order.get(I).getId_product());
-                    preparedStatement.setFloat(3, items_in_order.get(I).getPrice_in_order());
-                    preparedStatement.setInt(4, items_in_order.get(I).getQnt_in_order());
-
-                    preparedStatement.executeUpdate();
-                }
+                 preparedStatement.executeUpdate();
+             }
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
 
+        query = "INSERT INTO orders (Registred_User, shipping_address, payment_method, order_owner, total_price, creation_date, delivery_date, status_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            query = "INSERT INTO orders (Registred_User, shipping_address, payment_method, order_owner, total_price, creation_date, delivery_date, status_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+             preparedStatement = connection.prepareStatement(query);
 
-            try {
-                preparedStatement = connection.prepareStatement(query);
+              preparedStatement.setInt(1, newOrder.getRegistred_User());
+              preparedStatement.setString(2, newOrder.getAddress());
+              preparedStatement.setString(3, newOrder.getPayment_method());
+              preparedStatement.setString(4, newOrder.getOrder_owner());
+              preparedStatement.setFloat(5, newOrder.getTotal_price());
+              preparedStatement.setDate(6, newOrder.getCreation_date());
+              preparedStatement.setDate(7, newOrder.getDelivery_date());
+              preparedStatement.setInt(8, newOrder.getStatus_order());
 
-                preparedStatement.setInt(1, newOrder.getRegistred_User());
-                preparedStatement.setString(2, newOrder.getAddress());
-                preparedStatement.setString(3, newOrder.getPayment_method());
-                preparedStatement.setString(4, newOrder.getOrder_owner());
-                preparedStatement.setFloat(5, newOrder.getTotal_price());
-                preparedStatement.setDate(6, newOrder.getCreation_date());
-                preparedStatement.setDate(7, newOrder.getDelivery_date());
-                preparedStatement.setInt(8, newOrder.getStatus_order());
-
-                order_created = preparedStatement.executeUpdate();
+              order_created = preparedStatement.executeUpdate();
             } catch (Exception e3) {
                 e3.printStackTrace();
             }
@@ -85,18 +89,18 @@ public class OrderDAO implements OrderModel
 
             //SCRIVERE LE DUE QUERY CHE UPDATANO LA QUANTITA DEL PRODOTTO NEL DATABASE
 
-        } finally {
-        try {
-            if (preparedStatement != null)
-                preparedStatement.close();
-        } finally {
-            if (connection != null)
-                connection.close();
-        }
-    }
+      finally {
+    	  		try {
+    	  				if (preparedStatement != null)
+    	  					preparedStatement.close();
+    	  			} 
+    	  			finally 
+    	  			{
+    	  				connectionPool.releaseConnection(connection);
+    	  			}
+      			}
 
-
-        return order_created != 0;
+    return order_created != 0;
     }
 
 
@@ -108,6 +112,7 @@ public class OrderDAO implements OrderModel
     public boolean modifyOrder(OrderBean order) throws SQLException
     {
        int order_modified = 0;
+       connection = connectionPool.getConnection();
 
        query = "UPDATE orders SET shipping_address = '"+order.getAddress()+"', payment_method = '"+order.getPayment_method()+"', delivery_date = '"+order.getDelivery_date()+"', status_order = '"+order.getStatus_order()+"' WHERE id_order = '"+order.getId_order()+"'";
 
@@ -119,8 +124,7 @@ public class OrderDAO implements OrderModel
                if (statement != null)
                    statement.close();
            } finally {
-               if (connection != null)
-                   connection.close();
+        	   connectionPool.releaseConnection(connection);
            }
        }
 
@@ -136,6 +140,7 @@ public class OrderDAO implements OrderModel
     public boolean cancelOrder(OrderBean order) throws SQLException
     {
         int order_canceled = 0;
+        connection = connectionPool.getConnection();
 
         //SETTARE LO STATUS AD ANNULLATO (3 E' COME ESEMPIO)
         query = "UPDATE orders SET status_order = '3' WHERE id_order = '"+order.getId_order()+"'";
@@ -148,8 +153,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -165,6 +169,7 @@ public class OrderDAO implements OrderModel
     public OrderBean retrieveByID(int order_id) throws SQLException
     {
         OrderBean order = new OrderBean();
+        connection = connectionPool.getConnection();
 
         query = "SELECT * FROM orders WHERE id_order = '"+order_id+"'";
 
@@ -188,8 +193,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -205,6 +209,7 @@ public class OrderDAO implements OrderModel
     public ArrayList<OrderBean> retrieveByUserID(int user_id) throws SQLException
     {
         ArrayList<OrderBean> orders = new ArrayList<OrderBean>();
+        connection = connectionPool.getConnection();
 
         if(user_id==0)
             query = "SELECT * FROM orders";
@@ -235,8 +240,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -252,6 +256,7 @@ public class OrderDAO implements OrderModel
     public HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws SQLException
     {
         HashSet<OrderBean> orders = new HashSet<OrderBean>();
+        connection = connectionPool.getConnection();
 
         if(start_date == null && end_date != null)
             query="SELECT * FROM orders WHERE creation_date <= '"+end_date+"'";     //tutti gli ordini effettuati prima di "end"
@@ -261,12 +266,6 @@ public class OrderDAO implements OrderModel
             query="SELECT * FROM orders WHERE creation_date >= '"+start_date+"' AND order_date <= '"+end_date+"'";      //tutti gli ordini effettuati compresi tra "start" ed "end"
         else if(start_date == null && end_date == null)
             query="SELECT * FROM orders ";      //tutti gli ordini
-
-        try {
-            connection = connectionPool.InitializeConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         statement = connection.createStatement();
         results = statement.executeQuery(query);
@@ -292,8 +291,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -309,6 +307,7 @@ public class OrderDAO implements OrderModel
     public HashSet<OrderBean> retrieveCancelledOrders(int status_order) throws SQLException
     {
         HashSet<OrderBean> orders = new HashSet<OrderBean>();
+        connection = connectionPool.getConnection();
 
         query = "SELECT * FROM orders WHERE status_order = '"+status_order+"'";
 
@@ -336,8 +335,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -352,6 +350,7 @@ public class OrderDAO implements OrderModel
     public HashSet<OrderBean> retrieveAll() throws SQLException
     {
         HashSet<OrderBean> orders = new HashSet<OrderBean>();
+        connection = connectionPool.getConnection();
 
         query = "SELECT * FROM orders";
 
@@ -379,14 +378,12 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
         return orders;
     }
-
 
     /**
      * Retrieves all the Order Items of a certain order
@@ -396,6 +393,7 @@ public class OrderDAO implements OrderModel
     public ArrayList<OrderItemBean> retrieveByOrder(int order_id) throws SQLException
     {
         ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
+        connection = connectionPool.getConnection();
 
         query = "SELECT * FROM order_item WHERE Order_number = '"+order_id+"'";
 
@@ -420,8 +418,7 @@ public class OrderDAO implements OrderModel
                 if (statement != null)
                     statement.close();
             } finally {
-                if (connection != null)
-                    connection.close();
+            	connectionPool.releaseConnection(connection);
             }
         }
 
@@ -429,8 +426,7 @@ public class OrderDAO implements OrderModel
     }
 
 
-
-    private ConnectionPool connectionPool = new ConnectionPool();
+    private static ConnectionPool connectionPool;
     private Connection connection;
     String query;
     PreparedStatement preparedStatement;		// parametric queries

@@ -1,4 +1,6 @@
 package com.champloo.control;
 
-public class CartControl {
+public class CartControl 
+{
+	
 }
