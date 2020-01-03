@@ -11,8 +11,6 @@ import com.champloo.model.*;
 import com.champloo.storage.ConnectionPool;
 
 public class UserDAO implements UserModel {
-	private static ConnectionPool connectionPool;
-	private Connection connection;
 	
 	/**
 	 * Constructor for the object
@@ -190,7 +188,7 @@ public class UserDAO implements UserModel {
 			statement.executeUpdate(this.updateUserFields("surname", user.getUsername(), user.getSurname()));
 			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
 			statement.executeUpdate(this.updateUserFields("email", user.getUsername(), user.getEmail()));
-			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
+			//statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -231,8 +229,16 @@ public class UserDAO implements UserModel {
 	 * @return boolean result of the operation
 	 */
 	public boolean blockUser(String username) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			connection = connectionPool.getConnection();
+			Statement statement = connection.createStatement();
+			String SQL = "update RegisteredUsers set type_user ='" + 
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.releaseConnection(connection);
+		}
+		return true;
 	}
 	
 	//metodo di servizio interno alla classe. Rappresenta la stringa SQL per l'update dei field
@@ -248,5 +254,7 @@ public class UserDAO implements UserModel {
         return sDate;
     }
 
+	private static ConnectionPool connectionPool;
+	private Connection connection;
 }
 

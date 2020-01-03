@@ -19,13 +19,6 @@ import com.champloo.storage.ConnectionPool;
  */
 @WebServlet("/UserControl")
 public class UserControl extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static UserDAO userDAO = new UserDAO();
-	private static final int NORMAL_USER = 1;
-	private static final int USERS_ADMIN = 2;
-	private static final int ORDERS_ADMIN = 3;
-	private static final int PRODUCTS_ADMIN = 4;
-	// DISCUTERNE CON ALESSANDRO private static final int BANNED_USER = ?
        
     public UserControl() {
         super();
@@ -62,12 +55,17 @@ public class UserControl extends HttpServlet {
 			if(operation.equals("updateUser")) {
 				UserBean user = (UserBean) request.getSession().getAttribute("user");
 				UserBean updatedUser = new UserBean();
-				
-				
+				updatedUser.setFirstName(request.getParameter("firstname"));
+				updatedUser.setSurname(request.getParameter("lastname"));
+				updatedUser.setPassword(user.getPassword());
+				updatedUser.setEmail(user.getEmail());
+				updatedUser.setUsername(user.getUsername());
+				userDAO.updateUser(updatedUser);
 			}
 			
 			if(operation.equals("deleteUser")) {
 				UserBean user = (UserBean) request.getSession().getAttribute("user");
+				userDAO.deleteUser(user);
 				response.sendRedirect("userArea.jsp");
 			}
 			
@@ -80,5 +78,13 @@ public class UserControl extends HttpServlet {
 
 		doGet(request, response);
 	}
+	
+	private static final long serialVersionUID = 1L;
+	private static UserDAO userDAO = new UserDAO();
+	private static final int NORMAL_USER = 1;
+	private static final int USERS_ADMIN = 2;
+	private static final int ORDERS_ADMIN = 3;
+	private static final int PRODUCTS_ADMIN = 4;
+	// DISCUTERNE CON ALESSANDRO private static final int BANNED_USER = ?
 
 }
