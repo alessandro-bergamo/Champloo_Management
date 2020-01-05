@@ -87,4 +87,10 @@ public class UserBean {
 	public void setType(int type) {
 		this.type = type;
 	}
+	
+	public String toString() {
+		return "Name: " + getFirstName() + "\n" + "Surname: " + getSurname() + "\n" + "Username: " + getUsername() + "\n" + "Email: " + getEmail() + "\n" + "Password: " + getPassword() + "\n" + "Registration date: " + getRegistration_date() + "\n" + "Type: " + getType() + "\n";
+	}
+	
+	
 }

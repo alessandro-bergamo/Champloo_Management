@@ -39,10 +39,15 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUserName = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + newUser.getUsername() + "'");
-			ResultSet resultSetEmail = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + newUser.getEmail() + "'");
+			resultSetUserName.first();
+			int rowUsername = resultSetUserName.getRow();
+			Statement statement2 = connection.createStatement();
+			ResultSet resultSetEmail = statement2.executeQuery("select * from RegisteredUsers where email = " + "'" + newUser.getEmail() + "'");
+			resultSetEmail.first();
+			int rowEmail = resultSetEmail.getRow();
 			
 			//prima di inserire l'utente controllo che non ci sia nessun utente con lo stesso username o stessa email
-			if(resultSetUserName.getRow() == 0 && resultSetEmail.getRow() == 0) {
+			if(rowUsername == 0 && rowEmail == 0) {
 				PreparedStatement insertQuery = connection.prepareStatement("insert into RegisteredUsers values(?,?,?,?,?,?,?);");
 				insertQuery.setString(2, newUser.getFirstName());
 				insertQuery.setString(3, newUser.getSurname());
@@ -76,6 +81,7 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user_email + "'");
+			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return userBean;
 			} else {
@@ -111,10 +117,10 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + username + "'");
+			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return userBean;
 			} else {
-				resultSetUser.first();
 				userBean.setID(resultSetUser.getInt(1));
 				userBean.setFirstName(resultSetUser.getString(2));
 				userBean.setSurname(resultSetUser.getString(3));
@@ -179,15 +185,23 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return false;
 			}
 			
-			Statement updateStatement = connection.createStatement();
-			statement.executeUpdate(this.updateUserFields("firstname", user.getUsername(), user.getFirstName()));
-			statement.executeUpdate(this.updateUserFields("surname", user.getUsername(), user.getSurname()));
-			statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
-			statement.executeUpdate(this.updateUserFields("email", user.getUsername(), user.getEmail()));
+			Statement checkEmail = connection.createStatement();
+			ResultSet resultSetForEmail = checkEmail.executeQuery("select * from RegisteredUsers where email =" + "'" + user.getEmail() + "'");
+			resultSetForEmail.first();
+			
+			if(resultSetForEmail.getRow() == 0) {
+				Statement updateStatement = connection.createStatement();
+				statement.executeUpdate(this.updateUserFields("firstname", user.getUsername(), user.getFirstName()));
+				statement.executeUpdate(this.updateUserFields("surname", user.getUsername(), user.getSurname()));
+				statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
+				statement.executeUpdate(this.updateUserFields("email", user.getUsername(), user.getEmail()));
+			} else
+				return false;
 			//statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -208,6 +222,7 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return false;
 			}
