@@ -146,7 +146,7 @@ public class ProductDAO implements ProductModel
      * param model_prod
      * return products
      */
-	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByModel(String model_prod) throws SQLException {
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByModel(String model_product) throws SQLException {
 		
 		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
 		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
@@ -157,7 +157,7 @@ public class ProductDAO implements ProductModel
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			
-			preparedStatement.setString(1, model_prod);
+			preparedStatement.setString(1, model_product);
 			
 			results = preparedStatement.executeQuery();
 			
@@ -222,44 +222,530 @@ public class ProductDAO implements ProductModel
 		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveByCategory(String type_prod) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByCategory(String type_product) throws SQLException{
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE type_product = ?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, type_product);
+			
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveByBrand(String brand_prod) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByBrand(String brand_product) throws SQLException {
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE brand_product = ?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, brand_product);
+			
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveByColor(String color_prod) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByColor(String color_product) throws SQLException {
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE color_product = ?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, color_product);
+			
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveBySize(String size_prod) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveBySize(String size_product) throws SQLException {
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE size_product = ?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, size_product);
+			
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveByStatus(String status_prod) {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByStatus(String status_product) throws SQLException {
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE status_product = ?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setString(1, status_product);
+			
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
 	}
 
-	public ArrayList<ProductBean> retrieveAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveAll() throws SQLException {
+		
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
+		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products";
+		
+		try {
+			preparedStatement = connection.prepareStatement(query);
+		
+			results = preparedStatement.executeQuery();
+			
+			while(results.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				try {
+					preparedStatement = connection.prepareStatement(query);
+					
+					preparedStatement.setInt(1, product.getId_prod());
+					
+					results = preparedStatement.executeQuery();	
+					
+					while(results.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+						
+						productDetails.setId_prod_details(results.getInt(1));
+						productDetails.setProduct(results.getInt(2));
+						productDetails.setColor(results.getString(3));
+						productDetails.setSize(results.getString(4));
+						productDetails.setPrice(results.getFloat(5));
+						productDetails.setDiscount_percent(results.getInt(6));
+						productDetails.setDiscounted_price(results.getFloat(7));
+						productDetails.setQnt_stock(results.getInt(8));
+						productDetails.setStatus(results.getInt(9));
+						productDetails.setAverage_rating(results.getFloat(10));
+						productDetails.setNumber_feedback_users(results.getInt(11));
+						productDetails.setImg_path_folder(results.getString(12));
+					
+						productsDetails.add(productDetails);			
+					}
+								
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				products.put(product, productsDetails);	
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		
+		return products;
+		
 	}
 
-	public boolean deleteProduct(ProductBean product) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteProduct(ProductBean product) throws SQLException {
+
+		int product_deleted = 0;
+		
+		connection = connectionPool.getConnection();
+		
+		query = "DELETE FROM products WHERE id_product = '"+product.getId_prod()+"'";
+		
+		try {
+            
+			statement = connection.createStatement();
+            product_deleted = statement.executeUpdate(query);
+        
+		} finally {
+            try {
+                
+            	if (statement != null)
+                    statement.close();
+            
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+        }
+
+        return product_deleted != 0;
 	}
 
-	public boolean updateProduct(ProductBean product) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException {
+	
+		connection = connectionPool.getConnection();
+		
+		try {
+		// update del prodotto
+		statement.executeUpdate(updateProduct("name_product", newProduct.getName(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("brand_product", newProduct.getBrand(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("model_product", newProduct.getModel(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("type_product", newProduct.getType(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("description_product", newProduct.getDescription(), newProduct.getId_prod()));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		try {
+		//update dei dettagli del prodotto
+		statement.executeUpdate(updateProduct("color", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("size", newProductDetails.getSize(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("price", ""+newProductDetails.getPrice(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("discount_percent", ""+newProductDetails.getDiscount_percent(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("discounted_price", ""+newProductDetails.getDiscounted_price(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("qnt_stock", ""+newProductDetails.getQnt_stock(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("status", ""+newProductDetails.getStatus(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("img_path_folder", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	private static String updateProduct(String columnName, String value, int id_product) {
+		return "UPDATE products SET "+columnName+" = '"+value+"' WHERE id_product = '"+id_product+"' ";
+	}
+	
+	private static String updateProduct(String columnName, String value, int product, int id_product_details) {
+		return "UPDATE products SET "+columnName+" = '"+value+"' WHERE product = '"+product+"' AND id_product_details = '"+id_product_details+"'";
 	}
 	
 	private static ConnectionPool connectionPool;
