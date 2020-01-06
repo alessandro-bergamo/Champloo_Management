@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 
+
 public interface ProductModel 
 {
 	public boolean addProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;
+	
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveById(int id_product) throws SQLException;
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByModel(String model_product) throws SQLException;
 	
@@ -24,7 +27,7 @@ public interface ProductModel
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveAll() throws SQLException;
 	
-	public boolean deleteProduct(ProductBean product) throws SQLException;
+	public boolean deleteProduct(int id_product) throws SQLException;
 	
 	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;
 }
