@@ -1,14 +1,16 @@
-package com.champloo.control;
+ package com.champloo.control;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.champloo.bean.UserBean;
 import com.champloo.model.UserDAO;
@@ -29,6 +31,35 @@ public class UserControl extends HttpServlet {
 		String operation = request.getParameter("operation");
 		
 		if(operation != null) {
+			if(operation.equals("login")) {
+				request.removeAttribute("login");
+				
+				String user_email = request.getParameter("email");
+				String user_password = request.getParameter("password");
+				
+				String redirectedPage = "";
+				
+				HttpSession session = request.getSession(true);
+				synchronized(session) {
+					UserBean userLogged = new UserBean();
+					userLogged.setEmail(user_email);
+					userLogged.setPassword(user_password);
+					
+					if(userDAO.login(userLogged)) {
+						session.setAttribute("utenteLoggato", userLogged);
+						session.setAttribute("email", user_email);
+						request.setAttribute("login", true);
+						redirectedPage = "/index.jsp";
+					} else {
+						request.setAttribute("login", false);
+						redirectedPage = "user_area.jsp";
+					}
+				}
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher(redirectedPage);
+				dispatcher.forward(request, response);
+			}
+			
 			if(operation.equals("registerUser")) {
 				UserBean user = new UserBean();
 				String username = request.getParameter("username");
@@ -85,6 +116,6 @@ public class UserControl extends HttpServlet {
 	private static final int USERS_ADMIN = 2;
 	private static final int ORDERS_ADMIN = 3;
 	private static final int PRODUCTS_ADMIN = 4;
-	// DISCUTERNE CON ALESSANDRO private static final int BANNED_USER = ?
+	private static final int BANNED_USER = 99;
 
 }

@@ -20,4 +20,6 @@ public interface UserModel
 	public boolean deleteUser(UserBean user) throws SQLException;
 	
 	public boolean blockUser(String username) throws SQLException;
+	
+	public boolean login(UserBean user) throws SQLException;
 }

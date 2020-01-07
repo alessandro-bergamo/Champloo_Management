@@ -247,12 +247,34 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			String SQL = "update RegisteredUsers set type_user ='"; 
+			String SQL = "update RegisteredUsers set type_user ='" + 99 + "'"; 
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
 			connectionPool.releaseConnection(connection);
 		}
+		return true;
+	}
+	
+	/**
+	 * allows user to log in
+	 * @param user to be logged
+	 * @return boolean result of the operation
+	 */
+	public boolean login(UserBean user) {
+		try {
+			connection = connectionPool.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user.getEmail() + "'" + "and password_user=" + "'"+ user.getPassword() + "'" + "and type_user != 99");
+			resultSetUser.first();
+			if(resultSetUser.getRow() == 0) {
+				return false;
+			} else
+				return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 	
