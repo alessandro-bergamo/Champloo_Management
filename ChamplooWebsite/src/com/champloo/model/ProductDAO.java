@@ -11,15 +11,13 @@ import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
 
-import javafx.util.Pair;
-
 public class ProductDAO implements ProductModel 
 {
 	public ProductDAO()
 	{
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("", "", "");
+			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "root");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +38,7 @@ public class ProductDAO implements ProductModel
 		
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT id_product, name_product, brand_product, model_product, type_product FROM products WHERE name_product='"+newProduct.getName()+"' AND brand_product='"+newProduct.getBrand()+"' AND model_product='"+newProduct.getModel()+"' AND type_prod='"+newProduct.getType()+"'";                            
+		query = "SELECT id_product, name_product, brand_product, model_product, type_product FROM products WHERE name_product='"+newProduct.getName()+"' AND brand_product='"+newProduct.getBrand()+"' AND model_product='"+newProduct.getModel()+"' AND type_product='"+newProduct.getType()+"'";                            
 		
 		statement = connection.createStatement();
 		results = statement.executeQuery(query);
@@ -62,14 +60,15 @@ public class ProductDAO implements ProductModel
 			
 			isProduct_added = preparedStatement.executeUpdate();
 			
-			product_auto_key = preparedStatement.getGeneratedKeys().getInt(1);
+			product_auto_key = preparedStatement.getGeneratedKeys().getInt(0);
+
 			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status, average_rating, number_feedback_users, img_folder_path) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			
 		try{
 			preparedStatement = connection.prepareStatement(query);
@@ -106,7 +105,7 @@ public class ProductDAO implements ProductModel
 	//IL PRODOTTO GIà ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
 		product_auto_key = results.getInt(1);
 		
-		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status, average_rating, number_feedback_users, img_folder_path) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		
 		try{
 			preparedStatement = connection.prepareStatement(query);

@@ -296,13 +296,7 @@
                            </div>
                        </form>
                    </div>
-               </section>
-           
-           
-           
-           
-           
-           
+               </section>                 
                     <!-- Footer -->
                			<%@ include file="footer.jsp" %>
 

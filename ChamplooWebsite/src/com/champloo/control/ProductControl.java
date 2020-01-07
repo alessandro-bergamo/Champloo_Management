@@ -1,7 +1,9 @@
 package com.champloo.control;
 
 import java.io.IOException;
+
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.model.ProductDAO;
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
 
 @WebServlet("/Product")
 public class ProductControl extends HttpServlet{
