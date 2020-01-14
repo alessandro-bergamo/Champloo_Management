@@ -55,44 +55,45 @@
             <div class="main">
                 <div class="shop_top" id="regimargin">
                     <div class="container">
-                        <form method="POST">
-                        <div class="register-top-grid">
-                            <h3>INFORMAZIONI PERSONALI</h3>
-                            <div>
-                                <span>Username<label>*</label></span>
-                                <input name="username" type="text" autofocus>
-                            </div>
-                            <div>
-                                <span>Indirizzo e-mail<label>*</label></span>
-                                <input name="email" type="email">
-                            </div>
-                            <div>
-                                <span>Nome<label>*</label></span>
-                                <input name="firstname" type="text">
-                            </div>
-                            <div>
-                                <span>Cognome<label>*</label></span>
-                                <input name="lastname" type="text">
-                            </div>
-                            <div class="clear"> </div>
-                        </div>
-                        <div class="clear"> </div>
-                            <div class="register-bottom-grid">
-                                <h3>INFORMAZIONI LOGIN</h3>
-                                <div>
-                                    <span>Password<label>*</label></span>
-                                    <input name="password" type="password">
-                                </div>
-                                <div>
-                                    <span>Conferma Password<label>*</label></span>
-                                    <input type="password">
-                                </div>
-                                <div class="clear"> </div>
-                            </div>
-                            <div class="clear"> </div>
-                            <div class="button2">
-                                <input type="submit" class="setButton" value="REGISTRATI">
-                            </div>
+                        <form method="POST" action="UserControl">
+                        	<input name="operation" value="registerUser" type="hidden" >
+	                        <div class="register-top-grid">
+	                            <h3>INFORMAZIONI PERSONALI</h3>
+	                            <div>
+	                                <span>Username<label>*</label></span>
+	                                <input name="username" type="text" autofocus>
+	                            </div>
+	                            <div>
+	                                <span>Indirizzo e-mail<label>*</label></span>
+	                                <input name="email" type="email">
+	                            </div>
+	                            <div>
+	                                <span>Nome<label>*</label></span>
+	                                <input name="firstname" type="text">
+	                            </div>
+	                            <div>
+	                                <span>Cognome<label>*</label></span>
+	                                <input name="lastname" type="text">
+	                            </div>
+	                            <div class="clear"> </div>
+	                        </div>
+	                        <div class="clear"> </div>
+	                            <div class="register-bottom-grid">
+	                                <h3>INFORMAZIONI LOGIN</h3>
+	                                <div>
+	                                    <span>Password<label>*</label></span>
+	                                    <input name="password" type="password">
+	                                </div>
+	                                <div>
+	                                    <span>Conferma Password<label>*</label></span>
+	                                    <input type="password">
+	                                </div>
+	                                <div class="clear"> </div>
+	                            </div>
+	                            <div class="clear"> </div>
+	                            <div class="button2">
+	                                <input type="submit" class="setButton" value="REGISTRATI">
+	                            </div>
                         </form>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ConnectionPool
 {
-    private static final int MAX_CONNECTIONS = 200;
+    private static final int MAX_CONNECTIONS = 100;
 
     private String url;
     private String user;
@@ -26,6 +26,7 @@ public class ConnectionPool
         this.user = user;
         this.password = password;
         connections = pool;
+        usedConnections = new ArrayList<Connection>();
     }
     
     public static ConnectionPool create(String url, String user, String password) throws SQLException

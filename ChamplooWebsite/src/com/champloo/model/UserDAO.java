@@ -5,9 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
+
 import com.champloo.bean.*;
-import com.champloo.model.*;
 import com.champloo.storage.ConnectionPool;
 
 public class UserDAO implements UserModel {
@@ -21,12 +22,11 @@ public class UserDAO implements UserModel {
 		
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("", "", "");
+			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "root");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	/**
@@ -38,25 +38,25 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUserName = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + newUser.getUsername() + "'");
+			ResultSet resultSetUserName = statement.executeQuery("select * from registred_users where username = " + "'" + newUser.getUsername() + "'");
 			resultSetUserName.first();
 			int rowUsername = resultSetUserName.getRow();
 			Statement statement2 = connection.createStatement();
-			ResultSet resultSetEmail = statement2.executeQuery("select * from RegisteredUsers where email = " + "'" + newUser.getEmail() + "'");
+			ResultSet resultSetEmail = statement2.executeQuery("select * from registred_users where email = " + "'" + newUser.getEmail() + "'");
 			resultSetEmail.first();
 			int rowEmail = resultSetEmail.getRow();
 			
 			//prima di inserire l'utente controllo che non ci sia nessun utente con lo stesso username o stessa email
 			if(rowUsername == 0 && rowEmail == 0) {
-				PreparedStatement insertQuery = connection.prepareStatement("insert into RegisteredUsers values(?,?,?,?,?,?,?);");
-				insertQuery.setString(2, newUser.getFirstName());
-				insertQuery.setString(3, newUser.getSurname());
-				insertQuery.setString(4, newUser.getUsername());
+				PreparedStatement insertQuery = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values(?,?,?,?,?,?,?);");
+				insertQuery.setString(1, newUser.getFirstName());
+				insertQuery.setString(2, newUser.getSurname());
+				insertQuery.setString(3, newUser.getUsername());
+				insertQuery.setString(4, newUser.getEmail());
 				insertQuery.setString(5, newUser.getPassword());
-				insertQuery.setString(6, newUser.getEmail());
-				insertQuery.setDate(7, convert(newUser.getRegistration_date()));
-				insertQuery.setInt(8, newUser.getType());
-				insertQuery.execute();
+				insertQuery.setDate(6, convert(newUser.getRegistration_date()));
+				insertQuery.setInt(7, newUser.getType());
+				insertQuery.executeUpdate();
 				
 			} else 
 				return false;
@@ -80,7 +80,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user_email + "'");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + user_email + "'");
 			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return userBean;
@@ -116,7 +116,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + username + "'");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + username + "'");
 			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return userBean;
@@ -151,7 +151,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUsers = statement.executeQuery("select * from RegisteredUsers");
+			ResultSet resultSetUsers = statement.executeQuery("select * from registred_users");
 			while(resultSetUsers.next()) {
 				UserBean userBean = new UserBean();
 				userBean.setID(resultSetUsers.getInt(1));
@@ -184,14 +184,14 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + user.getUsername() + "'");
 			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return false;
 			}
 			
 			Statement checkEmail = connection.createStatement();
-			ResultSet resultSetForEmail = checkEmail.executeQuery("select * from RegisteredUsers where email =" + "'" + user.getEmail() + "'");
+			ResultSet resultSetForEmail = checkEmail.executeQuery("select * from registred_users where email =" + "'" + user.getEmail() + "'");
 			resultSetForEmail.first();
 			
 			if(resultSetForEmail.getRow() == 0) {
@@ -221,14 +221,14 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where username = " + "'" + user.getUsername() + "'");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + user.getUsername() + "'");
 			resultSetUser.first();
 			if(resultSetUser.getRow() == 0) {
 				return false;
 			}
 			
 			Statement stmt = connection.createStatement();
-			String SQL = "DELETE FROM RegisteredUsers WHERE username = '"+user.getFirstName()+"'";
+			String SQL = "DELETE FROM registred_users WHERE username = '"+user.getFirstName()+"'";
 			stmt.executeUpdate(SQL);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -247,7 +247,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			String SQL = "update RegisteredUsers set type_user ='" + 99 + "'"; 
+			String SQL = "update registred_users set type_user ='" + 99 + "'"; 
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -265,9 +265,8 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from RegisteredUsers where email = " + "'" + user.getEmail() + "'" + "and password_user=" + "'"+ user.getPassword() + "'" + "and type_user != 99");
-			resultSetUser.first();
-			if(resultSetUser.getRow() == 0) {
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + user.getEmail() + "'" + "and password_user=" + "'"+ user.getPassword() + "'" + "and type_user != 99");
+			if(!resultSetUser.first()) {
 				return false;
 			} else
 				return true;
@@ -281,7 +280,7 @@ public class UserDAO implements UserModel {
 	//metodo di servizio interno alla classe. Rappresenta la stringa SQL per l'update dei field
 	private static String updateUserFields(String set, String username, String value) {
 
-        return "update RegisteredUsers set " +  set + "='" + value + "' where username ='" + username + "'";  
+        return "update registred_users set " +  set + "='" + value + "' where username ='" + username + "'";  
 
     }
 	

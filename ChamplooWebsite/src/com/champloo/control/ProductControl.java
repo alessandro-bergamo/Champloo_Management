@@ -78,6 +78,20 @@ public class ProductControl extends HttpServlet{
 					e.printStackTrace();
 				}
 			}
+			else if(operation.equals("retrieveById"))
+			{
+				int idProduct = Integer.parseInt(request.getParameter("id_product"));
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+				
+				try {
+					products = productDAO.retrieveById(idProduct);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				request.setAttribute("productsByModel", products);
+			}
 			else if(operation.equals("retrieveByModel"))
 			{
 				String model_product = request.getParameter("model_product");
