@@ -44,12 +44,9 @@ public class UserControl extends HttpServlet {
 			
 				HttpSession session = request.getSession(true);
 				synchronized(session) {
-					UserBean userLogged = new UserBean();
-					userLogged.setEmail(user_email);
-					userLogged.setPassword(user_password);
 					
-					if(userDAO.login(userLogged)) {
-						session.setAttribute("utenteLoggato", userLogged);
+					if(userDAO.login(user_email, user_password)) {
+						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
 						redirectedPage = "index.jsp";
@@ -99,7 +96,7 @@ public class UserControl extends HttpServlet {
 				user.setSurname(lastName);
 				user.setPassword(password);
 				user.setRegistration_date(new Date(System.currentTimeMillis()));
-				user.setType(NORMAL_USER);
+				user.setType(UserBean.NORMAL_USER);
 				//SET DEL TIPO DELLO USER DISCUTERNE
 				
 				userDAO.registerUser(user);
@@ -151,10 +148,5 @@ public class UserControl extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static UserDAO userDAO = new UserDAO();
-	private static final int NORMAL_USER = 1;
-	private static final int USERS_ADMIN = 2;
-	private static final int ORDERS_ADMIN = 3;
-	private static final int PRODUCTS_ADMIN = 4;
-	private static final int BANNED_USER = 99;
 
 }

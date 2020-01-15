@@ -21,5 +21,5 @@ public interface UserModel
 	
 	public boolean blockUser(String username) throws SQLException;
 	
-	public boolean login(UserBean user) throws SQLException;
+	public boolean login(String username, String password) throws SQLException;
 }
