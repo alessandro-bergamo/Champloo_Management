@@ -248,6 +248,7 @@ public class UserDAO implements UserModel {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where username ='" + username + "'"; 
+			statement.executeUpdate(SQL);
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
