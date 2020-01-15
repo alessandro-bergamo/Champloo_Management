@@ -1,3 +1,19 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1"
+		import="com.champloo.bean.*"
+%>
+
+<%
+	UserBean utenteLoggato;
+	synchronized(session) 
+			{
+				utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");		
+			}
+
+%>
+
 
         <header class="header">
             <div class="header_overlay"></div>
@@ -27,8 +43,13 @@
                             <button class="header_search_button"><img src="images/search.png" alt=""></button>
                         </form>
                     </div>
-                    <!-- User -->
-                    <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"><div>99+</div></div></a></div>
+                   <% if(utenteLoggato != null) { %>
+                    <!-- User loggato -->
+                    <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>                    
+                    <% } else { %>
+                     <!-- User che si deve loggare -->
+                    <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                  	<% }; %>
                     <!-- Cart -->
                     <div class="cart"><a href="cart.jsp"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <!-- Phone -->
