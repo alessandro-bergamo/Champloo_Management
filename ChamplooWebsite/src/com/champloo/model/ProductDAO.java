@@ -58,10 +58,9 @@ public class ProductDAO implements ProductModel
 			preparedStatement.setString(4, newProduct.getType());
 			preparedStatement.setString(5, newProduct.getDescription());
 			
-			isProduct_added = preparedStatement.executeUpdate();
+			product_auto_key = preparedStatement.getGeneratedKeys().getInt(1);
 			
-			product_auto_key = preparedStatement.getGeneratedKeys().getInt(0);
-
+			isProduct_added = preparedStatement.executeUpdate();
 			
 		}
 		catch(Exception e){
