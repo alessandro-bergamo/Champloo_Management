@@ -2,6 +2,14 @@ package com.champloo.bean;
 
 public class ProductDetailsBean {
 	
+	/*
+	 * VALORI DI POSSIBILI per la variabile "status"
+	 * */
+	public static final int NORMAL_PRODUCT = 1;
+	public static final int NEW_PRODUCT = 2;
+	public static final int ON_SALE_PRODUCT = 3;
+	public static final int WINDOW_PRODUCT = 4;
+	
 	private int id_prod_details, product, discount_percent, qnt_stock, number_feedback_users, status;
 	private float price, discounted_price, average_rating;
 	private String color, size, img_path_folder;
