@@ -93,4 +93,9 @@ public class UserBean {
 	}
 	
 	
+	public static final int NORMAL_USER = 1;
+	public static final int USERS_ADMIN = 2;
+	public static final int ORDERS_ADMIN = 3;
+	public static final int PRODUCTS_ADMIN = 4;
+	public static final int BANNED_USER = 99;
 }

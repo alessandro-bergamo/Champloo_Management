@@ -247,7 +247,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			String SQL = "update registred_users set type_user ='" + 99 + "'"; 
+			String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where username ='" + username + "'"; 
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -261,11 +261,11 @@ public class UserDAO implements UserModel {
 	 * @param user to be logged
 	 * @return boolean result of the operation
 	 */
-	public boolean login(UserBean user) {
+	public boolean login(String email, String password) {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + user.getEmail() + "'" + "and password_user=" + "'"+ user.getPassword() + "'" + "and type_user != 99");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + email + "'" + "and password_user=" + "'"+ password + "'" + "and type_user != 99");
 			if(!resultSetUser.first()) {
 				return false;
 			} else
