@@ -4,7 +4,6 @@ public class ProductDetailsBean {
 	
 	/*
 	 * VALORI DI POSSIBILI per la variabile "status"
-	 *
 	 * */
 	public static final int NORMAL_PRODUCT = 1;
 	public static final int NEW_PRODUCT = 2;
