@@ -42,19 +42,12 @@
 
 <div class="menu">
 
-        <!-- Search -->
-        <div class="menu_search">
-            <form action="#" id="menu_search_form" class="menu_search_form">
-                <input type="text" class="search_input" placeholder="Search Item" required="required">
-                <button class="menu_search_button"><img src="images/search.png" alt=""></button>
-            </form>
-        </div>
+  
         <!-- Navigation -->
         <div class="menu_nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="category.html">Donna</a></li>
-                <li><a href="category.html">Uomo</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="category.jsp">Catalogo Uomo</a></li>
                 <li><a href="#">Contatti</a></li>
             </ul>
         </div>
@@ -90,7 +83,7 @@
            
            
            
-           <!-- MAIN SECTION Admin-->
+           <!-- MAIN SECTION User-->
            
            <section class="utente-section">
                <div class="container">
@@ -151,25 +144,25 @@
                        </div>
                    </div>
                    <div class="container spacerUP borderutdiv" id="infPut2">
+                   <form action="UserControl" method="POST">
                        <div class="row justify-content-start">
+                       <input name="operation" type="hidden" value="updateUser">
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Nome: </h4>
-                                   <input type="text" class="form-input" value="<%=utenteLoggato.getFirstName()%>">
+                                   <input type="text" class="form-input" name="firstname" value="<%=utenteLoggato.getFirstName()%>">
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Cognome: </h4>
-                                   <input type="text" class="form-input" value="<%=utenteLoggato.getSurname()%>">
+                                   <input type="text" class="form-input" name="lastname" value="<%=utenteLoggato.getSurname()%>">
                                </div>
                            </div>
                            <div class="col-xl-5">
                                <div class="row">
                                    <h4 class="upH4">E-mail: </h4>
-                               </div>
-                               <div class="row">
-                                   <input type="email" class="form-input" style="width: 450px;" value="<%=utenteLoggato.getEmail()%>">
+                                   <p class="upPCircle"><%=utenteLoggato.getEmail()%></p>
                                </div>
                            </div>
                        </div>
@@ -177,23 +170,29 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Username: </h4>
-                                   <input type="text" class="form-input" disabled value="<%=utenteLoggato.getUsername()%>">
+                                   <p class="upPCircle"><%=utenteLoggato.getUsername()%></p>
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Password: </h4>
-                                   <input type="password" class="form-input" value="<%=utenteLoggato.getPassword()%>">
+                                   <p class="upPCircle">***********</p>
                                </div>
                            </div>
                            <div class="col-xl-6">
                                <div class="row justify-content-center">
-                                   <input type="button" class="site-btn6" style="width: 130px; margin-top: 37px; margin-right: 40px;" value="Applica">
-                                   <input type="button" class="site-btn6" style="width: 130px; margin-top: 37px; margin-left: 30px;" id="btninfo2" value="Annulla">
+                                   <input type="submit" class="form-button" style="width: 130px; margin-top: 37px; margin-right: 40px;" value="Applica">
+                                   <input type="reset" class="form-button" style="width: 130px; margin-top: 37px; margin-left: 30px;" id="btninfo2" value="Annulla">
                                </div>
+                               
                            </div>
+                      
+                      
                        </div>
+                   </form>
                    </div>
+                                          
+                   
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">

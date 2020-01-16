@@ -29,19 +29,11 @@
     <!-- Menu -->
 
     <div class="menu">
-        <!-- Search -->
-        <div class="menu_search">
-            <form action="#" id="menu_search_form" class="menu_search_form">
-                <input type="text" class="search_input" placeholder="Search Item" required="required">
-                <button class="menu_search_button"><img src="images/search.png" alt=""></button>
-            </form>
-        </div>
         <!-- Navigation -->
         <div class="menu_nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="category.html">Donna</a></li>
-                <li><a href="category.html">Uomo</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="category.jsp">Catalogo Uomo</a></li>
                 <li><a href="#">Contatti</a></li>
             </ul>
         </div>

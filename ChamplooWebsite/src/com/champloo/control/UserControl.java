@@ -106,7 +106,7 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("updateUser")) 
 			{
-				UserBean user = (UserBean) request.getSession().getAttribute("user");
+				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
 				UserBean updatedUser = new UserBean();
 				updatedUser.setFirstName(request.getParameter("firstname"));
 				updatedUser.setSurname(request.getParameter("lastname"));
@@ -117,7 +117,7 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("deleteUser")) 
 			{
-				UserBean user = (UserBean) request.getSession().getAttribute("user");
+				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
 				userDAO.deleteUser(user);				
 			}
 			else if(operation.equals("blockUser"))
@@ -133,10 +133,10 @@ public class UserControl extends HttpServlet {
 			response.sendRedirect("user_log.jsp");
 		
 		if(operation.equals("updateUser"))
-			response.sendRedirect("userArea.jsp");
+			response.sendRedirect("user_area.jsp");
 		
 		if(operation.equals("deleteUser"))
-			response.sendRedirect("userArea.jsp");
+			response.sendRedirect("user_area.jsp");
 		
 		if(operation.equals("blockUSer"))
 			response.sendRedirect("area_admin.jsp");

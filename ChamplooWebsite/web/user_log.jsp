@@ -37,7 +37,7 @@
                 <div class="logo">
                     <div class="logo_cpl d-flex flex-row align-items-center justify-content-start">
                             <div>
-                                <a href="index.html">
+                                <a href="index.jsp">
                                     <img src="images/logo_cpl.png" alt="">
                                 </a>
                                 </div>

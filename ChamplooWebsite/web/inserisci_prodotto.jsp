@@ -30,19 +30,11 @@
 
 <div class="menu">
 
-        <!-- Search -->
-        <div class="menu_search">
-            <form action="#" id="menu_search_form" class="menu_search_form">
-                <input type="text" class="search_input" placeholder="Search Item" required="required">
-                <button class="menu_search_button"><img src="images/search.png" alt=""></button>
-            </form>
-        </div>
         <!-- Navigation -->
         <div class="menu_nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="category.html">Donna</a></li>
-                <li><a href="category.html">Uomo</a></li>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="category.jsp">Catalogo Uomo</a></li>
                 <li><a href="#">Contatti</a></li>
             </ul>
         </div>
@@ -272,7 +264,13 @@
                            <div class="row form-group">
                                <label for="size_prod" class="4 form-label">Taglia</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="size_product" placeholder="Taglia Prodotto">
+                                   <select class="form-input" name="size_product">
+                                   <option value="XS">XS</option>
+                                   <option value="S">S</option>
+                                   <option value="M">M</option>
+                                   <option value="L">L</option>
+                                   <option value="XL">XL</option>
+                                   </select>
                                </div>
                            </div>
                            <div class="row form-group">
