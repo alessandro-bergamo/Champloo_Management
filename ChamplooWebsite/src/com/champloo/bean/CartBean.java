@@ -5,8 +5,6 @@ public class CartBean {
 	private String user;
 	private int id_cart;
 	
-
-
 	public void setId_cart(int id_cart) {
 		this.id_cart = id_cart;
 	}
@@ -20,6 +18,4 @@ public class CartBean {
 		return id_cart;
 	}
 
-	
-	
 }
