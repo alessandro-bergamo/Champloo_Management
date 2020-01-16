@@ -17,7 +17,7 @@ public class ProductDAO implements ProductModel
 	{
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "root");
+			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,9 +58,13 @@ public class ProductDAO implements ProductModel
 			preparedStatement.setString(4, newProduct.getType());
 			preparedStatement.setString(5, newProduct.getDescription());
 			
-			product_auto_key = preparedStatement.getGeneratedKeys().getInt(1);
 			
 			isProduct_added = preparedStatement.executeUpdate();
+			
+			ResultSet autokey = preparedStatement.getGeneratedKeys();
+			if( autokey.first())
+				product_auto_key = autokey.getInt(1);
+
 			
 		}
 		catch(Exception e){
@@ -101,7 +105,7 @@ public class ProductDAO implements ProductModel
 	}
 	else 
 	{
-	//IL PRODOTTO GIà ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
+	//IL PRODOTTO GIï¿½ ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
 		product_auto_key = results.getInt(1);
 		
 		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";

@@ -206,13 +206,13 @@
                                    <div class="col-xl-7">
                                        <div class="row">
                                            <h4 class="upH4">Indirizzo: </h4>
-                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%></p>
+                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%>,<%=datiUtente.get(0).getCivic_number()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Città: </h4>
-                                           <p class="upPCircle">Mercato San Severino (SA), 84085</p>
+                                           <p class="upPCircle"><%=datiUtente.get(0).getCity()%>,<%=datiUtente.get(0).getProvince()%>,<%=datiUtente.get(0).getCAP()%></p>
                                        </div>
                                    </div>
                                </div>

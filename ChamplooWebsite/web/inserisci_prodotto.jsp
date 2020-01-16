@@ -217,77 +217,109 @@
                        </div>
                    </div>
                    <div class="container border-insformpage">
-                       <form action="InsertProduct" id="insertproduct" method="GET">
+                       <form action="Product" method="GET">
                            <div class="row form-group">
+                           <input name="operation" type="hidden" value="addProduct"> 
                                <label for="type_prod" class="4 form-label">Tipo</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="type_prod" placeholder="Tipo Prodotto">
+                                   <select class="form-input" name="type_product">
+                                   <option value=T-shirt>T-shirt</option>
+                                   <option value="Felpa">Felpa</option>
+                                   <option value="Camicia">Camicia</option>
+                                   <option value="Giacca">Giacca</option>
+                                   <option value="Giubbino">Giubbino</option>
+                                   <option value="Jeans">Jeans</option>
+                                   <option value="Canotta">Canotta</option>
+                                   <option value="Tuta">Tuta</option>
+                                   <option value="Pantaloncino">Pantaloncino</option>
+                                   </select>
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="model_prod" class="4 form-label">Modello</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="model_prod" placeholder="Modello Prodotto">
+                                   <input type="text" class="form-input" name="model_product" placeholder="Modello Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="brand_prod" class="4 form-label">Brand</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="brand_prod" placeholder="Brand Prodotto">
+                                   <select class="form-input" name="brand_product">
+                                   <option value="Nike">Nike</option>
+                                   <option value="Adidas">Adidas</option>
+                                   <option value="Supreme">Supreme</option>
+                                   <option value="Huf">Huf</option>
+                                   <option value="Levis">Levi's</option>
+                                   <option value="Vans">Vans</option>
+                                   <option value="Reebok">Reebok</option>
+                                   <option value="Dickies">Dickies</option>
+                                   <option value="Helly-Hansen">Helly-Hansen</option>
+                                   </select>
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="name_prod" class="4 form-label">Nome</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="name_prod" placeholder="Nome Prodotto">
-                               </div>
-                           </div>
-                           <div class="row form-group">
-                               <label for="year_prod" class="4 form-label">Anno</label>
-                               <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="year_prod" placeholder="Anno Prodotto">
+                                   <input type="text" class="form-input" name="name_product" placeholder="Nome Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="description_prod" class="4 form-label">Descrizione</label>
                                <div class="col-xl-8">
-                                   <textarea rows="5" class="form-input" name="description_prod" placeholder="Descrizione Prodotto"></textarea>
+                                   <textarea rows="3" class="form-input" name="description_product" placeholder="Descrizione Prodotto"></textarea>
+                               </div>
+                           </div>
+                           <div class="row form-group">
+                               <label for="size_prod" class="4 form-label">Taglia</label>
+                               <div class="col-xl-8">
+                                   <input type="text" class="form-input" name="size_product" placeholder="Taglia Prodotto">
+                               </div>
+                           </div>
+                           <div class="row form-group">
+                               <label for="color_prod" class="4 form-label">Colore</label>
+                               <div class="col-xl-8">
+                                   <input type="text" class="form-input" name="color_product" placeholder="Colore Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="price_prod" class="4 form-label">Prezzo</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="price_prod" placeholder="Prezzo Prodotto">
+                                   <input type="text" class="form-input" name="price_product" placeholder="Prezzo Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="discount_prod" class="4 form-label">% Prodotto in Sconto</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="discount_prod" placeholder="% Prodotto in Sconto">
+                                   <input type="text" class="form-input" name="discount_percent_product" placeholder="% Prodotto in Sconto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="discounted_price_prod" class="4 form-label">Prezzo Prodotto in Sconto</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="discounted_price_prod" placeholder="Prezzo Prodotto in Sconto">
-                               </div>
-                           </div>
-                           <div class="row form-group">
-                               <label for="family_prod" class="4 form-label">Informazioni Prodotto</label>
-                               <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="family_prod" placeholder="Informazioni Prodotto">
+                                   <input type="text" class="form-input" name="discounted_price_product" placeholder="Prezzo Prodotto in Sconto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="qnt_prod" class="4 form-label">Quantità Prodotto</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="qnt_prod" placeholder="Quantità Prodotto">
+                                   <input type="text" class="form-input" name="qnt_stock_product" placeholder="Quantità Prodotto">
+                               </div>
+                           </div>
+                           <div class="row form-group">
+                               <label for="status_prod" class="4 form-label">Status</label>
+                               <div class="col-xl-8">
+                                   <select class="form-input" name="status_product">
+                                   <option value="1">Prodotto normale</option>
+                                   <option value="2">Prodotto nuovo</option>
+                                   <option value="3">Prodotto in sconto</option>
+                                   <option value="4">Prodotto in vetrina</option>                                   
+                   					</select>
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="img_folder_path" class="4 form-label">Path Folder Immagini</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="img_folder_path" placeholder="Path Folder Prodotto">
+                                   <input type="text" class="form-input" name="img_path_folder_product" placeholder="Path Folder Prodotto" value="img/">
                                </div>
                            </div>
                            <div class="row justify-content-center">
