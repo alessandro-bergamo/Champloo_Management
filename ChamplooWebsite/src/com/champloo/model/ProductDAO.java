@@ -694,6 +694,7 @@ public class ProductDAO implements ProductModel
 		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
 		connection = connectionPool.getConnection();
 		
+		
 		query = "SELECT * FROM products";
 		
 		try {
