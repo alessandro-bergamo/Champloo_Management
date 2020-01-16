@@ -42,7 +42,7 @@ public class ProductDAO implements ProductModel
 		
 		statement = connection.createStatement();
 		results = statement.executeQuery(query);
-		
+				
 		if(!results.first())
 		{
 		// SE IL PRODOTTO NON ESISTE NEL DB, AGGIUNGI IL PRODOTTO E I SUOI DETTAGLI
@@ -105,7 +105,7 @@ public class ProductDAO implements ProductModel
 	}
 	else 
 	{
-	//IL PRODOTTO GIï¿½ ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
+	//IL PRODOTTO GIà ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
 		product_auto_key = results.getInt(1);
 		
 		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
