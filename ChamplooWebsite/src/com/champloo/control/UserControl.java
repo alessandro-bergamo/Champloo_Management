@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,7 +50,8 @@ public class UserControl extends HttpServlet {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
-						redirectedPage = "index.jsp";
+						RequestDispatcher rd = request.getRequestDispatcher("Address");
+						rd.forward(request,response);
 					} else {
 						request.setAttribute("login", false);
 						redirectedPage = "user_log.jsp";
@@ -125,8 +127,7 @@ public class UserControl extends HttpServlet {
 			}
 		}
 		
-		if(operation.equals("login"))
-			response.sendRedirect(redirectedPage);
+
 		
 		if(operation.equals("registerUser"))
 			response.sendRedirect("user_log.jsp");

@@ -2,6 +2,7 @@ package com.champloo.model;
 
 import com.champloo.bean.AddressBean;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public interface AddressModel
@@ -12,5 +13,5 @@ public interface AddressModel
 
     AddressBean retrieveByID(int id_address) throws SQLException;
 
-    HashSet<AddressBean> retrieveByUserID(int id_user) throws SQLException;
+    ArrayList<AddressBean> retrieveByUserID(int id_user) throws SQLException;
 }

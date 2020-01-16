@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ConnectionPool
 {
-    private static final int MAX_CONNECTIONS = 100;
+    private static final int MAX_CONNECTIONS = 10;
 
     private String url;
     private String user;

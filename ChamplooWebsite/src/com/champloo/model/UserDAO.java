@@ -22,7 +22,7 @@ public class UserDAO implements UserModel {
 		
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "root");
+			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
