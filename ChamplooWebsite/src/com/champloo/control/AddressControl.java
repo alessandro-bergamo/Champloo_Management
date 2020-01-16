@@ -1,6 +1,7 @@
 package com.champloo.control;
 
 import com.champloo.bean.AddressBean;
+import com.champloo.bean.UserBean;
 import com.champloo.model.AddressDAO;
 
 
@@ -9,8 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -51,22 +55,30 @@ public class AddressControl extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (operation.equals("retrieveMethods"))
+        } else if (operation.equals("login"))
         {
-            HashSet<AddressBean> addresses = null;
-            try {
-                addresses = model_address.retrieveByUserID(Integer.parseInt(request.getParameter("id_user")));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("addresses", addresses);
+        	ArrayList<AddressBean> addresses = null;
+
+        	HttpSession session = request.getSession(true);
+			synchronized(session) {
+	            try {
+	            	UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");	
+	                addresses = model_address.retrieveByUserID(user.getID());
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+			}
+            session.setAttribute("addresses", addresses);
+            
         }
 
 
-        if (operation.equals("insert") || operation.equals("delete") || operation.equals("retrieveMethods"))
+        if (operation.equals("insert") || operation.equals("delete"))
             response.sendRedirect("user_area.jsp");
+        else if(operation.equals("login"))
+        	response.sendRedirect("index.jsp");
         else
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("pagina bianca.html");
 
     }
 

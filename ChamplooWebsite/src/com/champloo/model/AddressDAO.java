@@ -4,6 +4,7 @@ import com.champloo.bean.AddressBean;
 import com.champloo.bean.PaymentMethodBean;
 import com.champloo.storage.ConnectionPool;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class AddressDAO implements AddressModel
@@ -20,7 +21,7 @@ public class AddressDAO implements AddressModel
 		
 				try {
 					//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-					connectionPool = ConnectionPool.create("", "", "");
+					connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -130,9 +131,9 @@ public class AddressDAO implements AddressModel
      * @param id_user
      * @return addresses
      */
-    public HashSet<AddressBean> retrieveByUserID(int id_user) throws SQLException
+    public ArrayList<AddressBean> retrieveByUserID(int id_user) throws SQLException
     {
-        HashSet<AddressBean> addresses = new HashSet<AddressBean>();
+        ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();
 
         connection = connectionPool.getConnection();
 

@@ -1,3 +1,15 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1"
+		import="com.champloo.bean.*"
+		import="java.util.*"
+%>
+<%
+	ArrayList<AddressBean> datiUtente = (ArrayList) request.getSession().getAttribute("addresses");
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,19 +114,19 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Nome: </h4>
-                                   <p class="upPCircle">Alessandro</p>
+                                   <p class="upPCircle"><%=utenteLoggato.getFirstName()%></p>
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Cognome: </h4>
-                                   <p class="upPCircle">Bergamo</p>
+                                   <p class="upPCircle"><%=utenteLoggato.getSurname()%></p>
                                </div>
                            </div>
                            <div class="col-xl-5">
                                <div class="row">
                                    <h4 class="upH4">E-mail: </h4>
-                                   <p class="upPCircle">alessandro.bergamo@virgilio.it</p>
+                                   <p class="upPCircle"><%=utenteLoggato.getEmail()%></p>
                                </div>
                            </div>
                        </div>
@@ -122,13 +134,13 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Username: </h4>
-                                   <p class="upPCircle">alex_bergamo</p>
+                                   <p class="upPCircle"><%=utenteLoggato.getUsername()%></p>
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Password: </h4>
-                                   <p class="upPCircle">•••••••••</p>
+                                   <p class="upPCircle">***********</p>
                                </div>
                            </div>
                            <div class="col-xl-3">
@@ -143,13 +155,13 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Nome: </h4>
-                                   <input type="text" class="form-input" value="Alessandro">
+                                   <input type="text" class="form-input" value="<%=utenteLoggato.getFirstName()%>">
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Cognome: </h4>
-                                   <input type="text" class="form-input" value="Bergamo">
+                                   <input type="text" class="form-input" value="<%=utenteLoggato.getSurname()%>">
                                </div>
                            </div>
                            <div class="col-xl-5">
@@ -157,7 +169,7 @@
                                    <h4 class="upH4">E-mail: </h4>
                                </div>
                                <div class="row">
-                                   <input type="email" class="form-input" style="width: 450px;" value="alessandro.bergamo@virgilio.it">
+                                   <input type="email" class="form-input" style="width: 450px;" value="<%=utenteLoggato.getEmail()%>">
                                </div>
                            </div>
                        </div>
@@ -165,13 +177,13 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Username: </h4>
-                                   <input type="text" class="form-input" disabled value="alex_bergamo">
+                                   <input type="text" class="form-input" disabled value="<%=utenteLoggato.getUsername()%>">
                                </div>
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Password: </h4>
-                                   <input type="password" class="form-input" value="Alessandro">
+                                   <input type="password" class="form-input" value="<%=utenteLoggato.getPassword()%>">
                                </div>
                            </div>
                            <div class="col-xl-6">
@@ -194,7 +206,7 @@
                                    <div class="col-xl-7">
                                        <div class="row">
                                            <h4 class="upH4">Indirizzo: </h4>
-                                           <p class="upPCircle">Via Francescantonio Biondo n° 12</p>
+                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
