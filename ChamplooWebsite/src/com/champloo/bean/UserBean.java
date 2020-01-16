@@ -3,6 +3,13 @@ package com.champloo.bean;
 import java.util.Date;
 
 public class UserBean {
+	
+	public static final int NORMAL_USER = 1;
+	public static final int USERS_ADMIN = 2;
+	public static final int ORDERS_ADMIN = 3;
+	public static final int PRODUCTS_ADMIN = 4;
+	public static final int BANNED_USER = 99;
+	
 	private int id;
 	private String firstname;
 	private String surname;
@@ -92,10 +99,4 @@ public class UserBean {
 		return "Name: " + getFirstName() + "\n" + "Surname: " + getSurname() + "\n" + "Username: " + getUsername() + "\n" + "Email: " + getEmail() + "\n" + "Password: " + getPassword() + "\n" + "Registration date: " + getRegistration_date() + "\n" + "Type: " + getType() + "\n";
 	}
 	
-	
-	public static final int NORMAL_USER = 1;
-	public static final int USERS_ADMIN = 2;
-	public static final int ORDERS_ADMIN = 3;
-	public static final int PRODUCTS_ADMIN = 4;
-	public static final int BANNED_USER = 99;
 }
