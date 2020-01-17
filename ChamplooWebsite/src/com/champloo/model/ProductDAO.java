@@ -11,6 +11,8 @@ import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
 
+import javafx.util.Pair;
+
 public class ProductDAO implements ProductModel 
 {
 	public ProductDAO()
@@ -47,62 +49,62 @@ public class ProductDAO implements ProductModel
 		{
 		// SE IL PRODOTTO NON ESISTE NEL DB, AGGIUNGI IL PRODOTTO E I SUOI DETTAGLI
 		
-		query = "INSERT INTO products(name_product, brand_product, model_product, type_product, description_product) VALUES (?,?,?,?,?)";
-		
-		try{
-			preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			query = "INSERT INTO products(name_product, brand_product, model_product, type_product, description_product) VALUES (?,?,?,?,?)";
 			
-			preparedStatement.setString(1, newProduct.getName());
-			preparedStatement.setString(2, newProduct.getBrand());
-			preparedStatement.setString(3, newProduct.getModel());
-			preparedStatement.setString(4, newProduct.getType());
-			preparedStatement.setString(5, newProduct.getDescription());
+			try{
+				preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				
+				preparedStatement.setString(1, newProduct.getName());
+				preparedStatement.setString(2, newProduct.getBrand());
+				preparedStatement.setString(3, newProduct.getModel());
+				preparedStatement.setString(4, newProduct.getType());
+				preparedStatement.setString(5, newProduct.getDescription());
+				
+				
+				isProduct_added = preparedStatement.executeUpdate();
+				
+				ResultSet autokey = preparedStatement.getGeneratedKeys();
+				if( autokey.first())
+					product_auto_key = autokey.getInt(1);
+	
+				
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 			
-			
-			isProduct_added = preparedStatement.executeUpdate();
-			
-			ResultSet autokey = preparedStatement.getGeneratedKeys();
-			if( autokey.first())
-				product_auto_key = autokey.getInt(1);
-
-			
+			query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+				
+			try{
+				preparedStatement = connection.prepareStatement(query);
+				
+				preparedStatement.setInt(1, product_auto_key);
+				preparedStatement.setString(2, newProductDetails.getColor());
+				preparedStatement.setString(3, newProductDetails.getSize());
+				preparedStatement.setFloat(4, newProductDetails.getPrice());
+				preparedStatement.setInt(5, newProductDetails.getDiscount_percent());
+				preparedStatement.setFloat(6, newProductDetails.getDiscounted_price());
+				preparedStatement.setInt(7, newProductDetails.getQnt_stock());
+				preparedStatement.setInt(8, newProductDetails.getStatus());
+				preparedStatement.setFloat(9, 0);
+				preparedStatement.setInt(10, 0);
+				preparedStatement.setString(11, newProductDetails.getImg_path_folder());
+				
+				isProduct_details_added = preparedStatement.executeUpdate();	
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			finally {
+				try {
+	                if (preparedStatement != null)
+	                    preparedStatement.close();
+	            } finally {
+	            	connectionPool.releaseConnection(connection);
+	            }
+				
+			}
 		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-			
-		try{
-			preparedStatement = connection.prepareStatement(query);
-			
-			preparedStatement.setInt(1, product_auto_key);
-			preparedStatement.setString(2, newProductDetails.getColor());
-			preparedStatement.setString(3, newProductDetails.getSize());
-			preparedStatement.setFloat(4, newProductDetails.getPrice());
-			preparedStatement.setInt(5, newProductDetails.getDiscount_percent());
-			preparedStatement.setFloat(6, newProductDetails.getDiscounted_price());
-			preparedStatement.setInt(7, newProductDetails.getQnt_stock());
-			preparedStatement.setInt(8, newProductDetails.getStatus());
-			preparedStatement.setFloat(9, 0);
-			preparedStatement.setInt(10, 0);
-			preparedStatement.setString(11, newProductDetails.getImg_path_folder());
-			
-			isProduct_details_added = preparedStatement.executeUpdate();	
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		finally {
-			try {
-                if (preparedStatement != null)
-                    preparedStatement.close();
-            } finally {
-            	connectionPool.releaseConnection(connection);
-            }
-			
-		}
-	}
 	else 
 	{
 	//IL PRODOTTO GIà ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
@@ -142,6 +144,25 @@ public class ProductDAO implements ProductModel
 		
 	}		
 		return isProduct_added != 0 && isProduct_details_added != 0;
+	}
+	
+	@Override
+	public Pair<ProductBean, ProductDetailsBean> retrieveProductWithDetails(int id_product, int id_product_details) throws SQLException {
+		
+		//Pair<ProductBean, ProductDetailsBean> productWithDetails = new Pair<ProductBean, ProductDetailsBean>(key, value)
+		connection = connectionPool.getConnection();
+		
+		try {
+			query = "SELECT * FROM products WHERE id_products = '"+id_product+"'";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+		}
+		
+		
+		return null;
 	}
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveById(int id_product) throws SQLException {

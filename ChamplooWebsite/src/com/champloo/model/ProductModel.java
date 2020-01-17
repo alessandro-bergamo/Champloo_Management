@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 
+import javafx.util.Pair;
 
 public interface ProductModel 
 {
 	public boolean addProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;
+	
+	public Pair<ProductBean, ProductDetailsBean> retrieveProductWithDetails (int id_product, int id_product_details) throws SQLException;
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveById(int id_product) throws SQLException;
 	

@@ -15,6 +15,7 @@ import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.bean.UserBean;
 import com.champloo.storage.ConnectionPool;
+import com.sun.org.apache.regexp.internal.REUtil;
 
 public class CartDAO implements CartModel
 {
@@ -363,10 +364,19 @@ public class CartDAO implements CartModel
 		return cart;
 	}
 	
+	@Override
+	public CartItemBean retrieveCartItem(int id_cart_item) throws SQLException {
+		
+		CartItemBean cartItem  = null;
+		
+		return cartItem;
+	}
+	
 	private static ConnectionPool connectionPool;
 	private Connection connection;
 	String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
     ResultSet results;
+	
 }
