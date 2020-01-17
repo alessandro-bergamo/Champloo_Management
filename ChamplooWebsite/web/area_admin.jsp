@@ -1,3 +1,16 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1"
+		import="com.champloo.bean.*"
+		import="java.util.*"
+		import="javax.servlet.RequestDispatcher"
+
+%>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +38,15 @@
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 </head>
 <body>
+
+<% 
+	RequestDispatcher rd = request.getRequestDispatcher("UserControl");
+	request.setAttribute("retrieve", "getAllUsers");
+	rd.forward(request,response);
+	ArrayList<UserBean> allUsers = (ArrayList) request.getAttribute("allUsers");
+
+
+ %>
 
 <!-- Menu -->
 
@@ -95,11 +117,14 @@
                                <div class="row justify-content-end">
                                    <h4 class="uth4"></h4>
                                </div>
+                               <% if(allUsers != null){ %>
+                               <form action="UserControl" method="POST">
                                <div class="row spacerUt">
+                               <input name="operation" type="hidden" value="getAllUsers">
                                    <div class="col-xl-11">
                                        <div class="row">
                                            <div class="col-xl-4">
-                                               <p id="utP">Nome:</p><p id="utP2">Alessandro</p>
+                                               <p id="utP">Nome:</p><p id="utP2"><%=allUsers.get(0).getFirstName()%></p>
                                            </div>
                                            <div class="col-xl-4">
                                                <p id="utP">Cognome:</p><p id="utP2">Bergamo</p>
@@ -114,7 +139,7 @@
                                                <p id="utP">E-mail:</p><p id="utP2">a.bergamo2@studenti.unisa.it</p>
                                            </div>
                                            <div class="col-xl-4">
-                                               <p id="utP">Password:</p><p id="utP2">•••••••••</p>
+                                               <p id="utP">Password:</p><p id="utP2">************</p>
                                            </div>
                                        </div>
                                    </div>
@@ -123,31 +148,10 @@
                                        <i class="glyphicon glyphicon-remove remove"> </i>
                                    </div>
                                </div>
-                               <div class="row spacerUt">
-                                   <div class="col-xl-11">
-                                       <div class="row">
-                                           <div class="col-xl-4">
-                                               <p id="utP">Nome:</p><p id="utP2">Alessandro</p>
-                                           </div>
-                                           <div class="col-xl-4">
-                                               <p id="utP">Cognome:</p><p id="utP2">Bergamo</p>
-                                           </div>
-                                           <div class="col-xl-4">
-                                               <p id="utP">Username:</p><p id="utP2">alex_bergamo</p>
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-xl-6">
-                                               <p id="utP">E-mail:</p><p id="utP2">a.bergamo2@studenti.unisa.it</p>
-                                           </div>
-                                           <div class="col-xl-4">
-                                               <p id="utP">Password:</p><p id="utP2">•••••••••</p>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="col-xl-1">
-                                       <img src="images/delete.png"><i class="glyphicon glyphicon-remove remove"> </i></a>
-                                   </div>
+                               </form>
+                               <% } %>
+                               
+                               
                                </div>
                            </div>
                            <div class="container divprod" id="prodiv">
