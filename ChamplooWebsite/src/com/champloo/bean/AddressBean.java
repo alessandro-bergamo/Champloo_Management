@@ -31,6 +31,8 @@ public class AddressBean
 
     public void setRegistred_User(int registred_User) { Registred_User = registred_User; }
 
+
+
     private int id_address, civic_number, CAP, Registred_User;
     private String address, city, province;
 

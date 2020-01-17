@@ -13,6 +13,6 @@ public interface PaymentMethodModel
 
     PaymentMethodBean retrieveByCardNumber(String card_number) throws SQLException;
 
-    HashSet<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException;
+    HashSet<PaymentMethodBean> retrieveByUserID(int id_user) throws SQLException;
 
 }

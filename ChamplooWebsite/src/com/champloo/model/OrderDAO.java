@@ -15,7 +15,7 @@ public class OrderDAO implements OrderModel
 		//parametri astratti, aggiungere reali successivamente		
 		try {
 			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("", "", "");
+			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -24,8 +24,8 @@ public class OrderDAO implements OrderModel
 	
 	/**
      * Creates an order
-     * param newOrder
-     * return order_created
+     * @param newOrder
+     * @return order_created
      */
     public synchronized boolean createOrder(OrderBean newOrder, ArrayList<ProductBean> products_in_order) throws SQLException
     {
@@ -97,14 +97,14 @@ public class OrderDAO implements OrderModel
     	  			}
       			}
 
-    return order_created != 0;
+        return order_created != 0;
     }
 
 
     /**
      * Modifies an order
-     * param order
-     * return order_modified
+     * @param order
+     * @return order_modified
      */
     public boolean modifyOrder(OrderBean order) throws SQLException
     {
@@ -131,8 +131,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Cancels an order
-     * param order
-     * return order_canceled
+     * @param order
+     * @return order_canceled
      */
     public boolean cancelOrder(OrderBean order) throws SQLException
     {
@@ -160,8 +160,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves the order by his ID
-     * param order_id
-     * return order
+     * @param order_id
+     * @return order
      */
     public OrderBean retrieveByID(int order_id) throws SQLException
     {
@@ -200,8 +200,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders with a specific username
-     * param username
-     * return orders
+     * @param user_id
+     * @return orders
      */
     public ArrayList<OrderBean> retrieveByUserID(int user_id) throws SQLException
     {
@@ -247,8 +247,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders beyond this date, date included
-     * param date
-     * return orders
+     * @param start_date, end_date
+     * @return orders
      */
     public HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws SQLException
     {
@@ -298,8 +298,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the canceled orders
-     * param status_order
-     * return canceled_orders
+     * @param status_order
+     * @return canceled_orders
      */
     public HashSet<OrderBean> retrieveCancelledOrders(int status_order) throws SQLException
     {
@@ -342,7 +342,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the orders
-     * return orders
+     * @param
+     * @return orders
      */
     public HashSet<OrderBean> retrieveAll() throws SQLException
     {
@@ -384,8 +385,8 @@ public class OrderDAO implements OrderModel
 
     /**
      * Retrieves all the Order Items of a certain order
-     * param order_id
-     * return order_items
+     * @param order_id
+     * @return order_items
      */
     public ArrayList<OrderItemBean> retrieveByOrder(int order_id) throws SQLException
     {

@@ -108,12 +108,17 @@ public class UserControl extends HttpServlet {
 			{
 				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
 				UserBean updatedUser = new UserBean();
+
 				updatedUser.setFirstName(request.getParameter("firstname"));
 				updatedUser.setSurname(request.getParameter("lastname"));
 				updatedUser.setPassword(user.getPassword());
 				updatedUser.setEmail(user.getEmail());
 				updatedUser.setUsername(user.getUsername());
+
 				userDAO.updateUser(updatedUser);
+
+				RequestDispatcher rd = request.getRequestDispatcher("Address");
+				rd.forward(request,response);
 			}
 			else if(operation.equals("deleteUser")) 
 			{
@@ -131,9 +136,6 @@ public class UserControl extends HttpServlet {
 		
 		if(operation.equals("registerUser"))
 			response.sendRedirect("user_log.jsp");
-		
-		if(operation.equals("updateUser"))
-			response.sendRedirect("user_area.jsp");
 		
 		if(operation.equals("deleteUser"))
 			response.sendRedirect("user_area.jsp");

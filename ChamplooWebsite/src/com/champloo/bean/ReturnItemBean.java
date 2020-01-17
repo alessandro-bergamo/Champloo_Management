@@ -1,11 +1,7 @@
 package com.champloo.bean;
 
-public class ReturnItemBean {
-	
-	
-	private int id_return_item, id_return, product_details, qnt_to_be_returned;
-	
-	
+public class ReturnItemBean
+{
 
 	public int getId_return_item() {
 		return id_return_item;
@@ -38,8 +34,8 @@ public class ReturnItemBean {
 	public void setQnt_to_be_returned(int qnt_to_be_returned) {
 		this.qnt_to_be_returned = qnt_to_be_returned;
 	}
-	
-	
-	
+
+
+	private int id_return_item, id_return, product_details, qnt_to_be_returned;
 
 }

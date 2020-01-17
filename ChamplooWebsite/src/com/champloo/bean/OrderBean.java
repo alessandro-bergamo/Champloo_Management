@@ -52,7 +52,6 @@ public class OrderBean
 
     public void setAddress(String address) { this.address = address; }
 
-
     public String getOrder_owner() { return order_owner; }
 
     public void setOrder_owner(String order_owner) { this.order_owner = order_owner; }
@@ -60,7 +59,6 @@ public class OrderBean
     public int getRegistred_User() { return Registred_User; }
 
     public void setRegistred_User(int registred_User) { Registred_User = registred_User; }
-
 
 
 

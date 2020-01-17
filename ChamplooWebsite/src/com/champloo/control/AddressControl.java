@@ -55,7 +55,7 @@ public class AddressControl extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (operation.equals("login"))
+        } else if (operation.equals("login") || (operation.equals("updateUser")))
         {
         	ArrayList<AddressBean> addresses = null;
 
@@ -77,6 +77,8 @@ public class AddressControl extends HttpServlet {
             response.sendRedirect("user_area.jsp");
         else if(operation.equals("login"))
         	response.sendRedirect("index.jsp");
+        else if(operation.equals("updateUser"))
+            response.sendRedirect("user_area.jsp");
         else
             response.sendRedirect("pagina bianca.html");
 

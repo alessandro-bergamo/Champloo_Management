@@ -8,22 +8,22 @@ import java.util.HashSet;
 public class PaymentMethodDAO implements PaymentMethodModel
 {
 
+	 public PaymentMethodDAO()
+     {
+         try {
+				//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
+				connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+     }
+
     /**
      * Insert a new Payment Method
      * @param newPMethod
      * @return method_added
      */
-	
-	 public PaymentMethodDAO() {
-		 try {
-				//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-				connectionPool = ConnectionPool.create("", "", "");
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-			
     public boolean insertPMethod(PaymentMethodBean newPMethod) throws SQLException
     {
         int method_added = 0;

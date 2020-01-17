@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+
+
 @WebServlet("/Order")
 public class OrderControl extends HttpServlet
 {
@@ -70,8 +72,7 @@ public class OrderControl extends HttpServlet
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-            else if(operation.equals("cancelOrder"))
+            } else if(operation.equals("cancelOrder"))
             {
                 int id_order = Integer.parseInt(request.getParameter("id_order"));
                 try {
@@ -79,8 +80,7 @@ public class OrderControl extends HttpServlet
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-            else if(operation.equals("modifyOrder"))
+            } else if(operation.equals("modifyOrder"))
             {
                 UserBean user = (UserBean) request.getSession().getAttribute("user");
 
@@ -114,8 +114,7 @@ public class OrderControl extends HttpServlet
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-            else if(operation.equals("showOrder"))
+            } else if(operation.equals("showOrder"))
             {
                 request.removeAttribute("order");
 
@@ -133,8 +132,7 @@ public class OrderControl extends HttpServlet
 
                 request.setAttribute("order", order);
                 request.setAttribute("items_in_order", items_in_order);
-            }
-            else if(operation.equals("showOrdersPerUser"))
+            } else if(operation.equals("showOrdersPerUser"))
             {
                 request.removeAttribute("orders");
 
@@ -158,8 +156,7 @@ public class OrderControl extends HttpServlet
 
                 request.setAttribute("orders", ordersByUser);
                 request.setAttribute("item_in_orders", item_in_order);
-            }
-            else if(operation.equals("showOrdersPerDate"))
+            } else if(operation.equals("showOrdersPerDate"))
             {
                 request.removeAttribute("orders");
 
@@ -175,8 +172,7 @@ public class OrderControl extends HttpServlet
                 }
 
                 request.setAttribute("orders", orders);
-            }
-            else if(operation.equals("showAllOrders"))
+            } else if(operation.equals("showAllOrders"))
             {
                 request.removeAttribute("orders");
 
@@ -189,8 +185,7 @@ public class OrderControl extends HttpServlet
                 }
 
                 request.setAttribute("orders", orders);
-            }
-            else if(operation.equals("showCanceledOrders"))
+            } else if(operation.equals("showCanceledOrders"))
             {
                 request.removeAttribute("orders");
 
