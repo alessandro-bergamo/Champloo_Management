@@ -51,10 +51,10 @@
                    %>
                     <!-- User loggato -->
                     <div class="user"><a href="area_admin.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="logout.jsp"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>                   
+                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <% } else { %>
                     <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="logout.jsp"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <% }} else { %>
                     <!-- User che si deve loggare -->
                     <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>

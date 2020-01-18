@@ -1,4 +1,12 @@
- <!DOCTYPE html>
+<%@page
+        language="java"
+        contentType="text/html; charset=ISO-8859-1"
+        pageEncoding="ISO-8859-1"
+        import="com.champloo.bean.*"
+        import="java.util.*"
+%>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Champloo Store</title>
@@ -24,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 </head>
-<body>
+<body onload="submittaForm()">
 
     <!-- Menu -->
 
@@ -61,6 +69,31 @@
 		<%@ include file="header.jsp" %>
 
         <!-- Stop Header -->
+
+        <%
+            System.out.println("LINE 74 JSP");
+            HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_vetrina;
+            if(((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus")) == null) || ((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus")).isEmpty()))
+            {
+        %>
+
+                <div style="display: none;">
+                    <form action="Product" id="hiddenform" method="POST">
+                        <input type="hidden" id="loadedvalue" name="loaded" value="0">
+                        <input type="hidden" name="status_product" value="4">
+                        <input type="hidden" name="operation" value="retrieveByStatus">
+                    </form>
+                </div>
+
+        <%
+            } else {
+        %>
+
+                <input type="hidden" id="loadedvalue" name="loaded" value="1">
+
+        <%
+            }
+        %>
 
             <!-- Home -->
 
@@ -212,25 +245,42 @@
                     <div class="row products_row">
                         
                         <!-- Product -->
+                        <%
+                            if(products_in_vetrina!=null)
+                            {
+                                Iterator iterator = products_in_vetrina.entrySet().iterator();
+                                while(iterator.hasNext())
+                                {
+                                    HashMap.Entry entry = (HashMap.Entry) iterator.next();
+                                    ProductBean product = (ProductBean) entry.getKey();
+                                    ArrayList<ProductDetailsBean> product_details = (ArrayList) entry.getValue();
+                                    for(int I=0;I<product_details.size();I++)
+                                    {
+                        %>
+
                         <div class="col-xl-4 col-md-6">
                             <div class="product">
-                                <div class="product_image"><img src="images/product_1.jpg" alt=""></div>
+                                <div class="product_image"><img src=<%=product_details.get(I).getImg_path_folder()%>img1.jpg" alt=""></div>
                                 <div class="product_content">
                                     <div class="product_info d-flex flex-row align-items-start justify-content-start">
                                         <div>
                                             <div>
-                                                <div class="product_name"><a href="product.html">Nome oggetto</a></div>
-                                                <div class="product_category">In <a href="category.html">Nome categoria</a></div>
+                                                <div class="product_name"><a href="product.html"><%=product.getName()%></a></div>
+                                                <div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
                                             </div>
                                         </div>
                                         <div class="ml-auto text-right">
-                                            <div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-                                            <div class="product_price text-right">32<span>.99 &euro;</span></div>
+                                            <div class="rating_r rating_r_4 home_item_rating">
+                                            <%  for(int J=0;J<product_details.get(I).getAverage_rating();J++)
+                                                { %>
+                                                <i></i>
+                                            <%  }%>
+                                            </div>
+                                            <div class="product_price text-right"><%=product_details.get(I).getPrice()%><span>.99 &euro;</span></div>
                                         </div>
                                     </div>
                                     <div class="product_buttons">
                                         <div class="text-center d-flex flex-row align-items-start justify-content-center">
- 
                                             <div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
                                                 <div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
                                             </div>
@@ -239,9 +289,12 @@
                                 </div>
                             </div>
                         </div>
+                        <%      }
+                            }
+                        }
+                        %>
                     </div>
-                    
-            </div>
+                </div>
 
             <!-- Boxes -->
 
@@ -349,7 +402,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -357,12 +409,22 @@
             <!-- Footer -->
 		
 			<%@ include file="footer.jsp" %>
-			
-		
+
         </div>
             
     </div>
-    
+
+
+    <script>
+        function submittaForm()
+        {
+            var val = parseInt($("#loadedvalue").val());
+            if(val == 0)
+            {
+                $("#hiddenform").submit();
+            }
+        }
+    </script>
     
     <script src="plugins/greensock/TweenMax.min.js"></script>
     <script src="plugins/greensock/TimelineMax.min.js"></script>

@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
@@ -28,6 +30,9 @@ public class ProductControl extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
+		System.out.println("operation: "+operation);
+		RequestDispatcher dispatcher;
+		HttpSession session = request.getSession(true);
 		
 		if(operation != null)
 		{
@@ -164,17 +169,26 @@ public class ProductControl extends HttpServlet{
 			}
 			else if(operation.equals("retrieveByStatus"))
 			{
-				String status_product = request.getParameter("status_product");
-				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
-				
-				try {
-					products = productDAO.retrieveByModel(status_product);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				synchronized(session)
+				{
+					String status_product = request.getParameter("status_product");
+					HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+					try
+					{
+						products = productDAO.retrieveByStatus(status_product);
+					} catch (SQLException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					session.setAttribute("productsByStatus", products);
+					session.setAttribute("redirectURL", "index.jsp");
+
+					dispatcher = request.getRequestDispatcher("Redirect");
+					dispatcher.forward(request, response);
 				}
-				
-				request.setAttribute("productsByStatus", products);
 			}
 			else if(operation.equals("retrieveAll"))
 			{
