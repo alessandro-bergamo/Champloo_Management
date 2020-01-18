@@ -69,7 +69,6 @@ public class AddressControl extends HttpServlet {
 	            }
 			}
             session.setAttribute("addresses", addresses);
-            
         }
 
 

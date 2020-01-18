@@ -28,6 +28,7 @@ public class UserControl extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String operation = request.getParameter("operation");
+		RequestDispatcher dispatcher;
 		
 		/*
 		 * Stringa che identifica la pagina dove reindirizzare l'utente a seconda dell'esito del login
@@ -50,8 +51,9 @@ public class UserControl extends HttpServlet {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
-						RequestDispatcher rd = request.getRequestDispatcher("Address");
-						rd.forward(request,response);
+
+						dispatcher = request.getRequestDispatcher("Address");
+						dispatcher.forward(request,response);
 					} else {
 						request.setAttribute("login", false);
 						redirectedPage = "user_log.jsp";
@@ -77,11 +79,18 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("getAllUsers"))
 			{
-				ArrayList<UserBean> allUsers = new ArrayList<>();
-				allUsers = userDAO.getAllUsers();
-				
-				request.setAttribute("allUsers", allUsers);
-				
+				HttpSession session = request.getSession(true);
+				synchronized(session)
+				{
+					ArrayList<UserBean> allUsers = new ArrayList<>();
+					allUsers = userDAO.getAllUsers();
+
+					session.setAttribute("allUsers", allUsers);
+					session.setAttribute("redirectURL", "area_admin.jsp");
+
+					dispatcher = request.getRequestDispatcher("Redirect");
+					dispatcher.forward(request, response);
+				}
 			}
 			else if(operation.equals("registerUser")) 
 			{
@@ -133,7 +142,6 @@ public class UserControl extends HttpServlet {
 		}
 		
 
-		
 		if(operation.equals("registerUser"))
 			response.sendRedirect("user_log.jsp");
 		
@@ -142,10 +150,11 @@ public class UserControl extends HttpServlet {
 		
 		if(operation.equals("blockUSer"))
 			response.sendRedirect("area_admin.jsp");
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		doGet(request, response);
 	}
 	
