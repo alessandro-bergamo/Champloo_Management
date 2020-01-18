@@ -51,7 +51,6 @@ public class UserControl extends HttpServlet {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
-
 						dispatcher = request.getRequestDispatcher("Address");
 						dispatcher.forward(request,response);
 					} else {
@@ -60,6 +59,14 @@ public class UserControl extends HttpServlet {
 					}
 				}
 				
+			}
+			
+			else if(operation.equals("logout")) {
+				HttpSession session = request.getSession(true);
+				synchronized(session) {
+					session.invalidate();
+					response.sendRedirect("index.jsp");
+				}
 			}
 			else if(operation.equals("getUserByEmail"))
 			{
