@@ -253,9 +253,10 @@
                                 {
                                     HashMap.Entry entry = (HashMap.Entry) iterator.next();
                                     ProductBean product = (ProductBean) entry.getKey();
-                                    ArrayList<ProductDetailsBean> product_details = (ArrayList) entry.getValue();
+                                    ArrayList<ProductDetailsBean> product_details = (ArrayList<ProductDetailsBean>) entry.getValue();
                                     for(int I=0;I<product_details.size();I++)
                                     {
+                                    	System.out.println("riga 259 index.jsp  -->: "+I);
                         %>
 
                         <div class="col-xl-4 col-md-6">

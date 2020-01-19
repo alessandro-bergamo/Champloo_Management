@@ -9,11 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.jdt.internal.compiler.lookup.ImplicitNullAnnotationVerifier;
+
 import javafx.util.Pair;
 
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 public class ProductDAO implements ProductModel 
 {
@@ -634,62 +637,71 @@ public class ProductDAO implements ProductModel
 		
 		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
 		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT * FROM product_details WHERE status_product = ?";
+		query = "SELECT * FROM products WHERE id_product IN (\r\n" + 
+				"		SELECT id_product FROM products INNER JOIN product_details ON id_product = Product AND status_product = ? );";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			
 			preparedStatement.setString(1, status_product);
 			
-			results = preparedStatement.executeQuery();
-			
-			while(results.next())
+			firstResults = preparedStatement.executeQuery();
+	
+			int i = 0;
+			while(firstResults.next())
 			{
+				i++;
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(results.getInt(1));
-				product.setName(results.getString(2));
-				product.setBrand(results.getString(3));
-				product.setModel(results.getString(4));
-				product.setType(results.getString(5));
-				product.setDescription(results.getString(6));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setDescription(firstResults.getString(6));
 				
-				query = "SELECT * FROM product_details WHERE Product = ?";
+				System.out.println("PRODUCTDAO RIGA 666 -----> NUMERO DI PRODOTTI NEL RESULT SET: "+i);
+				System.out.println("PRODUCTDAO RIGA 667 -----> nome prodotto: "+product.getName());
+				System.out.println("PRODUCTDAO RIGA 667 -----> id prodotto: "+product.getId_prod());
+				query = "SELECT * FROM product_details WHERE Product = ? AND status_product = ?";
 				
-				try {
 					preparedStatement = connection.prepareStatement(query);
 					
 					preparedStatement.setInt(1, product.getId_prod());
+					preparedStatement.setString(2, status_product);
 					
-					results = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();	
 					
-					while(results.next())
+					while(secondResults.next())
 					{
+						productsDetails.clear();
+						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
-						productDetails.setId_prod_details(results.getInt(1));
-						productDetails.setProduct(results.getInt(2));
-						productDetails.setColor(results.getString(3));
-						productDetails.setSize(results.getString(4));
-						productDetails.setPrice(results.getFloat(5));
-						productDetails.setDiscount_percent(results.getInt(6));
-						productDetails.setDiscounted_price(results.getFloat(7));
-						productDetails.setQnt_stock(results.getInt(8));
-						productDetails.setStatus(results.getInt(9));
-						productDetails.setAverage_rating(results.getFloat(10));
-						productDetails.setNumber_feedback_users(results.getInt(11));
-						productDetails.setImg_path_folder(results.getString(12));
+						productDetails.setId_prod_details(secondResults.getInt(1));
+						productDetails.setProduct(secondResults.getInt(2));
+						productDetails.setColor(secondResults.getString(3));
+						productDetails.setSize(secondResults.getString(4));
+						productDetails.setPrice(secondResults.getFloat(5));
+						productDetails.setDiscount_percent(secondResults.getInt(6));
+						productDetails.setDiscounted_price(secondResults.getFloat(7));
+						productDetails.setQnt_stock(secondResults.getInt(8));
+						productDetails.setStatus(secondResults.getInt(9));
+						productDetails.setAverage_rating(secondResults.getFloat(10));
+						productDetails.setNumber_feedback_users(secondResults.getInt(11));
+						productDetails.setImg_path_folder(secondResults.getString(12));
 					
 						productsDetails.add(productDetails);			
 					}
-								
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				products.put(product, productsDetails);	
+					System.out.println("PRODUCTDAO RIGA 696 -----> NUMERO DI product_details: "+productsDetails.size());
+					System.out.println("PRODUCTDAO RIGA 696 -----> id_product_details: "+productsDetails.get(0).getId_prod_details());
+					System.out.println("PRODUCTDAO RIGA 696 -----> id_product_details: "+productsDetails.get(0).getPrice());
+					
+					products.put(product, productsDetails);
+
 			}		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -717,24 +729,23 @@ public class ProductDAO implements ProductModel
 		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
 		connection = connectionPool.getConnection();
 		
-		
 		query = "SELECT * FROM products";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
 		
-			results = preparedStatement.executeQuery();
+			firstResults = preparedStatement.executeQuery();
 			
-			while(results.next())
+			while(firstResults.next())
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(results.getInt(1));
-				product.setName(results.getString(2));
-				product.setBrand(results.getString(3));
-				product.setModel(results.getString(4));
-				product.setType(results.getString(5));
-				product.setDescription(results.getString(6));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setDescription(firstResults.getString(6));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -743,7 +754,7 @@ public class ProductDAO implements ProductModel
 					
 					preparedStatement.setInt(1, product.getId_prod());
 					
-					results = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();	
 					
 					while(results.next())
 					{
@@ -884,6 +895,6 @@ public class ProductDAO implements ProductModel
     String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
-    ResultSet results;
+    ResultSet firstResults, secondResults, results;
 	
 }
