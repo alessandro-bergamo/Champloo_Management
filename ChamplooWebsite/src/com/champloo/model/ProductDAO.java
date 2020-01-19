@@ -5,13 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javafx.util.Pair;
+
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
-
-import javafx.util.Pair;
 
 public class ProductDAO implements ProductModel 
 {
@@ -107,7 +109,7 @@ public class ProductDAO implements ProductModel
 		}
 	else 
 	{
-	//IL PRODOTTO GIà ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
+	//IL PRODOTTO GIï¿½ ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
 		product_auto_key = results.getInt(1);
 		
 		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";

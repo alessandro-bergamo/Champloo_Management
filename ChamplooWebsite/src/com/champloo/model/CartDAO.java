@@ -15,7 +15,6 @@ import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.bean.UserBean;
 import com.champloo.storage.ConnectionPool;
-import com.sun.org.apache.regexp.internal.REUtil;
 
 public class CartDAO implements CartModel
 {
@@ -36,7 +35,7 @@ public class CartDAO implements CartModel
 		connection = connectionPool.getConnection();
 		
 		try {
-			//controlla se nel carrello è già presente il prodotto
+			//controlla se nel carrello ï¿½ giï¿½ presente il prodotto
 			query = "SELECT * FORM cart_item WHERE Cart='"+cart.getId_cart()+"' AND Product_Details='"+id_product_details+"'";
 			statement = connection.createStatement();
 			results = statement.executeQuery(query);
@@ -56,7 +55,7 @@ public class CartDAO implements CartModel
 			}
 			else 
 			{
-				// IL PRODOTTO è GIà PRESENTE NEL CARRELLO, AGGIUNGE +1 ALLA QUANTITà
+				// IL PRODOTTO ï¿½ GIï¿½ PRESENTE NEL CARRELLO, AGGIUNGE +1 ALLA QUANTITï¿½
 				int qnt_in_cart = results.getInt("qnt_in_cart");
 				query = "UPDATE cart_item SET qnt_in_cart = '"+qnt_in_cart+++"' WHERE Product_Details='"+id_product_details+"'";
 				
