@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.champloo.bean.UserBean;
+import com.champloo.mail.Mailer;
 import com.champloo.model.UserDAO;
 
 /**
@@ -94,7 +95,16 @@ public class UserControl extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 			}
-			else if(operation.equals("registerUser")) 
+			
+			else if(operation.equals("registerUser")) {
+				String username = request.getParameter("username");
+				String email = request.getParameter("email");
+				String firstName = request.getParameter("firstname");
+				String lastName = request.getParameter("lastname");
+				String password = request.getParameter("password");
+				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: http://localhost:8080/ChamplooWebsite/registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
+			}
+			else if(operation.equals("validateUser")) 
 			{
 				UserBean user = new UserBean();
 				String username = request.getParameter("username");
@@ -102,6 +112,7 @@ public class UserControl extends HttpServlet {
 				String firstName = request.getParameter("firstname");
 				String lastName = request.getParameter("lastname");
 				String password = request.getParameter("password");
+				
 				
 				user.setUsername(username);
 				user.setEmail(email);
@@ -113,6 +124,7 @@ public class UserControl extends HttpServlet {
 				//SET DEL TIPO DELLO USER DISCUTERNE
 				
 				userDAO.registerUser(user);
+				response.sendRedirect("user_log.jsp");
 			}
 			else if(operation.equals("updateUser")) 
 			{
