@@ -21,45 +21,48 @@ import com.champloo.model.UserDAO;
 @WebServlet("/UserControl")
 public class UserControl extends HttpServlet {
        
-    public UserControl() {
-        super();
-       
-    }
+    public UserControl() { super();	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		String operation = request.getParameter("operation");
 		RequestDispatcher dispatcher;
+		HttpSession session = request.getSession(true);
 		
 		/*
 		 * Stringa che identifica la pagina dove reindirizzare l'utente a seconda dell'esito del login
 		 * */
 		String redirectedPage = new String();
 		
-		if(operation != null) {
-			
+		if(operation != null)
+		{
 			if(operation.equals("login")) 
 			{
 				request.removeAttribute("login");
 				
 				String user_email = request.getParameter("email");
 				String user_password = request.getParameter("password");
-			
-				HttpSession session = request.getSession(true);
+
 				synchronized(session) {
-					
 					if(userDAO.login(user_email, user_password)) {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
-
 						dispatcher = request.getRequestDispatcher("Address");
 						dispatcher.forward(request,response);
 					} else {
 						request.setAttribute("login", false);
-						redirectedPage = "user_log.jsp";
+						response.sendRedirect("user_log.jsp");
 					}
 				}
-				
+			}
+			else if(operation.equals("logout"))
+			{
+				synchronized(session)
+				{
+					session.invalidate();
+					response.sendRedirect("index.jsp");
+				}
 			}
 			else if(operation.equals("getUserByEmail"))
 			{
@@ -79,7 +82,6 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("getAllUsers"))
 			{
-				HttpSession session = request.getSession(true);
 				synchronized(session)
 				{
 					ArrayList<UserBean> allUsers = new ArrayList<>();
@@ -111,7 +113,6 @@ public class UserControl extends HttpServlet {
 				//SET DEL TIPO DELLO USER DISCUTERNE
 				
 				userDAO.registerUser(user);
-				
 			}
 			else if(operation.equals("updateUser")) 
 			{

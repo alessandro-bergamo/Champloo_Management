@@ -634,7 +634,7 @@ public class ProductDAO implements ProductModel
 		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT * FROM products WHERE status_product = ?";
+		query = "SELECT * FROM product_details WHERE status_product = ?";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
