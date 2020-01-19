@@ -211,8 +211,8 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public float retrieveTotal(CartBean cart) throws SQLException {
-		
+	public float retrieveTotal(CartBean cart) throws SQLException 
+	{	
 		float total = 0;
 		
 		connection = connectionPool.getConnection();
@@ -246,7 +246,7 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public boolean deleteProduct(ProductDetailsBean productDetails) throws SQLException {
+	public boolean deleteProduct(CartBean cart, int id_product_details) throws SQLException {
 		
 		int isDeleted = 0;
 		
@@ -254,7 +254,7 @@ public class CartDAO implements CartModel
 		
 		try {
 			
-			query = "DELETE FROM cart_item WHERE id_product_details='"+productDetails.getId_prod_details()+"'";
+			query = "DELETE FROM cart_item WHERE id_product_details='"+id_product_details+"' AND Cart='"+cart.getId_cart()+"'";
 			statement = connection.createStatement();
 			isDeleted = statement.executeUpdate(query);
 			
@@ -367,7 +367,34 @@ public class CartDAO implements CartModel
 	@Override
 	public CartItemBean retrieveCartItem(int id_cart_item) throws SQLException {
 		
-		CartItemBean cartItem  = null;
+		CartItemBean cartItem = new CartItemBean();
+		
+		connection = connectionPool.getConnection();
+		
+		try {
+			query = "SELECT * FROM cart_item WHERE id_cart_item='"+id_cart_item+"'";
+			statement = connection.createStatement();
+			
+			results = statement.executeQuery(query);
+			
+			if(results.first())
+			{
+				cartItem.setId_cart_item(results.getInt(1));
+				cartItem.setCart(results.getInt(2));
+				cartItem.setProduct_details(results.getInt(3));
+				cartItem.setQnt_in_cart(results.getInt(4));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+                if (statement != null)
+                    statement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
 		
 		return cartItem;
 	}
