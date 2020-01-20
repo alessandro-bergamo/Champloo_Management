@@ -23,7 +23,7 @@ function submittaForm() {
 	var inputUsername = document.getElementById("username");
 	var inputEmail = document.getElementById("email");
 	var inputName = document.getElementById("firstname");
-	var inputLastname = document.getElementByid("lastname");
+	var inputLastname = document.getElementById("lastname");
 	var inputPassword = document.getElementById("password");
 	
 	inputUsername.setAttribute('value', username);
@@ -31,12 +31,9 @@ function submittaForm() {
 	inputName.setAttribute('value', firstname);
 	inputLastname.setAttribute('value', lastname);
 	inputPassword.setAttribute('value', password);
-	
-	var val = parseInt($("#loadedvalue").val());
-    if(val == 0)
-    {
-        $("#hiddenform").submit();
-    }
+
+    document.getElementById("hiddenform").submit();
+
 }
 </script>
 <form action="UserControl" method="post" id="hiddenform">

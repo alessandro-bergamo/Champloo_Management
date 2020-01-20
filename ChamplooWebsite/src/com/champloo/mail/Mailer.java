@@ -98,7 +98,7 @@ public class Mailer{
 		props.put("mail.smtp.auth", "true");    
 		props.put("mail.smtp.port", "25");    
 		//get Session   
-		Session session = Session.getDefaultInstance(props,    
+		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {    
 			protected PasswordAuthentication getPasswordAuthentication() {    
 				return new PasswordAuthentication(from,password);  

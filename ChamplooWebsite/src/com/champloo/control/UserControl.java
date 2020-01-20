@@ -102,7 +102,7 @@ public class UserControl extends HttpServlet {
 				String firstName = request.getParameter("firstname");
 				String lastName = request.getParameter("lastname");
 				String password = request.getParameter("password");
-				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: http://localhost:8080/ChamplooWebsite/registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
+				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: http://localhost:8080/ChamplooWebsite_war_exploded/registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
 			}
 			else if(operation.equals("validateUser")) 
 			{
