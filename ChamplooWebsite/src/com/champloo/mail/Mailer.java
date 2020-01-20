@@ -2,16 +2,16 @@ package com.champloo.mail;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;    
-
+import java.util.Properties;
 import javax.mail.*;    
 import javax.mail.internet.*;
+import javax.mail.MessagingException;
 
 /**
  * 
  * Questa classe gestisce tutto l'invio di e-mail del nostro sistema
  * 
- * @author Antonio Baldi
+ * @author Antonio Mancuso
  *
  */
 
