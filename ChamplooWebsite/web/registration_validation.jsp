@@ -40,6 +40,7 @@ function submittaForm() {
 <input name="operation" value="validateUser" type="hidden" >
 <input name="username" type="hidden" id="username">
 <input name="email" type="hidden" id="email">
+    <br>
 <input name="firstname" type="hidden" id="firstname">
 <input name="lastname" type="hidden" id="lastname">
 <input name="password" type="hidden" id="password">

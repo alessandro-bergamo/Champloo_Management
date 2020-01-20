@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.champloo.bean.UserBean;
 import com.champloo.mail.Mailer;
 import com.champloo.model.UserDAO;
-
+//m
 /**
  * Servlet implementation class UserControl
  */
