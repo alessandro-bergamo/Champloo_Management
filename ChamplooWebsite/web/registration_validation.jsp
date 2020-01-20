@@ -41,6 +41,7 @@ function submittaForm() {
 <input name="username" type="hidden" id="username">
 <input name="email" type="hidden" id="email">
     <br>
+    <br>
 <input name="firstname" type="hidden" id="firstname">
 <input name="lastname" type="hidden" id="lastname">
 <input name="password" type="hidden" id="password">

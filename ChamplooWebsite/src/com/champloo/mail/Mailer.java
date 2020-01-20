@@ -15,7 +15,7 @@ import javax.mail.MessagingException;
  *
  */
 
-//m
+//ma
 public class Mailer{  
 	private static String from = "noreply.champloo@gmail.com";
 	private static String password = "Yeezus98";
