@@ -272,10 +272,7 @@
                                         </div>
                                         <div class="ml-auto text-right">
                                             <div class="rating_r rating_r_4 home_item_rating">
-                                            <%  for(int J=0;J<product_details.get(I).getAverage_rating();J++)
-                                                { %>
-                                                <i></i>
-                                            <%  }%>
+                                           
                                             </div>
                                             <div class="product_price text-right"><%=product_details.get(I).getPrice()%><span>.99 &euro;</span></div>
                                         </div>

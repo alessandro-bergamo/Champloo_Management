@@ -183,7 +183,6 @@ public class ProductControl extends HttpServlet{
 						e.printStackTrace();
 					}
 
-					System.out.println("RIGA 186 -----> NUMERO DI COPPIE K-V IN QUESTA MAPPA): "+products.size());
 					session.setAttribute("productsByStatus", products);
 					session.setAttribute("redirectURL", "index.jsp");
 
