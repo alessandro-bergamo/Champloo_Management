@@ -30,3 +30,7 @@ hs_err_pid*
 node_modules
 
 .classpath
+
+.settings
+
+.META-INF
