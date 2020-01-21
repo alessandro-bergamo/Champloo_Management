@@ -1,3 +1,12 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1"
+		import="com.champloo.bean.*"
+		import="java.util.*"
+		import="java.text.DecimalFormat"
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,12 +69,25 @@
     	<!-- Header -->
 		<%@ include file="header.jsp" %>
 
+		<% 	HashMap<ProductBean, ArrayList<ProductDetailsBean>> productMap = (HashMap) request.getSession().getAttribute("product");
+			ProductBean product = null;
+			ArrayList<ProductDetailsBean> product_details = null;
+			HashMap.Entry<ProductBean, ArrayList<ProductDetailsBean>> entry;
+			if(productMap != null)
+			{
+				entry = productMap.entrySet().iterator().next();
+				product = entry.getKey();
+				product_details = entry.getValue();
+			}
+			if(product != null && product_details != null)
+			{
+		%>
+
 		<!-- Home -->
 
 		<div class="home">
 			<div class="home_container d-flex flex-column align-items-center justify-content-end">
 				<div class="home_content text-center">
-					<div class="home_title">Nome prodotto</div>
 				</div>
 			</div>
 		</div>
@@ -82,28 +104,16 @@
 							<div id="slider" class="flexslider">
 								<ul class="slides">
 									<li>
-										<img src="images/product_image_1.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img1.jpg" />
 									</li>
 									<li>
-										<img src="images/product_image_1.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img2.jpg" />
 									</li>
 									<li>
-										<img src="images/product_image_1.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img3.jpg" />
 									</li>
 									<li>
-										<img src="images/product_image_1.jpg" />
-									</li>
-									<li>
-										<img src="images/product_image_1.jpg" />
-									</li>
-									<li>
-										<img src="images/product_image_1.jpg" />
-									</li>
-									<li>
-										<img src="images/product_image_1.jpg" />
-									</li>
-									<li>
-										<img src="images/product_image_1.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img4.jpg" />
 									</li>
 								</ul>
 							</div>
@@ -111,28 +121,24 @@
 								<div id="carousel" class="flexslider">
 									<ul class="slides">
 										<li>
-											<div><img src="images/product_1.jpg" /></div>
+											<div>
+												<img src=<%=product_details.get(0).getImg_path_folder()%>img1.jpg" />
+											</div>
 										</li>
 										<li>
-											<div><img src="images/product_2.jpg" /></div>
+											<div>
+												<img src=<%=product_details.get(0).getImg_path_folder()%>img2.jpg" />
+											</div>
 										</li>
 										<li>
-											<div><img src="images/product_3.jpg" /></div>
+											<div>
+												<img src=<%=product_details.get(0).getImg_path_folder()%>img3.jpg" />
+											</div>
 										</li>
 										<li>
-											<div><img src="images/product_4.jpg" /></div>
-										</li>
-										<li>
-											<div><img src="images/product_5.jpg" /></div>
-										</li>
-										<li>
-											<div><img src="images/product_6.jpg" /></div>
-										</li>
-										<li>
-											<div><img src="images/product_7.jpg" /></div>
-										</li>
-										<li>
-											<div><img src="images/product_8.jpg" /></div>
+											<div>
+												<img src=<%=product_details.get(0).getImg_path_folder()%>img4.jpg" />
+											</div>
 										</li>
 									</ul>
 								</div>
@@ -145,8 +151,8 @@
 					<!-- Product Info -->
 					<div class="col-lg-6 product_col">
 						<div class="product_info">
-							<div class="product_name">Nome oggetto</div>
-							<div class="product_category">In <a href="category.html">Nome categoria</a></div>
+							<div class="product_name"><%=product.getName()%></div>
+							<div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
 									<input type="radio" id="star5" name="rate" value="5" />
@@ -160,41 +166,120 @@
 									<input type="radio" id="star1" name="rate" value="1" />
 									<label for="star1" title="1 Stella">1 star</label>
 								</div>
-								<div class="product_reviews">4.7 su (3514)</div>
-								<div class="product_reviews_link"><a href="#">Recensioni</a></div>
+								<% 	float average_rating = product_details.get(0).getAverage_rating();
+									int reviewers = product_details.get(0).getNumber_feedback_users();
+									float effective_rating = average_rating/reviewers;
+									String format = new DecimalFormat("##.##").format(effective_rating); %>
+								<div class="product_reviews"><%=format%> su (<%=reviewers%>)</div>
+								<div class="product_reviews_link">Recensioni</div>
 							</div>
-							<div class="product_price">$3<span>.99</span></div>
+							<div class="product_price"><%=String.valueOf(product_details.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%></span></div>
 							<div class="product_size">
 								<div class="product_size_title">Seleziona taglia</div>
 								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<%	boolean tagliaS=false, tagliaM=false, tagliaL=false, tagliaXL=false, tagliaXXL=false;
+										System.out.println("SIZE "+product_details.size());
+										for(int I=0;I<product_details.size();I++)
+										{
+											System.out.println("SIZE DI "+I+" E': "+product_details.get(I).getSize());%>
 									<li>
+										<%
+											if(product_details.get(I).getSize().equals("S") || tagliaS) {
+										%>
+										<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
+										<label for="radio_1">S</label>
+										<%
+											tagliaS = true;
+											if(I!=product_details.size()-1)
+												continue;
+											} else {
+										%>
 										<input type="radio" id="radio_1" disabled name="product_radio" class="regular_radio radio_1">
-										<label for="radio_1">XS</label>
+										<label for="radio_1">S</label>
+										<%
+											}
+										%>
 									</li>
 									<li>
-										<input type="radio" id="radio_2" name="product_radio" class="regular_radio radio_2" checked>
-										<label for="radio_2">S</label>
+										<%
+											if(product_details.get(I).getSize().equals("M") || tagliaM) {
+										%>
+										<input type="radio" id="radio_2" name="product_radio" class="regular_radio radio_2">
+										<label for="radio_2">M</label>
+										<%
+											tagliaM = true;
+											if(I!=product_details.size()-1)
+												continue;
+											} else {
+										%>
+										<input type="radio" id="radio_2" disabled name="product_radio" class="regular_radio radio_2">
+										<label for="radio_2">M</label>
+										<%
+											}
+										%>
 									</li>
 									<li>
+										<%
+											if(product_details.get(I).getSize().equals("L")) {
+										%>
 										<input type="radio" id="radio_3" name="product_radio" class="regular_radio radio_3">
-										<label for="radio_3">M</label>
+										<label for="radio_3">L</label>
+										<%
+											tagliaL = true;
+											System.out.println("MARCATO A "+product_details.get(I).getSize());
+											if(I!=product_details.size()-1)
+												continue;
+											} else if(tagliaL == false){
+										%>
+										<input type="radio" id="radio_3" disabled name="product_radio" class="regular_radio radio_3">
+										<label for="radio_3">L</label>
+										<%
+											}
+										%>
 									</li>
 									<li>
+										<%
+											if(product_details.get(I).getSize().equals("XL") || tagliaXL) {
+										%>
 										<input type="radio" id="radio_4" name="product_radio" class="regular_radio radio_4">
-										<label for="radio_4">L</label>
+										<label for="radio_4">XL</label>
+										<%
+											tagliaXL = true;
+											if(I!=product_details.size()-1)
+												continue;
+											} else {
+										%>
+										<input type="radio" id="radio_4" disabled name="product_radio" class="regular_radio radio_4">
+										<label for="radio_4">XL</label>
+										<%
+											}
+										%>
 									</li>
 									<li>
+										<%
+											if(product_details.get(I).getSize().equals("XXL") && !tagliaXXL) {
+										%>
 										<input type="radio" id="radio_5" name="product_radio" class="regular_radio radio_5">
-										<label for="radio_5">XL</label>
+										<label for="radio_5">XXL</label>
+										<%
+											tagliaXXL = true;
+											if(I!=product_details.size()-1)
+												continue;
+											} else {
+										%>
+										<input type="radio" id="radio_5" disabled name="product_radio" class="regular_radio radio_5">
+										<label for="radio_5">XXL</label>
+										<%
+											}
+										%>
 									</li>
-									<li>
-										<input type="radio" id="radio_6" disabled name="product_radio" class="regular_radio radio_6">
-										<label for="radio_6">XXL</label>
-									</li>
+									<%
+										}
+									%>
 								</ul>
 							</div>
 							<div class="product_text">
-								<p>Descrizione prodotto</p>
+								<p><%=product.getDescription()%></p>
 							</div>
 							<div class="product_buttons">
 								<div class="text-right d-flex flex-row align-items-start justify-content-start">
@@ -208,7 +293,7 @@
 				</div>
 			</div>
 		</div>
-
+		<%	} %>
 		<!-- Boxes -->
 
 		<div class="boxes">
@@ -239,11 +324,10 @@
 
         <!-- Footer -->
 
-                			<%@ include file="footer.jsp" %>
+		<%@ include file="footer.jsp" %>
 
-              </div>
-                  
-          </div>
+	</div>
+</div>
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>

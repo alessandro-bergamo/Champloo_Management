@@ -1371,6 +1371,7 @@ input[type="date"], focus {
 }
 .product_info
 {
+	height: 110px;
 	padding-left: 25px;
 	padding-right: 25px;
 	padding-top: 18px;
