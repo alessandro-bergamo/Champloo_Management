@@ -1,11 +1,8 @@
 package com.champloo.control;
 
-import java.io.IOException;
-
-import java.sql.SQLException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.champloo.bean.ProductBean;
+import com.champloo.bean.ProductDetailsBean;
+import com.champloo.model.ProductDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,10 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.champloo.bean.ProductBean;
-import com.champloo.bean.ProductDetailsBean;
-import com.champloo.model.ProductDAO;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet("/Product")
 public class ProductControl extends HttpServlet{
@@ -30,7 +27,6 @@ public class ProductControl extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
-		System.out.println("operation: "+operation);
 		RequestDispatcher dispatcher;
 		HttpSession session = request.getSession(true);
 		
@@ -83,19 +79,27 @@ public class ProductControl extends HttpServlet{
 					e.printStackTrace();
 				}
 			}
-			else if(operation.equals("retrieveById"))
+			else if(operation.equals("showProduct"))
 			{
 				int idProduct = Integer.parseInt(request.getParameter("id_product"));
-				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> product = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
 				
 				try {
-					products = productDAO.retrieveById(idProduct);
+					product = productDAO.retrieveById(idProduct);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				request.setAttribute("productsByModel", products);
+
+				HashMap.Entry<ProductBean, ArrayList<ProductDetailsBean>> entry;
+				entry = product.entrySet().iterator().next();
+				ProductBean productbean = entry.getKey();
+				ArrayList<ProductDetailsBean> productDetailsBean = entry.getValue();
+				for(int I=0;I<productDetailsBean.size();I++)
+				{
+					System.out.println("INDICE: "+I+" DETTAGLIO: "+productDetailsBean.get(I).getSize());
+				}
+				session.setAttribute("product", product);
 			}
 			else if(operation.equals("retrieveByModel"))
 			{
@@ -262,7 +266,9 @@ public class ProductControl extends HttpServlet{
 				}
 			}
 		}
-		
+
+		if(operation.equals("showProduct"))
+			response.sendRedirect("product.jsp");
 		if(operation.equals("addProduct"))
 			response.sendRedirect("area_admin.jsp");
 		if(operation.equals("deleteProduct"))

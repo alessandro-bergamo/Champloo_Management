@@ -71,7 +71,6 @@
         <!-- Stop Header -->
 
         <%
-            System.out.println("LINE 74 JSP");
             HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_vetrina;
             if(((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus")) == null) || ((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus")).isEmpty()))
             {
@@ -256,7 +255,6 @@
                                     ArrayList<ProductDetailsBean> product_details = (ArrayList<ProductDetailsBean>) entry.getValue();
                                     for(int I=0;I<product_details.size();I++)
                                     {
-                                    	System.out.println("riga 259 index.jsp  -->: "+I);
                         %>
 
                         <div class="col-xl-4 col-md-6">
@@ -266,15 +264,27 @@
                                     <div class="product_info d-flex flex-row align-items-start justify-content-start">
                                         <div>
                                             <div>
-                                                <div class="product_name"><a href="product.html"><%=product.getName()%></a></div>
+                                                <div class="product_name"><a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>"><%=product.getName()%></a></div>
                                                 <div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
                                             </div>
                                         </div>
                                         <div class="ml-auto text-right">
+                                            <% if(product_details.get(I).getAverage_rating() == 0) { %>
+                                            <div class="rating_r rating_r_0 home_item_rating">
+                                            <% } else if(product_details.get(I).getAverage_rating() <= 10 && product_details.get(I).getAverage_rating() != 0) { %>
+                                            <div class="rating_r rating_r_1 home_item_rating">
+                                            <% } else if(product_details.get(I).getAverage_rating() > 10 && product_details.get(I).getAverage_rating() <= 25) { %>
+                                            <div class="rating_r rating_r_2 home_item_rating">
+                                            <% } else if(product_details.get(I).getAverage_rating() > 25 && product_details.get(I).getAverage_rating() <= 50) { %>
+                                            <div class="rating_r rating_r_3 home_item_rating">
+                                            <% } else if(product_details.get(I).getAverage_rating() > 50 && product_details.get(I).getAverage_rating() <= 100) { %>
                                             <div class="rating_r rating_r_4 home_item_rating">
-                                           
+                                            <% } else if(product_details.get(I).getAverage_rating() > 100) { %>
+                                            <div class="rating_r rating_r_5 home_item_rating">
+                                            <% } %>
+                                                <i></i><i></i><i></i><i></i><i></i>
                                             </div>
-                                            <div class="product_price text-right"><%=product_details.get(I).getPrice()%><span>.99 &euro;</span></div>
+                                            <div class="product_price text-right"><%=String.valueOf(product_details.get(I).getPrice()).substring(0, String.valueOf(product_details.get(I).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(I).getPrice()).substring(String.valueOf(product_details.get(I).getPrice()).indexOf("."))%> &euro;</span></div>
                                         </div>
                                     </div>
                                     <div class="product_buttons">

@@ -1,19 +1,13 @@
 package com.champloo.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javafx.util.Pair;
-
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
+import javafx.util.Pair;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProductDAO implements ProductModel 
 {
@@ -174,7 +168,7 @@ public class ProductDAO implements ProductModel
 		
 		connection = connectionPool.getConnection();
 		statement = connection.createStatement();
-		
+
 		query = "SELECT * FROM products WHERE id_product = '"+id_product+"'";
 		
 		firstResults = statement.executeQuery(query);
@@ -191,7 +185,7 @@ public class ProductDAO implements ProductModel
 			productBean.setDescription(firstResults.getString(6));
 		}
 		
-		query = "SELECT * FROM product_details WHERE product = '"+id_product+"''";
+		query = "SELECT * FROM product_details WHERE product = '"+id_product+"'";
 		
 		secondResults = statement.executeQuery(query);
 		
@@ -686,13 +680,13 @@ public class ProductDAO implements ProductModel
 					preparedStatement.setInt(1, product.getId_prod());
 					preparedStatement.setString(2, status_product);
 					
-					secondResults = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();
+
+					productsDetails = new ArrayList<ProductDetailsBean>();
 					
 					while(secondResults.next())
 					{
-						// cleaning arryalist...
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
+
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -710,7 +704,7 @@ public class ProductDAO implements ProductModel
 					
 						productsDetails.add(productDetails);			
 					}
-					
+
 					products.put(product, productsDetails);
 			}		
 		} catch (Exception e) {
