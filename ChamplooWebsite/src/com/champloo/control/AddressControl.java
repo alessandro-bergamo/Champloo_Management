@@ -30,6 +30,8 @@ public class AddressControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
+    	HttpSession session = request.getSession(true);
+
 
         if (operation.equals("insert"))
         {
@@ -55,14 +57,13 @@ public class AddressControl extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (operation.equals("login") || (operation.equals("updateUser")))
+        } else if (operation.equals("login"))
         {
         	ArrayList<AddressBean> addresses = null;
 
-        	HttpSession session = request.getSession(true);
-			synchronized(session) {
+        	synchronized(session) {
 	            try {
-	            	UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");	
+	            	UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
 	                addresses = model_address.retrieveByUserID(user.getID());
 	            } catch (SQLException e) {
 	                e.printStackTrace();

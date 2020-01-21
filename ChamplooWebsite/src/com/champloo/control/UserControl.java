@@ -67,7 +67,7 @@ public class UserControl extends HttpServlet {
 					String nuovaPsw = passwordGenerator.generate(10);
 					String newPassword = nuovaPsw;
 					userBean.setPassword(newPassword);
-					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password è " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
+					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password ï¿½ " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
 				}
 			}
 
@@ -148,6 +148,7 @@ public class UserControl extends HttpServlet {
 			else if(operation.equals("updateUser")) 
 			{
 				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+				session.removeAttribute("utenteLoggato");
 				UserBean updatedUser = new UserBean();
 
 				updatedUser.setFirstName(request.getParameter("firstname"));
@@ -157,9 +158,7 @@ public class UserControl extends HttpServlet {
 				updatedUser.setUsername(user.getUsername());
 
 				userDAO.updateUser(updatedUser);
-
-				RequestDispatcher rd = request.getRequestDispatcher("Address");
-				rd.forward(request,response);
+				session.setAttribute("utenteLoggato", updatedUser);
 			}
 			else if(operation.equals("deleteUser")) 
 			{
@@ -182,6 +181,9 @@ public class UserControl extends HttpServlet {
 		
 		if(operation.equals("blockUSer"))
 			response.sendRedirect("area_admin.jsp");
+		
+		if(operation.equals("updateUser"))
+			response.sendRedirect("user_area.jsp");
 
 	}
 

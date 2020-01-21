@@ -182,23 +182,14 @@ public class UserDAO implements UserModel {
 	public boolean updateUser(UserBean user) {
 		try {
 			connection = connectionPool.getConnection();
+			
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + user.getUsername() + "'");
-			resultSetUser.first();
-			if(resultSetUser.getRow() == 0) {
-				return false;
-			}
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = '"+user.getUsername()+"'");
 			
-			Statement checkEmail = connection.createStatement();
-			ResultSet resultSetForEmail = checkEmail.executeQuery("select * from registred_users where email =" + "'" + user.getEmail() + "'");
-			resultSetForEmail.first();
-			
-			if(resultSetForEmail.getRow() == 0) {
-				Statement updateStatement = connection.createStatement();
+			if(resultSetUser.first()) 
+			{
 				statement.executeUpdate(this.updateUserFields("firstname", user.getUsername(), user.getFirstName()));
 				statement.executeUpdate(this.updateUserFields("surname", user.getUsername(), user.getSurname()));
-				statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
-				statement.executeUpdate(this.updateUserFields("email", user.getUsername(), user.getEmail()));
 			} else
 				return false;
 			//statement.executeUpdate(this.updateUserFields("password_user", user.getUsername(), user.getPassword()));
