@@ -2063,6 +2063,12 @@ p#login-form-remember {
 	margin-bottom: 229px;
 }
 
+#regimargin2
+{
+	margin-top: 200px;
+	margin-bottom: 229px;
+}
+
 .button2 input[type="submit"] {
     margin-top: 50px;
     margin-right: 150px;
@@ -2496,28 +2502,6 @@ p#login-form-remember {
 	font-weight: bold;
 	width: 300px;
 }
-
-.form-button {
-    margin-top: 50px;
-    margin-right: 150px;
-    display: inline-block;
-    border: 2px solid black;
-    font-size: 18px;
-    font-weight: 700;
-    width: 156px;
-    padding: 8px 30px;
-    border-radius: 0;
-    color: black;
-    text-align: center;
-    background: #2fce98;
-    position: relative;
-}
-
-.form-button:hover {
-	background:#2fce98;
-	color:black;
-}
-
 .form-input {
 	padding: 5px 20px;
 	border: 2px solid black;
@@ -2572,6 +2556,12 @@ p#login-form-remember {
 
 	#regimargin {
 		margin-top: 15px;
+		margin-bottom: 100px;
+	}
+
+	#regimargin2
+	{
+		margin-top:200px;
 		margin-bottom: 100px;
 	}
 

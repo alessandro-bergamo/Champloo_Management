@@ -19,7 +19,7 @@
     <link href="images/icona.png" rel="shortcut icon"/>
 
     <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -27,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+
+    <!-- CDN SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
     <!-- STILI CSS -->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
@@ -85,13 +88,10 @@
 	<!-- MAIN SECTION Modifica Password -->
 
 	<div class="main">
-		<div class="shop_top" id="regimargin">
+		<div class="shop_top" id="regimargin2">
 		    <div class="container">
 				<div class="row justify-content-center">
 					<div class="register-top-grid register-bottom-grid justify-content-center">
-						<br>
-						<br>
-						<br>
 						<h3>MODIFICA PASSWORD</h3>
 						<div>
 							<span>Vecchia Password<label>*</label></span>
@@ -111,7 +111,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="button2">
+				<div>
 					<div class="row justify-content-center">
 						<input type="submit" class="form-button" value="MODIFICA" onclick="modifyPassword()">
 					</div>
@@ -134,9 +134,13 @@
 			var value3 = $("#cnfr_new_psw").val();
 			var value4 = $("#usernameUtente").val();
 			var value5 = ("modifyPassword");
+
+			alert("value1: "+value1+" value2: "+value2+" value3: "+value3+" value4: "+value4+" value5: "+value5);
 			
 			var RGEXpassword_user = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 			var password_userRES = RGEXpassword_user.test(value2);
+
+			alert("resoconto: "+password_userRES);
 			
 			if(password_userRES == false)
 			{
@@ -146,24 +150,24 @@
 			else {
 			    $.ajax({
 			        type: "POST",
-			        url: "Utente",
-			        data: {"action" : value5, "old_psw" : value1, "new_psw" : value2, "cnfr_new_psw" : value3, "username" : value4},
+			        url: "UserControl",
+			        data: {"operation" : value5, "old_psw" : value1, "new_psw" : value2, "cnfr_new_psw" : value3, "username" : value4},
 			        success: function(results){
 			        	Swal.fire({
 			  			  title: 'Password modificata con Successo!',
 			  			  timer: 2700,
-			  			  type: 'success',
+			  			  icon: 'success',
 			  			  showCancelButton: false,
 			  			  showConfirmButton: false,
 			  			  width: '400px',
 			  			})
-			  			setTimeout(function(){location.href="home.jsp"}, 2850);
+			  			setTimeout(function(){location.href="user_log.jsp"}, 2850);
 			        },
 			        error: function (result){
 			        	Swal.fire({
 				  			 title: 'Password non Modificata!',
 				  			 timer: 2000,
-				  			 type: 'error',
+				  			 icon: 'error',
 				  			 showCancelButton: false,
 				  			 showConfirmButton: false,
 				  			 width: '500px'
@@ -176,7 +180,7 @@
 	</script>
 
 
-        </div>
+    </div>
             
 
     

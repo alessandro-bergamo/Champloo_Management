@@ -1259,25 +1259,24 @@ input[type="date"], focus {
 
 .form-button {
     margin-top: 50px;
-    margin-right: 150px;
+    margin-right: 0px !important;
     display: inline-block;
-    border: 2px solid black;
-    font-size: 18px;
+    border: 1px solid black;
+    font-size: 16px;
     font-weight: 700;
+	font-style: italic;
     width: 156px;
-    padding: 8px 30px;
+    padding: 12px 30px;
     border-radius: 0;
-    color: black;
+    color: white;
     text-align: center;
     background: #2fce98;
     position: relative;
 }
-
 .form-button:hover {
-    background:#2fce98;
-    color:black;
+    background: white;
+    color: #2fce98;
 }
-
 .form-input {
     padding: 5px 20px;
     border: 2px solid black;

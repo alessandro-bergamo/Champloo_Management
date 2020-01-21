@@ -403,7 +403,7 @@ section
 }
 
 .button2 input[type="submit"]:hover {
-	background: rgb(111, 117, 197);
+	background: white;
 	color: #2fce98;
 }
 
