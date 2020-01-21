@@ -189,10 +189,10 @@ public class ProductDAO implements ProductModel
 		
 		secondResults = statement.executeQuery(query);
 		
+		productsDetails = new ArrayList<ProductDetailsBean>();
+		
 		while(secondResults.next()) 
 		{
-			productsDetails = new ArrayList<ProductDetailsBean>();
-			
 			ProductDetailsBean productDetailsBean = new ProductDetailsBean();
 			
 			productDetailsBean.setId_prod_details(secondResults.getInt(1));
@@ -255,12 +255,12 @@ public class ProductDAO implements ProductModel
 					
 					preparedStatement.setInt(1, product.getId_prod());
 					
-					secondResults = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();
+					
+					productsDetails = new ArrayList<ProductDetailsBean>();
 					
 					while(secondResults.next())
-					{
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
+					{	
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -339,12 +339,12 @@ public class ProductDAO implements ProductModel
 					
 					preparedStatement.setInt(1, product.getId_prod());
 					
-					secondResults = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();
+					
+					productsDetails = new ArrayList<ProductDetailsBean>();
 					
 					while(secondResults.next())
 					{	
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -423,12 +423,12 @@ public class ProductDAO implements ProductModel
 					
 					preparedStatement.setInt(1, product.getId_prod());
 					
-					secondResults = preparedStatement.executeQuery();	
+					secondResults = preparedStatement.executeQuery();
+					
+					productsDetails = new ArrayList<ProductDetailsBean>();
 					
 					while(secondResults.next())
 					{
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -511,10 +511,10 @@ public class ProductDAO implements ProductModel
 					
 					secondResults = preparedStatement.executeQuery();	
 					
+					productsDetails = new ArrayList<ProductDetailsBean>();
+					
 					while(secondResults.next())
 					{
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -597,10 +597,10 @@ public class ProductDAO implements ProductModel
 					
 					secondResults = preparedStatement.executeQuery();	
 					
+					productsDetails = new ArrayList<ProductDetailsBean>();
+					
 					while(secondResults.next())
 					{
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
@@ -686,7 +686,6 @@ public class ProductDAO implements ProductModel
 					
 					while(secondResults.next())
 					{
-
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));
