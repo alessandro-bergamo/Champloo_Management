@@ -34,3 +34,5 @@ node_modules
 .settings
 
 .META-INF
+
+.out
