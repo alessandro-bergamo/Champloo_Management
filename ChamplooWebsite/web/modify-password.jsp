@@ -1,60 +1,80 @@
-<%@page language="java" 
-		contentType="text/html; charset=ISO-8859-1"
-    	pageEncoding="ISO-8859-1"
-    	import="com.TechLord.model.*"
-    	import="java.util.*"
+<%@page
+        language="java"
+        contentType="text/html; charset=ISO-8859-1"
+        pageEncoding="ISO-8859-1"
+        import="com.champloo.bean.*"
+        import="java.util.*"
 %>
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <title>Champloo Store</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Little Closet template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>TL - Modifica Password</title>
-	<meta name="description" content="EndGam Gaming Magazine Template">
-	<meta name="keywords" content="endGam,gGaming, magazine, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	
-	<!-- Icona -->
-	<link href="img/iconatl.ico" rel="shortcut icon"/>
+    <!-- Icona -->
+    <link href="images/icona.png" rel="shortcut icon"/>
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 
-	<!-- JQUERY 3.4.1 -->
-	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	   	    
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/style.css"/>
-	<link rel="stylesheet" href="css/font-awesome.min.css"/>
-	
+    <!-- STILI CSS -->
+    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 </head>
+<body onload="submittaForm()">
 
-<body>
-	
-	<!-- Page Preloder -->
-	<div id="preloder">
-		<div class="loader"></div>
-	</div>
+    <!-- Menu -->
 
+    <div class="menu">
+        <!-- Navigation -->
+        <div class="menu_nav">
+            <ul>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="category.jsp">Catalogo Uomo</a></li>
+                <li><a href="#">Contatti</a></li>
+            </ul>
+        </div>
+        <!-- Contact Info -->
+        <div class="menu_contact">
+            <div class="menu_phone d-flex flex-row align-items-center justify-content-start">
+                <div><div></div></div>
+                <div></div>
+            </div>
+            <div class="menu_social">
+                <ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">
+                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-	<!-- Header section start -->
-     	  <%@ include file="fragment/header3.jsp" %>
-	<!-- Header section end -->
+    <div class="super_container">
+
+        <!-- Header -->
+		
+		<%@ include file="header.jsp" %>
+
+        <!-- Stop Header -->
 	
 	<%
 	
 		if(utenteLoggato==null)
 		{
-			response.sendRedirect("log-area.jsp");
+			response.sendRedirect("user_log.jsp");
 			return;
 		}
 	
@@ -89,7 +109,7 @@
 				</div>
 				<div class="button2">
 					<div class="row justify-content-center">
-						<input type="submit" class="setButton" value="MODIFICA" onclick="modifyPassword()">
+						<input type="submit" class="form-button" value="MODIFICA" onclick="modifyPassword()">
 					</div>
 				</div>
 			</div>
@@ -97,14 +117,9 @@
 	</div>
 
 
-	<!-- Footer section -->
-		<%@ include file="fragment/footer.jsp" %>
-	<!-- Footer section end -->
 
 
-	<!--====== Javascripts & Jquery ======-->
-	<script src="js/jquery.slicknav.min.js"></script>
-	<script src="js/main.js"></script>
+
 	
 	<script>
 	
@@ -155,6 +170,22 @@
 		};
 			   	
 	</script>
-	
+
+
+        </div>
+            
+
+    
+    <script src="plugins/greensock/TweenMax.min.js"></script>
+    <script src="plugins/greensock/TimelineMax.min.js"></script>
+    <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="plugins/greensock/animation.gsap.min.js"></script>
+    <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="plugins/progressbar/progressbar.min.js"></script>
+    <script src="plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="js/custom.js"></script>
+
 </body>
 </html>
