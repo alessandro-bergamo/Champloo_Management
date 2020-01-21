@@ -633,6 +633,33 @@ section
 {
 	width: 100%;
 }
+.submenu ul li a
+{
+	margin-left: 20px;
+	position: relative;
+	font-size: 18px;
+	color: #2e2e2e;
+	font-weight: bold;
+}
+.submenu ul li a:hover
+{
+	color: #2fce98;
+}
+.submenu ul li a::after
+{
+	content:'';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 0px;
+	height: 42px;
+	background: rgba(255,255,255,0.3);
+	transition: all 1s ease;
+}
+.submenu ul li a:hover::after
+{
+	width: 100%;
+}
 .menu_contact
 {
 	position: absolute;
@@ -1653,7 +1680,6 @@ input[type="date"], focus {
 {
 	background: #FFFFFF;
 	padding-top: 72px;
-	padding-bottom: 82px;
 }
 .page_nav_row
 {
@@ -1776,7 +1802,7 @@ input[type="date"], focus {
 	font-size: 26px;
 	font-weight: 700;
 	color: #FFFFFF;
-	margin-left: auto;
+	margin-left: 20px;
 	margin-right: auto;
 }
 .box_image

@@ -1041,7 +1041,7 @@ section
 }
 .product_size
 {
-	margin-top: 43px;
+	margin-top: 30px;
 }
 .product_size_title
 {
@@ -1183,7 +1183,56 @@ section
 {
 	fill: #FFFFFF;
 }
-
+.product_colors
+{
+	margin-top: 20px;
+	margin-left: 5px;
+	display: inline-flex;
+}
+.product_color_red
+{
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: red;
+	cursor: pointer;
+}
+.product_color_black
+{
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: black;
+	margin-left: 4px;
+	cursor: pointer;
+}
+.product_color_white
+{
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: white;
+	margin-left: 4px;
+	cursor: pointer;
+}
+.product_color_green
+{
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: green;
+	margin-left: 4px;
+	cursor: pointer;
+}
+.product_color_blue
+{
+	width: 30px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: blue;
+	margin-left: 4px;
+	cursor: pointer;
+}
 /*********************************
 7. Boxes
 *********************************/

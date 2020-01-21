@@ -41,7 +41,17 @@
         <div class="menu_nav">
             <ul>
                 <li><a href="index.jsp">Home</a></li>
-                <li><a href="category.jsp">Catalogo Uomo</a></li>
+                <li><a href="category.jsp">Catalogo</a>
+                    <div class="submenu">
+                        <ul>
+                            <li><a href="#">T-shirt</a></li>
+                            <li><a href="#">Felpe</a></li>
+                            <li><a href="#">Giacche</a></li>
+                            <li><a href="#">Camicie</a></li>
+                            <li><a href="#">Pantaloni</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <li><a href="#">Contatti</a></li>
             </ul>
         </div>

@@ -53,26 +53,11 @@
                                                 <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                    </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer_bar">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="footer_bar_content d-flex flex-md-row flex-column align-items-center justify-content-start">
-                                    <div class="copyright order-md-1 order-2">
-                                        <nav class="footer_nav ml-md-auto order-md-2 order-1">
-                                        </nav>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                </div>
                 </div>
             </footer>
