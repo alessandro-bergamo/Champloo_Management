@@ -29,6 +29,7 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 
     <!-- STILI CSS -->
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
 </head>
@@ -88,6 +89,9 @@
 		    <div class="container">
 				<div class="row justify-content-center">
 					<div class="register-top-grid register-bottom-grid justify-content-center">
+						<br>
+						<br>
+						<br>
 						<h3>MODIFICA PASSWORD</h3>
 						<div>
 							<span>Vecchia Password<label>*</label></span>
