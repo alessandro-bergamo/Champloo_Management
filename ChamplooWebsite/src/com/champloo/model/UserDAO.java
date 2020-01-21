@@ -15,7 +15,6 @@ public class UserDAO implements UserModel {
 	
 	/**
 	 * Constructor for the object
-	 * @param connection connection already initialized
 	 */
 	public UserDAO() {
 		//parametri astratti, aggiungere reali successivamente
@@ -240,7 +239,7 @@ public class UserDAO implements UserModel {
 	
 	/**
 	 * Block the specified user
-	 * @param user to be blocked
+	 * @param username user's username to be blocked
 	 * @return boolean result of the operation
 	 */
 	public boolean blockUser(String username) {
@@ -259,7 +258,8 @@ public class UserDAO implements UserModel {
 	
 	/**
 	 * allows user to log in
-	 * @param user to be logged
+	 * @param email email to be logged
+	 * @param password password to be logged associated to email
 	 * @return boolean result of the operation
 	 */
 	public boolean login(String email, String password) {
@@ -273,8 +273,37 @@ public class UserDAO implements UserModel {
 				return true;
 		}catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			connectionPool.releaseConnection(connection);
 		}
 		
+		return true;
+	}
+
+	/**
+	 * allows user to change password
+	 * @param userBean user to be updated
+	 * @param newPassword new password
+	 * @return boolean result of the operation
+	 */
+	public boolean changePassword(UserBean userBean, String newPassword) {
+		try {
+			connection = connectionPool.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + userBean.getUsername() + "'");
+
+			if(resultSetUser.first()) {
+				Statement updateStatement = connection.createStatement();
+				statement.executeUpdate(this.updateUserFields("password_user", userBean.getUsername(), newPassword));
+				return true;
+			} else
+				return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			connectionPool.releaseConnection(connection);
+		}
+
 		return true;
 	}
 	

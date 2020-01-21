@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.champloo.bean.UserBean;
-import com.champloo.mail.Mailer;
+import com.champloo.util.Mailer;
 import com.champloo.model.UserDAO;
+import com.champloo.util.PasswordGenerator;
 //mama
 /**
  * Servlet implementation class UserControl
@@ -56,6 +57,24 @@ public class UserControl extends HttpServlet {
 						response.sendRedirect("user_log.jsp");
 					}
 				}
+			}
+
+			else if(operation.equals("forgetPassword")) {
+				String user_email = request.getParameter("email");
+				UserBean userBean = userDAO.getUserByEmail(user_email);
+				if(userBean.getEmail().equals(user_email)) {
+					PasswordGenerator passwordGenerator = new PasswordGenerator();
+					String nuovaPsw = passwordGenerator.generate(10);
+					String newPassword = nuovaPsw;
+					userBean.setPassword(newPassword);
+					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password è " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
+				}
+			}
+
+			else if(operation.equals("changePassword")) {
+				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+				String newPassword = request.getParameter("password");
+				userDAO.changePassword(user, newPassword);
 			}
 			else if(operation.equals("logout"))
 			{

@@ -22,4 +22,6 @@ public interface UserModel
 	public boolean blockUser(String username) throws SQLException;
 	
 	public boolean login(String username, String password) throws SQLException;
+
+	public boolean changePassword(UserBean user, String newPassword) throws SQLException;
 }
