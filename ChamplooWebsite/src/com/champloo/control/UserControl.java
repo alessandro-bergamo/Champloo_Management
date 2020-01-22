@@ -1,8 +1,9 @@
  package com.champloo.control;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
+import com.champloo.bean.UserBean;
+import com.champloo.model.UserDAO;
+import com.champloo.util.Mailer;
+import com.champloo.util.PasswordGenerator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,11 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.champloo.bean.UserBean;
-import com.champloo.util.Mailer;
-import com.champloo.model.UserDAO;
-import com.champloo.util.PasswordGenerator;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 //mama
 /**
  * Servlet implementation class UserControl
@@ -58,7 +57,6 @@ public class UserControl extends HttpServlet {
 					}
 				}
 			}
-
 			else if(operation.equals("forgetPassword")) {
 				String user_email = request.getParameter("email");
 				UserBean userBean = userDAO.getUserByEmail(user_email);
@@ -70,14 +68,14 @@ public class UserControl extends HttpServlet {
 					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password � " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
 				}
 			}
-
 			else if(operation.equals("modifyPassword")) {
 				String username = request.getParameter("username");
+				System.out.println("USERNAME: "+username);
+				UserBean user = userDAO.getUserByUsername(username);
+				System.out.println("USER: "+user.getFirstName()+" PASSWORD: "+user.getPassword());
 				String newPassword = request.getParameter("new_psw");
-				System.out.println(username + "ok");
-				System.out.println(newPassword + "ok2");
-
-				userDAO.changePassword(username, newPassword);
+				userDAO.changePassword(user, newPassword);
+				session.invalidate();
 			}
 			else if(operation.equals("logout"))
 			{
@@ -117,7 +115,6 @@ public class UserControl extends HttpServlet {
 					dispatcher.forward(request, response);
 				}
 			}
-			
 			else if(operation.equals("registerUser")) {
 				String username = request.getParameter("username");
 				String email = request.getParameter("email");
@@ -174,7 +171,7 @@ public class UserControl extends HttpServlet {
 				userDAO.blockUser(username);
 			}
 		}
-		
+
 
 		if(operation.equals("registerUser"))
 			response.sendRedirect("user_log.jsp");

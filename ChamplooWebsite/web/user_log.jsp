@@ -103,7 +103,7 @@
                                             </p>
                                             <div class="remember">
                                                 <p id="login-form-remember">
-                                                    <label for="modlgn_remember"><a href="#">Hai dimenticato la password? </a></label>
+                                                    <label for="login-form-remember"><a href="modify-password.jsp">Hai dimenticato la password? </a></label>
                                                 </p>
                                                 <input type="submit" name="Submit" class="button" value="LOGIN">
                                                 <div class="clear"></div>
