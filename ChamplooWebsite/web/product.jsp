@@ -133,17 +133,17 @@
 										</li>
 										<li>
 											<div>
-												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img2.png">
 											</div>
 										</li>
 										<li>
 											<div>
-												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img3.png">
 											</div>
 										</li>
 										<li>
 											<div>
-												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img4.png">
 											</div>
 										</li>
 									</ul>

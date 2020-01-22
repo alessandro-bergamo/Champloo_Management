@@ -330,8 +330,7 @@
 					<div class="col-xl-4 col-md-6">
 						<div class="product">
 							<div class="product_image">
-								<img src=<%=product_details.get(I).getImg_path_folder()%>
-									img1.jpg" alt="">
+								<img src=<%=product_details.get(I).getImg_path_folder()%>img1.png" alt="">
 							</div>
 							<div class="product_content">
 								<div
@@ -367,8 +366,7 @@
 													%>
 													<div class="rating_r rating_r_3 home_item_rating">
 														<%
-															} else if (product_details.get(I).getAverage_rating() > 50
-																				&& product_details.get(I).getAverage_rating() <= 100) {
+															} else if (product_details.get(I).getAverage_rating() > 50 && product_details.get(I).getAverage_rating() <= 100) {
 														%>
 														<div class="rating_r rating_r_4 home_item_rating">
 															<%
@@ -380,11 +378,7 @@
 																%>
 																<i></i><i></i><i></i><i></i><i></i>
 															</div>
-															<div class="product_price text-right"><%=String.valueOf(product_details.get(I).getPrice()).substring(0,
-								String.valueOf(product_details.get(I).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(I).getPrice())
-								.substring(String.valueOf(product_details.get(I).getPrice()).indexOf("."))%>
-																	&euro;</span>
-															</div>
+															<div class="product_price text-right"><%=String.valueOf(product_details.get(I).getPrice()).substring(0, String.valueOf(product_details.get(I).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(I).getPrice()).substring(String.valueOf(product_details.get(I).getPrice()).indexOf("."))%>&euro;</span></div>
 														</div>
 													</div>
 													<div class="product_buttons">
