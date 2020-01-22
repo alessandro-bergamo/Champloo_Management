@@ -110,16 +110,16 @@
 							<div id="slider" class="flexslider">
 								<ul class="slides">
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img1.png" />
+										<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img2.png" />
+										<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img2.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img3.png" />
+										<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img3.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img4.png" />
+										<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img4.png" />
 									</li>
 								</ul>
 							</div>
@@ -181,10 +181,11 @@
 							</div>
 							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%></span></div>
 							<div class="product_colors">
-							<%for (int i = 0; i <= selectedProductsByColor.size(); i++)
+							<%for (int i = 0; i < product_details.size(); i++)
 								{%>
 									<div>
-										<img src=<%=product_details.get(i).getImg_path_folder()%>img1.png">
+										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>"><%=product.getName()%><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
+																				
 									</div>
 							<%} %>
 								

@@ -339,8 +339,7 @@
 									<div>
 										<div>
 											<div class="product_name">
-												<a
-													href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(I).getColor()%>"><%=product.getName()%></a>
+												<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(I).getColor()%>"><%=product.getName()%></a>
 											</div>
 											<div class="product_category">
 												In <a href="category.html"><%=product.getType()%> <%=product_details.get(I).getColor()%></a>
