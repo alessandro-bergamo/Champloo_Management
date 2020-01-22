@@ -273,19 +273,19 @@ public class UserDAO implements UserModel {
 
 	/**
 	 * allows user to change password
-	 * @param username user's username to be updated
+	 * @param userBean user to be updated
 	 * @param newPassword new password
 	 * @return boolean result of the operation
 	 */
-	public boolean changePassword(String username, String newPassword) {
+	public boolean changePassword(UserBean userBean, String newPassword) {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + username + "'");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where username = " + "'" + userBean.getUsername() + "'");
 
 			if(resultSetUser.first()) {
 				Statement updateStatement = connection.createStatement();
-				statement.executeUpdate(this.updateUserFields("password_user", username, newPassword));
+				statement.executeUpdate(this.updateUserFields("password_user", userBean.getUsername(), newPassword));
 				return true;
 			} else
 				return false;
