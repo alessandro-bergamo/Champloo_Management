@@ -1,6 +1,9 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1" import="com.champloo.bean.*"
-	import="java.util.*"%>
+<%@page
+		language="java"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
+		import="com.champloo.bean.*"
+		import="java.util.*"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -470,7 +473,7 @@
 																</div>
 															</div>
 															<div class="box_right text-center">
-																<div class="box_title">I più amati</div>
+																<div class="box_title">I piÃ¹ amati</div>
 															</div>
 														</div>
 													</div>

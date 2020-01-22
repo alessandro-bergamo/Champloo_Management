@@ -1,7 +1,7 @@
 <%@page
 		language="java"
-		contentType="text/html; charset=ISO-8859-1"
-		pageEncoding="ISO-8859-1"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
 		import="java.util.*"
 %>
@@ -14,7 +14,7 @@
 <html lang="en">
 <head>
     <title>Champloo Store</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Little Closet template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,19 +72,13 @@
 
         <!-- Header -->
 
-      			<%@ include file="header.jsp" %>
-
+        <%@ include file="header.jsp" %>
 
         <div class="super_container_inner">
             <div class="super_overlay"></div>
-        <br>
-        <br>
-        <br>
-           
-           
-           
+
            <!-- MAIN SECTION User-->
-           
+
            <section class="utente-section">
                <div class="container">
                    <div class="row justify-content-center">
@@ -176,23 +170,22 @@
                            <div class="col-xl-3">
                                <div class="row">
                                    <h4 class="upH4">Password: </h4>
-                                   <p class="upPCircle">***********</p>
+                                   <p class="upPCircle"><%=utenteLoggato.getPassword()%></p>
                                </div>
                            </div>
                            <div class="col-xl-6">
                                <div class="row justify-content-center">
-                                   <input type="submit" class="form-button" style="width: 130px; margin-top: 37px; margin-right: 40px;" value="Applica">
-                                   <input type="reset" class="form-button" style="width: 130px; margin-top: 37px; margin-left: 30px;" id="btninfo2" value="Annulla">
+                                   <input type="submit" class="form-button" style="width: 130px; margin-top: 0px !important; margin-right: 40px;" value="Applica">
+                                   <input type="reset" class="form-button" style="width: 130px; margin-top: 0px !important;
+                                    margin-left: 30px;" id="btninfo2" value="Annulla">
                                </div>
-                               
                            </div>
-                      
-                      
                        </div>
                    </form>
                    </div>
-                                          
-                   
+
+                   <%   if(!datiUtente.isEmpty())
+                        {   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">
@@ -245,6 +238,35 @@
                            </div>
                        </div>
                    </div>
+                   <%   } else {  %>
+                   <div class="row justify-content-start">
+                       <div class="col-xl-12">
+                           <div class="row">
+                               <h4 style="color:#2fce98; margin-left: 5px; cursor: pointer;" id="newInd">+ Inserisci nuovo indirizzo</h4>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="row justify-content-start" id="inputNewInd">
+                       <div class="col-xl-12">
+                           <div class="row">
+                               <div class="col-xl-4">
+                                   <input type="text" class="form-input" name="indirizzo" placeholder="Inserisci Indirizzo">
+                               </div>
+                               <div class="col-xl-4">
+                                   <input type="text" class="form-input" name="città" placeholder="Inserisci città">
+                               </div>
+                               <div class="col-xl-1">
+                                   <input type="text" class="form-input3" id="provincia" maxlength="2" name="provincia" placeholder="Provincia">
+                               </div>
+                               <div class="col-xl-3">
+                                   <div class="row justify-content-end">
+                                       <input type="button" class="site-btn6" value="Salva Indirizzo" style="margin-top: 5px">
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <%   }   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">
@@ -401,138 +423,79 @@
                            </div>
                        </div>
                    </div>
-                   
+
                        </div>
-                   </div>
-               </div>
            </section>
-           <!-- END SECTION -->
+        </div>
+        <!-- END SECTION -->
 
-           
-           
-           <script>
 
-                 document.getElementById('codcarta').addEventListener('input', function (e) {
-                 var target = e.target, position = target.selectionEnd, length = target.value.length;
-           
-                     target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-                     target.selectionEnd = position += ((target.value.charAt(position - 1) === ' ' && target.value.charAt(length - 1) === ' ' && length !== target.value.length) ? 1 : 0);
-                 });
-
-                 $(function() {
-                     $("#dataexpcarta").datepicker({dateFormat: 'mm/yy'});
-                 });
-
-                 $("#list1").on('click', function() {
-                     $("#ordiv").hide();
-                     $("#utdiv").show();
-                 });
-             
-                 $("#list2").on('click', function() {
-                     $("#utdiv").hide();
-                     $("#ordiv").show();
-                 });
-
-                 $("#btninfo").on('click', function() {
-                     $("#infPut").hide();
-                     $("#infPut2").show();
-                 });
-
-                 $("#btninfo2").on('click', function() {
-                     $("#infPut2").hide();
-                     $("#infPut").show();
-                 });
-
-                 $("#newInd").on('click', function() {
-                     $("#inputNewInd").toggle();
-                 });
-
-                 $("#newCard").on('click', function() {
-                     $("#inputNewCard").toggle();
-                 });
-
-                 $('#detailsBtn').click(function(){
-                 if ( $('#details').css('visibility') == 'hidden' )
-                     $('#details').css('visibility','visible');
-                 else
-                     $('#details').css('visibility','hidden');
-                 });
-                 
-             </script>
-
-           
-           
-           
-           
-                    <!-- Footer -->
-                    			<%@ include file="footer.jsp" %>
-
-                </div>
-                  </div>
-            </div>
-            
-            <script>
-
-                  document.getElementById('codcarta').addEventListener('input', function (e) {
-                  var target = e.target, position = target.selectionEnd, length = target.value.length;
-            
-                      target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-                      target.selectionEnd = position += ((target.value.charAt(position - 1) === ' ' && target.value.charAt(length - 1) === ' ' && length !== target.value.length) ? 1 : 0);
-                  });
-
-                  $(function() {
-                      $("#dataexpcarta").datepicker({dateFormat: 'mm/yy'});
-                  });
-
-                  $("#list1").on('click', function() {
-                      $("#ordiv").hide();
-                      $("#utdiv").show();
-                  });
-              
-                  $("#list2").on('click', function() {
-                      $("#utdiv").hide();
-                      $("#ordiv").show();
-                  });
-
-                  $("#btninfo").on('click', function() {
-                      $("#infPut").hide();
-                      $("#infPut2").show();
-                  });
-
-                  $("#btninfo2").on('click', function() {
-                      $("#infPut2").hide();
-                      $("#infPut").show();
-                  });
-
-                  $("#newInd").on('click', function() {
-                      $("#inputNewInd").show();
-                  });
-
-                  $("#newCard").on('click', function() {
-                      $("#inputNewCard").toggle();
-                  });
-
-                  $('#detailsBtn').click(function(){
-                  if ( $('#details').css('visibility') == 'hidden' )
-                      $('#details').css('visibility','visible');
-                  else
-                      $('#details').css('visibility','hidden');
-                  });
-                  
-              </script>
+        <!-- Footer -->
+        <%@ include file="footer.jsp" %>
 
             
-            
-            <script src="plugins/greensock/TweenMax.min.js"></script>
-            <script src="plugins/greensock/TimelineMax.min.js"></script>
-            <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
-            <script src="plugins/greensock/animation.gsap.min.js"></script>
-            <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
-            <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-            <script src="plugins/easing/easing.js"></script>
-            <script src="plugins/progressbar/progressbar.min.js"></script>
-            <script src="plugins/parallax-js-master/parallax.min.js"></script>
-            <script src="js/custom.js"></script>
+    <script>
+
+          document.getElementById('codcarta').addEventListener('input', function (e) {
+          var target = e.target, position = target.selectionEnd, length = target.value.length;
+
+              target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
+              target.selectionEnd = position += ((target.value.charAt(position - 1) === ' ' && target.value.charAt(length - 1) === ' ' && length !== target.value.length) ? 1 : 0);
+          });
+
+          $(function() {
+              $("#dataexpcarta").datepicker({dateFormat: 'mm/yy'});
+          });
+
+          $("#list1").on('click', function() {
+              $("#ordiv").hide();
+              $("#utdiv").show();
+          });
+
+          $("#list2").on('click', function() {
+              $("#utdiv").hide();
+              $("#ordiv").show();
+          });
+
+          $("#btninfo").on('click', function() {
+              $("#infPut").hide();
+              $("#infPut2").show();
+          });
+
+          $("#btninfo2").on('click', function() {
+              $("#infPut2").hide();
+              $("#infPut").show();
+          });
+
+          $("#newInd").on('click', function() {
+              $("#inputNewInd").toggle();
+          });
+
+          $("#newCard").on('click', function() {
+              $("#inputNewCard").toggle();
+          });
+
+          $('#detailsBtn').click(function(){
+          if ( $('#details').css('visibility') == 'hidden' )
+              $('#details').css('visibility','visible');
+          else
+              $('#details').css('visibility','hidden');
+          });
+
+      </script>
+
+
+
+    <script src="plugins/greensock/TweenMax.min.js"></script>
+    <script src="plugins/greensock/TimelineMax.min.js"></script>
+    <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="plugins/greensock/animation.gsap.min.js"></script>
+    <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="plugins/progressbar/progressbar.min.js"></script>
+    <script src="plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="js/custom.js"></script>
 
 </body>
 
