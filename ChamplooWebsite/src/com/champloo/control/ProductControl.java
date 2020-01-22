@@ -82,7 +82,11 @@ public class ProductControl extends HttpServlet{
 			else if(operation.equals("showProduct"))
 			{
 				int idProduct = Integer.parseInt(request.getParameter("id_product"));
+				String color = request.getParameter("color");
+				
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> product = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+				ArrayList<ProductDetailsBean> selectedProductsByColor = new ArrayList<ProductDetailsBean>();
+				ArrayList<String> colors = new ArrayList<>();
 				
 				try {
 					product = productDAO.retrieveById(idProduct);
@@ -94,12 +98,17 @@ public class ProductControl extends HttpServlet{
 				HashMap.Entry<ProductBean, ArrayList<ProductDetailsBean>> entry;
 				entry = product.entrySet().iterator().next();
 				ProductBean productbean = entry.getKey();
-				ArrayList<ProductDetailsBean> productDetailsBean = entry.getValue();
-				for(int I=0;I<productDetailsBean.size();I++)
+				ArrayList<ProductDetailsBean> productDetails = entry.getValue();
+				
+				// selezione dei prodotti in base al colore passato dall'index
+				for(int i = 0; i < productDetails.size(); i++)
 				{
-					System.out.println("INDICE: "+I+" DETTAGLIO: "+productDetailsBean.get(I).getSize());
+					if(productDetails.get(i).getColor().equals(color))
+						selectedProductsByColor.add(productDetails.get(i));
 				}
+				
 				session.setAttribute("product", product);
+				session.setAttribute("selectedProductsByColor", selectedProductsByColor);
 			}
 			else if(operation.equals("retrieveByModel"))
 			{

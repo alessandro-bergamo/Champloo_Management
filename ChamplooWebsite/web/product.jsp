@@ -70,9 +70,13 @@
 		<%@ include file="header.jsp" %>
 
 		<% 	final int SIZES_NUMBER = 4;
+			
 			HashMap<ProductBean, ArrayList<ProductDetailsBean>> productMap = (HashMap) request.getSession().getAttribute("product");
+			ArrayList<ProductDetailsBean> selectedProductsByColor = (ArrayList)request.getSession().getAttribute("selectedProductsByColor");
+			
 			ProductBean product = null;
 			ArrayList<ProductDetailsBean> product_details = null;
+			
 			HashMap.Entry<ProductBean, ArrayList<ProductDetailsBean>> entry;
 			if(productMap != null)
 			{
@@ -80,6 +84,7 @@
 				product = entry.getKey();
 				product_details = entry.getValue();
 			}
+			
 			if(product != null && product_details != null)
 			{
 		%>
@@ -105,16 +110,16 @@
 							<div id="slider" class="flexslider">
 								<ul class="slides">
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img1.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img1.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img2.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img2.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img3.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img3.png" />
 									</li>
 									<li>
-										<img src=<%=product_details.get(0).getImg_path_folder()%>img4.jpg" />
+										<img src=<%=product_details.get(0).getImg_path_folder()%>img4.png" />
 									</li>
 								</ul>
 							</div>
@@ -123,22 +128,22 @@
 									<ul class="slides">
 										<li>
 											<div>
-												<img src=<%=product_details.get(0).getImg_path_folder()%>img1.jpg" />
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
 											</div>
 										</li>
 										<li>
 											<div>
-												<img src=<%=product_details.get(0).getImg_path_folder()%>img2.jpg" />
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
 											</div>
 										</li>
 										<li>
 											<div>
-												<img src=<%=product_details.get(0).getImg_path_folder()%>img3.jpg" />
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
 											</div>
 										</li>
 										<li>
 											<div>
-												<img src=<%=product_details.get(0).getImg_path_folder()%>img4.jpg" />
+												<img src=<%=selectedProductsByColor.get(0).getImg_path_folder()%>img1.png">
 											</div>
 										</li>
 									</ul>
@@ -152,7 +157,7 @@
 					<!-- Product Info -->
 					<div class="col-lg-6 product_col">
 						<div class="product_info">
-							<div class="product_name"><%=product.getName()%></div>
+							<div class="product_name"><%=product.getName()%> <%=selectedProductsByColor.get(0).getColor()%></div>
 							<div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
@@ -174,28 +179,30 @@
 								<div class="product_reviews"><%=format%> su (<%=reviewers%>)</div>
 								<div class="product_reviews_link">Recensioni</div>
 							</div>
-							<div class="product_price"><%=String.valueOf(product_details.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%></span></div>
+							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%></span></div>
 							<div class="product_colors">
-								<div class="product_color_red"></div>
-								<div class="product_color_black"></div>
-								<div class="product_color_white"></div>
-								<div class="product_color_blue"></div>
-								<div class="product_color_green"></div>
+							<%for (int i = 0; i <= selectedProductsByColor.size(); i++)
+								{%>
+									<div>
+										<img src=<%=product_details.get(i).getImg_path_folder()%>img1.png">
+									</div>
+							<%} %>
+								
 							</div>
 							<div class="product_size">
 								<div class="product_size_title">Seleziona taglia</div>
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<%	boolean tagliaS=false, tagliaM=false, tagliaL=false, tagliaXL=false, tagliaXXL=false;
 									
-										for(int i = 0; i < product_details.size(); i++)
+										for(int i = 0; i < selectedProductsByColor.size(); i++)
 										{
-											if(product_details.get(i).getSize().equals("S"))
+											if(selectedProductsByColor.get(i).getSize().equals("S"))
 												tagliaS = true;
-											else if(product_details.get(i).getSize().equals("M"))
+											else if(selectedProductsByColor.get(i).getSize().equals("M"))
 												tagliaM = true;
-											else if(product_details.get(i).getSize().equals("L"))
+											else if(selectedProductsByColor.get(i).getSize().equals("L"))
 												tagliaL = true;
-											else if(product_details.get(i).getSize().equals("XL"))
+											else if(selectedProductsByColor.get(i).getSize().equals("XL"))
 												tagliaXL = true;
 										}
 						
@@ -299,6 +306,12 @@
 </div>
 
 <script>
+$("[id ='color_selector']").on('click', function showProduct(){
+	var value3 = $(this).find("input#id_conf").val();
+	
+	
+});
+		
 	
 
 </script>
