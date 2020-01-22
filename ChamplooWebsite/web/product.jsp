@@ -74,6 +74,7 @@
 			HashMap<ProductBean, ArrayList<ProductDetailsBean>> productMap = (HashMap) request.getSession().getAttribute("product");
 			ArrayList<ProductDetailsBean> selectedProductsByColor = (ArrayList)request.getSession().getAttribute("selectedProductsByColor");
 			
+			ArrayList<String> printedColors = new ArrayList<>();
 			ProductBean product = null;
 			ArrayList<ProductDetailsBean> product_details = null;
 			
@@ -182,27 +183,46 @@
 							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%> &euro;</span></div>
 							<div class="product_colors">
 							<%for (int i = 0; i < product_details.size(); i++)
-								{%>
+								{
+									if(!printedColors.contains(product_details.get(i).getColor()))
+									{
+								%>
 									<div>
-										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>"><%=product.getName()%><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
+										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>&id_product_details=<%=product_details.get(i).getId_prod_details()%>"><%=product.getName()%><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
 									</div>
-							<%} %>
+							<%
+									printedColors.add(product_details.get(i).getColor());
+									}
+								}%>
 							</div>
 							<div class="product_size">
 								<div class="product_size_title">Seleziona taglia</div>
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<%	boolean tagliaS=false, tagliaM=false, tagliaL=false, tagliaXL=false, tagliaXXL=false;
+										int id_product_details_by_sizeS, id_product_details_by_sizeM, id_product_details_by_sizeL, id_product_details_by_sizeXL;
 									
 										for(int i = 0; i < selectedProductsByColor.size(); i++)
 										{
 											if(selectedProductsByColor.get(i).getSize().equals("S"))
+											{
 												tagliaS = true;
+												id_product_details_by_sizeS = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("M"))
+											{
 												tagliaM = true;
+												id_product_details_by_sizeM = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("L"))
+											{
 												tagliaL = true;
+												id_product_details_by_sizeL = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("XL"))
+											{
 												tagliaXL = true;
+												id_product_details_by_sizeXL = selectedProductsByColor.get(i).getId_prod_details();
+											}
 										}
 						
 										if(tagliaS) {

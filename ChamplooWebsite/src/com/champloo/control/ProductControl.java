@@ -82,12 +82,14 @@ public class ProductControl extends HttpServlet{
 			else if(operation.equals("showProduct"))
 			{
 				int idProduct = Integer.parseInt(request.getParameter("id_product"));
+				//int idProductDetails = Integer.parseInt(request.getParameter("id_product_details"));
 				String color = request.getParameter("color");
 				
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> product = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
-				ProductBean productbean = new ProductBean();
+				ProductBean productBean = new ProductBean();
 				ArrayList<ProductDetailsBean> productDetails = new ArrayList<ProductDetailsBean>();
 				ArrayList<ProductDetailsBean> selectedProductsByColor = new ArrayList<ProductDetailsBean>();
+				ArrayList<String>aviableColors = new ArrayList<String>();
 				
 				try {
 					product = productDAO.retrieveById(idProduct);
@@ -98,7 +100,7 @@ public class ProductControl extends HttpServlet{
 
 				HashMap.Entry<ProductBean, ArrayList<ProductDetailsBean>> entry;
 				entry = product.entrySet().iterator().next();
-				productbean = entry.getKey();
+				productBean = entry.getKey();
 				productDetails = entry.getValue();
 				
 				// selezione dei prodotti in base al colore passato dall'index

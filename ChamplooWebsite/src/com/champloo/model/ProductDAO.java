@@ -145,20 +145,63 @@ public class ProductDAO implements ProductModel
 	@Override
 	public Pair<ProductBean, ProductDetailsBean> retrieveProductWithDetails(int id_product, int id_product_details) throws SQLException {
 		
-		//Pair<ProductBean, ProductDetailsBean> productWithDetails = new Pair<ProductBean, ProductDetailsBean>(key, value)
 		connection = connectionPool.getConnection();
 		
+		Pair<ProductBean, ProductDetailsBean> productWithDetails = null;
+		ProductBean product = new ProductBean();
+		ProductDetailsBean productDetailsBean = new ProductDetailsBean();
+		
 		try {
-			query = "SELECT * FROM products WHERE id_products = '"+id_product+"'";
+			query = "SELECT * FROM products WHERE id_product = '"+id_product+"'";
+			statement = connection.createStatement();
+			results = statement.executeQuery(query);
+			
+			if(results.first())
+			{
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setDescription(results.getString(6));
+			}
+			
+			query = "SELECT * FROM product_details WHERE Product = '"+id_product+"' AND id_product_details = '"+id_product_details+"' ";
+			statement = connection.createStatement();
+			results = statement.executeQuery(query);
+			
+			if(results.first())
+			{
+				productDetailsBean.setId_prod_details(secondResults.getInt(1));
+				productDetailsBean.setProduct(secondResults.getInt(2));
+				productDetailsBean.setColor(secondResults.getString(3));
+				productDetailsBean.setSize(secondResults.getString(4));
+				productDetailsBean.setPrice(secondResults.getFloat(5));
+				productDetailsBean.setDiscount_percent(secondResults.getInt(6));
+				productDetailsBean.setDiscounted_price(secondResults.getFloat(7));
+				productDetailsBean.setQnt_stock(secondResults.getInt(8));
+				productDetailsBean.setStatus(secondResults.getInt(9));
+				productDetailsBean.setAverage_rating(secondResults.getFloat(10));
+				productDetailsBean.setNumber_feedback_users(secondResults.getInt(11));
+				productDetailsBean.setImg_path_folder(secondResults.getString(12));
+			}
+			
+			productWithDetails = new Pair<ProductBean, ProductDetailsBean>(product, productDetailsBean);
+					
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			
+			try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
 		}
 		
-		
-		return null;
+		return productWithDetails;
 	}
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveById(int id_product) throws SQLException {
