@@ -1850,6 +1850,17 @@ input[type="date"], focus {
 	right: -40px;
 }
 
+
+#aggiuntaProdotto label.error{
+	color: #f33;
+	padding: 0;
+	margin: 4px 0 0 0;
+	font-size: 1em;
+	padding-left: 25px;
+	background-image: url('/images/error.png');
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	}
 /*********************************
 8. Features
 *********************************/
