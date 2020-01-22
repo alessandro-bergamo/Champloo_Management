@@ -28,6 +28,8 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha256-KsRuvuRtUVvobe66OFtOQfjP8WA2SzYsmm4VPfMnxms=" crossorigin="anonymous"></script>
+
     <!-- STILI CSS -->
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
@@ -137,6 +139,8 @@
 			
 			var RGEXpassword_user = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 			var password_userRES = RGEXpassword_user.test(value2);
+
+			alert("Controllo: "+password_userRES);
 			
 			if(password_userRES == false)
 			{
@@ -145,9 +149,9 @@
 			}
 			else {
 			    $.ajax({
-			        type: "POST",
-			        url: "Utente",
-			        data: {"action" : value5, "old_psw" : value1, "new_psw" : value2, "cnfr_new_psw" : value3, "username" : value4},
+                    type: "POST",
+			        url: "UserControl",
+			        data: {"operation" : value5, "old_psw" : value1, "new_psw" : value2, "cnfr_new_psw" : value3, "username" : value4},
 			        success: function(results){
 			        	Swal.fire({
 			  			  title: 'Password modificata con Successo!',

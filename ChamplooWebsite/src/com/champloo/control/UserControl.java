@@ -71,10 +71,13 @@ public class UserControl extends HttpServlet {
 				}
 			}
 
-			else if(operation.equals("changePassword")) {
-				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
-				String newPassword = request.getParameter("password");
-				userDAO.changePassword(user, newPassword);
+			else if(operation.equals("modifyPassword")) {
+				String username = request.getParameter("username");
+				String newPassword = request.getParameter("new_psw");
+				System.out.println(username + "ok");
+				System.out.println(newPassword + "ok2");
+
+				userDAO.changePassword(username, newPassword);
 			}
 			else if(operation.equals("logout"))
 			{
