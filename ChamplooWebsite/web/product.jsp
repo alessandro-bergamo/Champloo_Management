@@ -179,16 +179,14 @@
 								<div class="product_reviews"><%=format%> su (<%=reviewers%>)</div>
 								<div class="product_reviews_link">Recensioni</div>
 							</div>
-							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%></span></div>
+							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%> &euro;</span></div>
 							<div class="product_colors">
 							<%for (int i = 0; i < product_details.size(); i++)
 								{%>
 									<div>
 										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>"><%=product.getName()%><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
-																				
 									</div>
 							<%} %>
-								
 							</div>
 							<div class="product_size">
 								<div class="product_size_title">Seleziona taglia</div>
@@ -220,36 +218,36 @@
 										<%}
 										if(tagliaM) {
 											%>
-											<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">M</label>
+											<input type="radio" id="radio_2" name="product_radio" class="regular_radio radio_2">
+											<label for="radio_2">M</label>
 											<%
 										}
 										if (!tagliaM)
 										{	%>
-											<input type="radio" id="radio_1" disabled name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">M</label>
+											<input type="radio" id="radio_2" disabled name="product_radio" class="regular_radio radio_2">
+											<label for="radio_2">M</label>
 										<%}
 										if(tagliaL) {
 											%>
-											<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">L</label>
+											<input type="radio" id="radio_3" name="product_radio" class="regular_radio radio_3">
+											<label for="radio_3">L</label>
 											<%
 										}
 										if (!tagliaL)
 										{	%>
-											<input type="radio" id="radio_1" disabled name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">L</label>
+											<input type="radio" id="radio_3" disabled name="product_radio" class="regular_radio radio_3">
+											<label for="radio_3">L</label>
 										<%}
 										if(tagliaXL) {
 											%>
-											<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">XL</label>
+											<input type="radio" id="radio_4" name="product_radio" class="regular_radio radio_4">
+											<label for="radio_4">XL</label>
 											<%
 										}
 										if (!tagliaXL)
 										{	%>
-											<input type="radio" id="radio_1" disabled name="product_radio" class="regular_radio radio_1">
-											<label for="radio_1">XL</label>
+											<input type="radio" id="radio_4" disabled name="product_radio" class="regular_radio radio_4">
+											<label for="radio_4">XL</label>
 										<%}
 										
 									}%>
