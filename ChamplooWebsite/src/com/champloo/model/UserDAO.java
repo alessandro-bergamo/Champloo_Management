@@ -56,7 +56,7 @@ public class UserDAO implements UserModel {
 				insertQuery.setDate(6, convert(newUser.getRegistration_date()));
 				insertQuery.setInt(7, newUser.getType());
 				insertQuery.executeUpdate();
-				
+				return true;
 			} else 
 				return false;
 		} catch (SQLException e) {
