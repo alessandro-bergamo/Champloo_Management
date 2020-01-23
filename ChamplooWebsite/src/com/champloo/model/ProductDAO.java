@@ -187,8 +187,6 @@ public class ProductDAO implements ProductModel
 			}
 			
 			productWithDetails = new Pair<ProductBean, ProductDetailsBean>(product, productDetailsBean);
-					
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -210,51 +208,63 @@ public class ProductDAO implements ProductModel
 		ArrayList<ProductDetailsBean> productsDetails = null; 
 		
 		connection = connectionPool.getConnection();
-		statement = connection.createStatement();
-
-		query = "SELECT * FROM products WHERE id_product = '"+id_product+"'";
-		
-		firstResults = statement.executeQuery(query);
-		
-		ProductBean productBean = new ProductBean();
-		
-		while(firstResults.next())
-		{
-			productBean.setId_prod(firstResults.getInt(1));
-			productBean.setName(firstResults.getString(2));
-			productBean.setBrand(firstResults.getString(3));
-			productBean.setModel(firstResults.getString(4));
-			productBean.setType(firstResults.getString(5));
-			productBean.setDescription(firstResults.getString(6));
-		}
-		
-		query = "SELECT * FROM product_details WHERE product = '"+id_product+"'";
-		
-		secondResults = statement.executeQuery(query);
-		
-		productsDetails = new ArrayList<ProductDetailsBean>();
-		
-		while(secondResults.next()) 
-		{
-			ProductDetailsBean productDetailsBean = new ProductDetailsBean();
+		try {
+			statement = connection.createStatement();
+	
+			query = "SELECT * FROM products WHERE id_product = '"+id_product+"'";
 			
-			productDetailsBean.setId_prod_details(secondResults.getInt(1));
-			productDetailsBean.setProduct(secondResults.getInt(2));
-			productDetailsBean.setColor(secondResults.getString(3));
-			productDetailsBean.setSize(secondResults.getString(4));
-			productDetailsBean.setPrice(secondResults.getFloat(5));
-			productDetailsBean.setDiscount_percent(secondResults.getInt(6));
-			productDetailsBean.setDiscounted_price(secondResults.getFloat(7));
-			productDetailsBean.setQnt_stock(secondResults.getInt(8));
-			productDetailsBean.setStatus(secondResults.getInt(9));
-			productDetailsBean.setAverage_rating(secondResults.getFloat(10));
-			productDetailsBean.setNumber_feedback_users(secondResults.getInt(11));
-			productDetailsBean.setImg_path_folder(secondResults.getString(12));
+			firstResults = statement.executeQuery(query);
 			
-			productsDetails.add(productDetailsBean);
-		}
+			ProductBean productBean = new ProductBean();
+			
+			while(firstResults.next())
+			{
+				productBean.setId_prod(firstResults.getInt(1));
+				productBean.setName(firstResults.getString(2));
+				productBean.setBrand(firstResults.getString(3));
+				productBean.setModel(firstResults.getString(4));
+				productBean.setType(firstResults.getString(5));
+				productBean.setDescription(firstResults.getString(6));
+			}
+			
+			query = "SELECT * FROM product_details WHERE product = '"+id_product+"'";
+			
+			secondResults = statement.executeQuery(query);
+			
+			productsDetails = new ArrayList<ProductDetailsBean>();
+			
+			while(secondResults.next()) 
+			{
+				ProductDetailsBean productDetailsBean = new ProductDetailsBean();
+				
+				productDetailsBean.setId_prod_details(secondResults.getInt(1));
+				productDetailsBean.setProduct(secondResults.getInt(2));
+				productDetailsBean.setColor(secondResults.getString(3));
+				productDetailsBean.setSize(secondResults.getString(4));
+				productDetailsBean.setPrice(secondResults.getFloat(5));
+				productDetailsBean.setDiscount_percent(secondResults.getInt(6));
+				productDetailsBean.setDiscounted_price(secondResults.getFloat(7));
+				productDetailsBean.setQnt_stock(secondResults.getInt(8));
+				productDetailsBean.setStatus(secondResults.getInt(9));
+				productDetailsBean.setAverage_rating(secondResults.getFloat(10));
+				productDetailsBean.setNumber_feedback_users(secondResults.getInt(11));
+				productDetailsBean.setImg_path_folder(secondResults.getString(12));
+				
+				productsDetails.add(productDetailsBean);
+			}
+			
+			products.put(productBean, productsDetails);
 		
-		products.put(productBean, productsDetails);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+	            if (preparedStatement != null)
+	                preparedStatement.close();
+	        } finally {
+	        	connectionPool.releaseConnection(connection);
+	        }
+		}
 		
 		return products;
 	}

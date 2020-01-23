@@ -100,15 +100,15 @@
 									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
 											<div><div class="product_number">1</div></div>
-											<div><div class="product_image"><img src="images/cart_item_1.jpg" alt=""></div></div>
+											<div><div class="product_image"><img src="" alt=""></div></div>
 											<div class="product_name_container">
 												<div class="product_name"><a href="product.html">Nome oggetto</a></div>
 												<div class="product_text">Seconda linea per informazioni aggiuntive</div>
 											</div>
 										</div>
-										<div class="product_color product_text"><span>Colore: </span>beige</div>
-										<div class="product_size product_text"><span>Taglia: </span>L</div>
-										<div class="product_price product_text"><span>Prezzo: </span>$3.99</div>
+										<div class="product_color product_text"><span>Colore: </span></div>
+										<div class="product_size product_text"><span>Taglia: </span></div>
+										<div class="product_price product_text"><span>Prezzo: </span></div>
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
 												<span class="product_text product_num">1</span>
@@ -116,7 +116,7 @@
 												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
 											</div>
 										</div>
-										<div class="product_total product_text"><span>Totale: </span>$3.99</div>
+										<div class="product_total product_text"><span>Totale: </span>	</div>
 									</li>
 								</ul>
 							</div>

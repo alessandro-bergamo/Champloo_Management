@@ -89,7 +89,6 @@ public class ProductControl extends HttpServlet{
 				ProductBean productBean = new ProductBean();
 				ArrayList<ProductDetailsBean> productDetails = new ArrayList<ProductDetailsBean>();
 				ArrayList<ProductDetailsBean> selectedProductsByColor = new ArrayList<ProductDetailsBean>();
-				ArrayList<String>aviableColors = new ArrayList<String>();
 				
 				try {
 					product = productDAO.retrieveById(idProduct);
