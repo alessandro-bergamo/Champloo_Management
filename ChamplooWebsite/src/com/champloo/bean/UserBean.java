@@ -98,5 +98,20 @@ public class UserBean {
 	public String toString() {
 		return "Name: " + getFirstName() + "\n" + "Surname: " + getSurname() + "\n" + "Username: " + getUsername() + "\n" + "Email: " + getEmail() + "\n" + "Password: " + getPassword() + "\n" + "Registration date: " + getRegistration_date() + "\n" + "Type: " + getType() + "\n";
 	}
+
+	public Boolean isEmpty() {
+		if(firstname == null && surname == null && username == null && email == null && password == null && registration_date == null) {
+			return true;
+		}
+		return false;
+	}
+
+	public Boolean isNotEmpty() {
+		if(firstname != null && surname != null && username != null && email != null && password != null && registration_date != null) {
+			return true;
+		}
+
+		return false;
+	}
 	
 }

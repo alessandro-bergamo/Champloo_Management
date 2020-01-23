@@ -6,6 +6,5 @@ public class TestUserDAOTestRunner {
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(UserDAOTest.class);
 
-        System.out.println(result.wasSuccessful());
     }
 }

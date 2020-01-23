@@ -70,7 +70,7 @@ public class UserDAO implements UserModel {
 	/**
 	 * Retrieve the user with the specified email
 	 * @param user_email the email of the user
-	 * @return retrivied user
+	 * @return retrivied user. It is empty if no email match is found, else return a not empty user
 	 */
 	public UserBean getUserByEmail(String user_email) {
 		
@@ -107,7 +107,7 @@ public class UserDAO implements UserModel {
 	/**
 	 * Retrieve the user with the specified username
 	 * @param username username of the user 
-	 * @return retrivied user
+	 * @return retrivied user. It is empty if no username match is found, else return a not empty user
 	 */
 	public UserBean getUserByUsername(String username) {
 		Statement statement;
@@ -218,7 +218,7 @@ public class UserDAO implements UserModel {
 			}
 			
 			Statement stmt = connection.createStatement();
-			String SQL = "DELETE FROM registred_users WHERE username = '"+user.getFirstName()+"'";
+			String SQL = "DELETE FROM registred_users WHERE username = '"+user.getUsername()+"'";
 			stmt.executeUpdate(SQL);
 		}catch(Exception e) {
 			e.printStackTrace();
