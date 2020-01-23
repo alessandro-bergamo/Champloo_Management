@@ -17,6 +17,11 @@
     <link href="images/icona.png" rel="shortcut icon"/>
 
     <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
@@ -36,7 +41,6 @@
 
 </head>
 <body>
-
 
 
     <div class="super_container">
@@ -96,7 +100,7 @@
                             <div class="login-title">
                                 <h4 class="title">Utente Registrato</h4>
                                 <div id="loginbox" class="loginbox">
-                                    <form action="UserControl" method="post" name="login" id="login-form">
+                                    <form action="UserControl" method="post" name="login-form" id="login-form">
                                     	<input name="operation" value="login" type="hidden" >
                                         <fieldset class="input">
                                             <p id="login-form-username">
@@ -129,7 +133,6 @@
     </div>
 
     
-    <script src="js/jquery-3.2.1.min.js"></script>
     <script src="styles/bootstrap-4.1.2/popper.js"></script>
     <script src="styles/bootstrap-4.1.2/bootstrap.min.js"></script>
     <script src="plugins/greensock/TweenMax.min.js"></script>
@@ -142,6 +145,8 @@
     <script src="plugins/progressbar/progressbar.min.js"></script>
     <script src="plugins/parallax-js-master/parallax.min.js"></script>
     <script src="js/custom.js"></script>
+    <script src="/ChamplooWebsite/js/login-form.js"></script>
+    
 
 </body>
 

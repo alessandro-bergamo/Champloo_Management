@@ -75,14 +75,18 @@
 	                                <input name="username" type="text" autofocus>
 	                            </div>
 	                            <div>
+	                            
 	                                <span>Indirizzo e-mail<label>*</label></span>
 	                                <input name="email" type="email">
 	                            </div>
 	                            <div>
+	                            <br>
 	                                <span>Nome<label>*</label></span>
 	                                <input name="firstname" type="text">
 	                            </div>
 	                            <div>
+	                            <br>
+	                            <br>
 	                                <span>Cognome<label>*</label></span>
 	                                <input name="lastname" type="text">
 	                            </div>
