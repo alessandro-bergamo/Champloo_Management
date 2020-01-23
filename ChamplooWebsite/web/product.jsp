@@ -1,7 +1,7 @@
 <%@page
 		language="java"
-		contentType="text/html; charset=ISO-8859-1"
-		pageEncoding="ISO-8859-1"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
 		import="java.util.*"
 		import="java.text.DecimalFormat"
@@ -158,7 +158,7 @@
 					<!-- Product Info -->
 					<div class="col-lg-6 product_col">
 						<div class="product_info">
-							<div class="product_name"><%=product.getName()%> <%=selectedProductsByColor.get(0).getColor()%></div>
+							<div class="product_name"><%=product.getName()%></div>
 							<div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
@@ -188,7 +188,7 @@
 									{
 								%>
 									<div>
-										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>&id_product_details=<%=product_details.get(i).getId_prod_details()%>"><%=product.getName()%><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
+										<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(i).getColor()%>&id_product_details=<%=product_details.get(i).getId_prod_details()%>"><img src=<%=product_details.get(i).getImg_path_folder()%>img1.png"></a>
 									</div>
 							<%
 									printedColors.add(product_details.get(i).getColor());
@@ -199,35 +199,22 @@
 								<div class="product_size_title">Seleziona taglia</div>
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<%	boolean tagliaS=false, tagliaM=false, tagliaL=false, tagliaXL=false, tagliaXXL=false;
-										int id_product_details_by_sizeS, id_product_details_by_sizeM, id_product_details_by_sizeL, id_product_details_by_sizeXL;
-									
+										
 										for(int i = 0; i < selectedProductsByColor.size(); i++)
 										{
 											if(selectedProductsByColor.get(i).getSize().equals("S"))
-											{
 												tagliaS = true;
-												id_product_details_by_sizeS = selectedProductsByColor.get(i).getId_prod_details();
-											}
 											else if(selectedProductsByColor.get(i).getSize().equals("M"))
-											{
 												tagliaM = true;
-												id_product_details_by_sizeM = selectedProductsByColor.get(i).getId_prod_details();
-											}
 											else if(selectedProductsByColor.get(i).getSize().equals("L"))
-											{
 												tagliaL = true;
-												id_product_details_by_sizeL = selectedProductsByColor.get(i).getId_prod_details();
-											}
 											else if(selectedProductsByColor.get(i).getSize().equals("XL"))
-											{
-												tagliaXL = true;
-												id_product_details_by_sizeXL = selectedProductsByColor.get(i).getId_prod_details();
-											}
+												tagliaXL = true;											
 										}
 						
 										if(tagliaS) {
 											%>
-											<input type="radio" id="radio_1" name="product_radio" class="regular_radio radio_1">
+											<input type="radio" id="radio_1" name="product_radio" value="S" class="regular_radio radio_1">
 											<label for="radio_1">S</label>
 											<%
 										}
@@ -238,7 +225,7 @@
 										<%}
 										if(tagliaM) {
 											%>
-											<input type="radio" id="radio_2" name="product_radio" class="regular_radio radio_2">
+											<input type="radio" id="radio_2" name="product_radio" value="M" class="regular_radio radio_2">
 											<label for="radio_2">M</label>
 											<%
 										}
@@ -249,7 +236,7 @@
 										<%}
 										if(tagliaL) {
 											%>
-											<input type="radio" id="radio_3" name="product_radio" class="regular_radio radio_3">
+											<input type="radio" id="radio_3" name="product_radio"  value="L" class="regular_radio radio_3">
 											<label for="radio_3">L</label>
 											<%
 										}
@@ -260,7 +247,7 @@
 										<%}
 										if(tagliaXL) {
 											%>
-											<input type="radio" id="radio_4" name="product_radio" class="regular_radio radio_4">
+											<input type="radio" id="radio_4" name="product_radio" value="XL" class="regular_radio radio_4">
 											<label for="radio_4">XL</label>
 											<%
 										}
@@ -324,16 +311,6 @@
 	</div>
 </div>
 
-<script>
-$("[id ='color_selector']").on('click', function showProduct(){
-	var value3 = $(this).find("input#id_conf").val();
-	
-	
-});
-		
-	
-
-</script>
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>
