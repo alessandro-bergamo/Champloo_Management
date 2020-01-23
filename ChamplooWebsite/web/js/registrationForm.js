@@ -64,5 +64,5 @@ $(document).ready(function()
 			equalTo: "Le due password non coincidono!"
 			}
 		}
-	});
+	});//
 });
