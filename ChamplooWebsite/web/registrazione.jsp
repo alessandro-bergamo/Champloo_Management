@@ -1,3 +1,9 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +17,11 @@
     <link href="images/icona.png" rel="shortcut icon"/>
 
     <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/bootstrap-4.1.2/bootstrap.min.css">
     <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -37,7 +48,7 @@
                 <div class="logo">
                     <div class="logo_cpl d-flex flex-row align-items-center justify-content-start">
                             <div>
-                                <a href="index.html">
+                                <a href="index.jsp">
                                     <img src="images/logo_cpl.png" alt="">
                                 </a>
                                 </div>
@@ -55,7 +66,7 @@
             <div class="main">
                 <div class="shop_top" id="regimargin">
                     <div class="container">
-                        <form method="POST" action="UserControl">
+                        <form method="POST" id="registrationForm" name="registrationForm" action="UserControl">
                         	<input name="operation" value="registerUser" type="hidden" >
 	                        <div class="register-top-grid">
 	                            <h3>INFORMAZIONI PERSONALI</h3>
@@ -86,7 +97,7 @@
 	                                </div>
 	                                <div>
 	                                    <span>Conferma Password<label>*</label></span>
-	                                    <input type="password">
+	                                    <input name="password2" type="password">
 	                                </div>
 	                                <div class="clear"> </div>
 	                            </div>
@@ -98,7 +109,6 @@
                     </div>
                 </div>
             </div>
-    <script src="js/jquery-3.2.1.min.js"></script>
     <script src="styles/bootstrap-4.1.2/popper.js"></script>
     <script src="styles/bootstrap-4.1.2/bootstrap.min.js"></script>
     <script src="plugins/greensock/TweenMax.min.js"></script>
@@ -111,6 +121,8 @@
     <script src="plugins/progressbar/progressbar.min.js"></script>
     <script src="plugins/parallax-js-master/parallax.min.js"></script>
     <script src="js/custom.js"></script>
+    <script src="/ChamplooWebsite/js/registrationForm.js"></script>
+    
 
 </body>
 

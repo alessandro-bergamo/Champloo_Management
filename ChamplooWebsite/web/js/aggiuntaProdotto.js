@@ -20,18 +20,18 @@ $(document).ready(function()
         },
         'name_product':{
         	required: true,
-        	minlenght: 3
+        	minlength: 3
         },
         'description_product':{
         	required: true,
-        	minlenght: 3
+        	minlength: 3
         },
         'size_product':{
         	required: true
         },
         'color_product':{
         	required: true,
-        	minlenght: 3
+        	minlength: 3
         },
         'price_product':{
         	required: true,
@@ -49,7 +49,7 @@ $(document).ready(function()
         'qnt_stock_product':{
         	required: true,
         	digits: true,
-        	rangelenght: [0, 99]
+        	rangelength: [0, 99]
         },
         'status_product':{
         	required: true
@@ -72,18 +72,19 @@ $(document).ready(function()
         },
         'name_product':{
         	required: "Il campo nome &egrave; obbligatorio!",
-        	minlenght: "Il nome del prodotto deve essere di almeno 3 lettere!"
+            minlength: "Il nome del prodotto deve essere di almeno 3 lettere!"  
+
         },
         'description_product':{
         	required: "Il campo descrizione &egrave; obbligatorio!",
-        	minlenght: "La descrizione del prodotto deve essere di almeno 3 lettere"
+        	minlength: "La descrizione del prodotto deve essere di almeno 3 lettere"
         },
         'size_product':{
         	required: "Devi selezionare la taglia del prodotto interessato!"
         },
         'color_product':{
         	required: "Il campo colore &egrave; obbligatorio!",
-        	minlenght: "Il colore del prodotto deve essere di almeno 3 lettere!"
+        	minlength: "Il colore del prodotto deve essere di almeno 3 lettere!"
         },
         'price_product':{
         	required: "Il campo prezzo &egrave; obbligatorio!",
@@ -101,7 +102,7 @@ $(document).ready(function()
         'qnt_stock_product':{
         	required: "Il campo quantita' &egrave; obbligatorio!",
         	digits: "Questo campo puo' contenere solo numeri interi!",
-        	rangelenght: "Questo campo puo' contenere numeri da 0 a 99!"
+        	rangelength: "Questo campo puo' contenere numeri da 0 a 99!"
         },
         'status_product':{
         	required: "Devi selezionare la tipologia del prodotto interessato!"
