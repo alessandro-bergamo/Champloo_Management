@@ -3,7 +3,8 @@
 		contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
-		import="java.util.*"%>
+		import="java.util.*"
+		import="javafx.util.Pair" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,17 +103,16 @@
 		<!-- Stop Header -->
 
 		<%
-			HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_vetrina;
-			if (((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus")) == null)
-					|| ((products_in_vetrina = (HashMap) request.getSession().getAttribute("productsByStatus"))
-							.isEmpty())) {
+		ArrayList<Pair<ProductBean, ProductDetailsBean>> prodotti_in_vetrina;
+		
+			if (((prodotti_in_vetrina = (ArrayList) request.getSession().getAttribute("window")) == null) || ((prodotti_in_vetrina = (ArrayList) request.getSession().getAttribute("window")).isEmpty())) 
+			{System.out.println("prodotti in vetrina--> 109"+prodotti_in_vetrina);
 		%>
 
 		<div style="display: none;">
 			<form action="Product" id="hiddenform" method="POST">
-				<input type="hidden" id="loadedvalue" name="loaded" value="0">
-				<input type="hidden" name="status_product" value="4"> <input
-					type="hidden" name="operation" value="retrieveByStatus">
+				<input type="hidden" id="loadedvalue" name="loaded" value="0"> 
+				<input type="hidden" name="operation" value="createWindow">
 			</form>
 		</div>
 
@@ -123,6 +123,7 @@
 		<input type="hidden" id="loadedvalue" name="loaded" value="1">
 
 		<%
+		System.out.println("prodotti in vetrina-->126"+prodotti_in_vetrina);
 			}
 		%>
 
@@ -321,19 +322,18 @@
 
 					<!-- Product -->
 					<%
-						if (products_in_vetrina != null) {
-							Iterator iterator = products_in_vetrina.entrySet().iterator();
-							while (iterator.hasNext()) {
-								HashMap.Entry entry = (HashMap.Entry) iterator.next();
-								ProductBean product = (ProductBean) entry.getKey();
-								ArrayList<ProductDetailsBean> product_details = (ArrayList<ProductDetailsBean>) entry.getValue();
-								for (int I = 0; I < product_details.size(); I++) {
+						if (prodotti_in_vetrina != null) {
+							System.out.println("diocane cosa è--->"+prodotti_in_vetrina);
+
+								for (int I = 0; I < prodotti_in_vetrina.size(); I++) {
+									ProductBean product = prodotti_in_vetrina.get(I).getKey();
+									ProductDetailsBean product_details = prodotti_in_vetrina.get(I).getValue();
 					%>
 
 					<div class="col-xl-4 col-md-6">
 						<div class="product">
 							<div class="product_image">
-								<img src=<%=product_details.get(I).getImg_path_folder()%>img1.png" alt="">
+								<img src=<%=product_details.getImg_path_folder()%>img1.png" alt="">
 							</div>
 							<div class="product_content">
 								<div
@@ -341,39 +341,39 @@
 									<div>
 										<div>
 											<div class="product_name">
-												<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(I).getColor()%>"><%=product.getName()%></a>
+												<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.getColor()%>"><%=product.getName()%></a>
 											</div>
 											<div class="product_category">
-												In <a href="category.html"><%=product.getType()%> <%=product_details.get(I).getColor()%></a>
+												In <a href="category.html"><%=product.getType()%> <%=product_details.getColor()%></a>
 											</div>
 										</div>
 									</div>
 									<div class="ml-auto text-right">
 										<%
-											if (product_details.get(I).getAverage_rating() == 0) {
+											if (product_details.getAverage_rating() == 0) {
 										%>
 										<div class="rating_r rating_r_0 home_item_rating">
 											<%
-												} else if (product_details.get(I).getAverage_rating() <= 10
-																	&& product_details.get(I).getAverage_rating() != 0) {
+												} else if (product_details.getAverage_rating() <= 10
+																	&& product_details.getAverage_rating() != 0) {
 											%>
 											<div class="rating_r rating_r_1 home_item_rating">
 												<%
-													} else if (product_details.get(I).getAverage_rating() > 10
-																		&& product_details.get(I).getAverage_rating() <= 25) {
+													} else if (product_details.getAverage_rating() > 10
+																		&& product_details.getAverage_rating() <= 25) {
 												%>
 												<div class="rating_r rating_r_2 home_item_rating">
 													<%
-														} else if (product_details.get(I).getAverage_rating() > 25
-																			&& product_details.get(I).getAverage_rating() <= 50) {
+														} else if (product_details.getAverage_rating() > 25
+																			&& product_details.getAverage_rating() <= 50) {
 													%>
 													<div class="rating_r rating_r_3 home_item_rating">
 														<%
-															} else if (product_details.get(I).getAverage_rating() > 50 && product_details.get(I).getAverage_rating() <= 100) {
+															} else if (product_details.getAverage_rating() > 50 && product_details.getAverage_rating() <= 100) {
 														%>
 														<div class="rating_r rating_r_4 home_item_rating">
 															<%
-																} else if (product_details.get(I).getAverage_rating() > 100) {
+																} else if (product_details.getAverage_rating() > 100) {
 															%>
 															<div class="rating_r rating_r_5 home_item_rating">
 																<%
@@ -381,28 +381,14 @@
 																%>
 																<i></i><i></i><i></i><i></i><i></i>
 															</div>
-															<div class="product_price text-right"><%=String.valueOf(product_details.get(I).getPrice()).substring(0, String.valueOf(product_details.get(I).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(I).getPrice()).substring(String.valueOf(product_details.get(I).getPrice()).indexOf("."))%>&euro;</span></div>
-														</div>
-													</div>
-													<div class="product_buttons">
-														<div
-															class="text-center d-flex flex-row align-items-start justify-content-center">
-															<div
-																class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-																<div>
-																	<div>
-																		<img src="images/cart.svg" class="svg" alt="">
-																		<div>+</div>
-																	</div>
-																</div>
-															</div>
+															<div class="product_price text-right"><%=String.valueOf(product_details.getPrice()).substring(0, String.valueOf(product_details.getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.getPrice()).substring(String.valueOf(product_details.getPrice()).indexOf("."))%>&euro;</span></div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<%
-											}
+											
 												}
 											}
 										%>

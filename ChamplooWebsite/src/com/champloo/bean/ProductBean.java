@@ -2,6 +2,11 @@ package com.champloo.bean;
 
 public class ProductBean {
 	
+	public static final int NORMAL_PRODUCT = 1;
+	public static final int SALED_PRODUCT = 2;
+	public static final int SLIDER_PRODUCT = 3;
+	public static final int WINDOW_PRODUCT = 4;
+	
 	private int id_prod;
 	private String name, brand, model, type, description;
 	
