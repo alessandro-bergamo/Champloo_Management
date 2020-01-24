@@ -1862,21 +1862,22 @@ Form Validation
 #userInfo label.error{
 	color: #f33;
 	padding: 0;
-	margin-bottom: 0,5px 0 0 0;
+	margin-bottom: 0.5px;
 	font-size: 1em;
 	padding-left: 25px;
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	}
 	
-#login-form label.error{
+#login-form label.error {
 	color: #f33;
 	padding: 0;
-	margin-bottom: 0,5px 0 0 0;
+	margin-bottom: 0.5px;
 	font-size: 1em;
 	padding-left: 25px;
 	background-position: 0 0;
 	background-repeat: no-repeat;
+}
 
 /*********************************
 8. Features
