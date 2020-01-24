@@ -145,6 +145,17 @@ public class CartControl extends HttpServlet {
 					}		
 				}				
 			}
+			else if(operation.equals("submitCheckout"))
+			{
+				Float total_price_order, shipping_price, total_price;
+				total_price = Float.parseFloat(request.getParameter("total_price"));
+				shipping_price = Float.parseFloat(request.getParameter("shipping_price"));
+				total_price_order = Float.parseFloat(request.getParameter("total_price_order"));
+
+				session.setAttribute("total_price", total_price);
+				session.setAttribute("shipping_price", shipping_price);
+				session.setAttribute("total_price_order", total_price_order);
+			}
 
 
 			if(operation.equals("login"))
@@ -157,7 +168,9 @@ public class CartControl extends HttpServlet {
     {
         doGet(request, response);
     }
-    
+
+
+
 	 private static final long serialVersionUID = 1L;
 	 private static CartDAO cartDAO = new CartDAO();
 	 private HttpSession session;

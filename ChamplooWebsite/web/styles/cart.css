@@ -1134,6 +1134,7 @@ section
 	background: transparent;
 	border: solid 2px #838383;
 	border-radius: 50%;
+	cursor: pointer;
 }
 .radio_mark::after
 {
@@ -1171,6 +1172,7 @@ section
 	font-size: 14px;
 	font-weight: 500;
 	color: #838383;
+	cursor: pointer;
 }
 .shipping_price
 {

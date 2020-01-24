@@ -69,6 +69,9 @@
 		<%@ include file="header.jsp" %>
 
 		<%
+			if(utenteLoggato == null)
+				response.sendRedirect("user_log.jsp");
+
 			HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_cart;
 			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null) || ((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")).isEmpty()))
 			{
@@ -138,12 +141,13 @@
 												{
 									%>
 									<!-- Cart Item -->
+									<input type="hidden" id="products_to_checkout" value="<%=products_in_cart%>">
 									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
 											<div><div class="product_number"><%=num_products++%></div></div>
 											<div><div class="product_image"><img src=<%=product_details.get(I).getImg_path_folder()%>img1.png" alt=""></div></div>
 											<div class="product_name_container">
-												<div class="product_name"><a href="product.html"><%=product.getName()%></a></div>
+												<div class="product_name"><a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(I).getColor()%>"><%=product.getName()%></a></div>
 												<div class="product_text"><%=product.getType()+" - BRAND: "+product.getBrand()%></div>
 											</div>
 										</div>
@@ -160,8 +164,6 @@
 										<div class="product_total product_text"><span>Totale: </span><%=product_details.get(I).getPrice()*2%>	</div>
 									</li>
 									<%			}
-											}
-										}
 									%>
 								</ul>
 							</div>
@@ -185,7 +187,7 @@
 									<ul>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_1" name="shipping_radio" class="shipping_radio" checked>
+												<input type="radio" id="radio_1" name="shipping_radio" value="veloce" class="shipping_radio">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Corriere Espresso - (1/2 giorni lavorativi)</span>
 											</label>
@@ -193,7 +195,7 @@
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_2" name="shipping_radio" class="shipping_radio">
+												<input type="radio" id="radio_2" name="shipping_radio" value="standard" class="shipping_radio">
 												<span class="radio_mark"></span>
 												<span class="radio_text">Corriere Standard - (3/5 giorni lavorativi)</span>
 											</label>
@@ -201,11 +203,11 @@
 										</li>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_3" name="shipping_radio" class="shipping_radio">
+												<input type="radio" id="radio_3" name="shipping_radio" value="lenta" class="shipping_radio" required checked>
 												<span class="radio_mark"></span>
 												<span class="radio_text">Consegna Lenta - (7+ giorni lavorativi)</span>
 											</label>
-											<div class="shipping_price ml-auto">Gratis</div>
+											<div class="shipping_price ml-auto">Gratuita</div>
 										</li>
 									</ul>
 								</div>
@@ -217,30 +219,40 @@
 							<div class="cart_extra_content cart_extra_total">
 								<div class="cart_extra_title">Totale carrello</div>
 								<ul class="cart_extra_total_list">
+									<%
+										int total_price = 0;
+										for(int I=0; I<product_details.size(); I++)
+										{
+											total_price += product_details.get(I).getPrice();
+										}
+									%>
 									<li class="d-flex flex-row align-items-center justify-content-start">
-										<div class="cart_extra_total_title">Oggetti</div>
-										<div class="cart_extra_total_value ml-auto">29.90 &euro;</div>
+										<div class="cart_extra_total_title">Prodotti</div>
+										<div class="cart_extra_total_value ml-auto" id="total_price"><p class="cart_extra_total_value ml-auto"><%=total_price%></p></div><div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Spedizione</div>
-										<div class="cart_extra_total_value ml-auto">Gratuita</div>
+										<div class="cart_extra_total_value ml-auto" id="price_shipping">GRATUITA</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Totale</div>
-										<div class="cart_extra_total_value ml-auto">29.90 &euro;</div>
+										<div class="cart_extra_total_value ml-auto" id="total_price_order"><p class="cart_extra_total_value ml-auto"><%=total_price%></p></div><div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
 									</li>
 								</ul>
-								<div class="checkout_button trans_200"><a href="checkout.html">Procedi all'acquisto</a></div>
+								<div class="checkout_button trans_200" onclick="submitCheckout()"><a style="color: white; cursor: pointer;">Procedi all'acquisto</a></div>
 							</div>
 						</div>
 					</div>
+					<%		}
+						}
+					%>
 				</div>
 			</div>
 		</div>
 
         <!-- Footer -->
 
-			<%@ include file="footer.jsp" %>
+		<%@ include file="footer.jsp" %>
                   
 	</div>
 
@@ -251,6 +263,42 @@
 				$("#hiddenform").submit();
 			}
 		}
+	</script>
+
+	<script>
+
+		var total_price_order = 0;
+		var shipping_price = 0;
+		var total_price = $("#total_price p").text();
+
+		function submitCheckout() {
+			var value1 = ("submitCheckout");
+			$.ajax({
+				type: "GET",
+				url: "Cart",
+				data: {"total_price_order": total_price_order, "shipping_price": shipping_price, "total_price": total_price, "operation": value1},
+			}); window.location.href = "/checkout.jsp";
+		}
+
+		$('input[type=radio][name=shipping_radio]').change(function() {
+			if (this.value == 'veloce') {
+				shipping_price = 4.99;
+				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+				$("#price_shipping").text("4.99 €");
+				$("#total_price_order").text(total_price_order);
+			} else if (this.value == 'standard') {
+				shipping_price = 1.99;
+				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+				$("#price_shipping").text("1.99 €");
+				$("#total_price_order").text(total_price_order);
+			} else if (this.value == 'lenta') {
+				shipping_price = 0;
+				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+				$("#price_shipping").text("GRATUITA");
+				$("#total_price_order").text(total_price_order);
+			}
+		});
+
 	</script>
 
 	<script src="js/jquery-3.2.1.min.js"></script>
