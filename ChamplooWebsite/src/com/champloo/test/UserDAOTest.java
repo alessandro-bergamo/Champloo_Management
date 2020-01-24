@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(Parameterized.class)
 public class UserDAOTest {
 
@@ -43,13 +45,19 @@ public class UserDAOTest {
                 {Type.REGISTERUSER, new UserBean("Antonio", "Mancuso", "yeezus", "gokuantony@live.it", "yeezy", new Date(), 1), true},
                 {Type.GETUSERBYEMAIL, "gokuantony@live.it", false},
                 {Type.GETUSERBYEMAIL, "wasdxd@hotmail.it", true},
-                {Type.GETUSERBYUSERNAME, "daviddavid", false},
+                {Type.GETUSERBYUSERNAME, "alexalex", false},
                 {Type.GETUSERBYUSERNAME, "okokok", true},
                 {Type.GETALLUSERS, null, false},
                 {Type.UPDATEUSER, new UserBean("Davide", "Cap", "daviddavid", "davidecap00@hotmail.it", "capucapu", new Date(), 1), true},
                 {Type.UPDATEUSER, new UserBean("Tony", "Mank", "yee", "gokuan@live.it", "yeezy", new Date(), 1), false},
                 {Type.DELETEUSER, new UserBean("Davide", "Cap", "daviddavid", "davidecap00@hotmail.it", "capucapu", new Date(), 1), true},
-                {Type.DELETEUSER, new UserBean("ok", "ok", "ok", "ok", "ok", new Date(), 1), false}
+                {Type.DELETEUSER, new UserBean("ok", "ok", "ok", "ok", "ok", new Date(), 1), false},
+                {Type.BLOCKUSER, "alexalex", true},
+                {Type.BLOCKUSER, "ciaociao", false},
+                {Type.LOGIN, new String[]{"gokuantony@live.it", "yeezy"}, true},
+                {Type.LOGIN, new String[]{"fewiof@hotmail.it", "paswfe"}, false},
+                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Salvatore", "Villano", "tabitabi", "tatoresammino@gmail.com", "villivilli", new Date(), 1), "provaaa"}, true},
+                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Luca", "Giugliano", "giougly", "lucag@gmail.com", "welcome", new Date(), 1), "provaaa"}, false}
         });
     }
 
@@ -96,16 +104,21 @@ public class UserDAOTest {
     @org.junit.Test
     public void blockUser() {
         Assume.assumeTrue((type.equals(Type.BLOCKUSER)));
-
+        assertEquals(expectedResult, userDAO.blockUser((String)paramForDAO));
     }
 
     @org.junit.Test
     public void login() {
         Assume.assumeTrue((type.equals(Type.LOGIN)));
+        String[] values = ((String[])paramForDAO);
+        assertEquals(expectedResult, userDAO.login(values[0], values[1]));
     }
 
     @org.junit.Test
     public void changePassword() {
         Assume.assumeTrue((type.equals(Type.CHANGEPASSWORD)));
+        UserBean userBean = (UserBean)((Object[])paramForDAO)[0];
+        String password = (String) ((Object[])paramForDAO)[1];
+        assertEquals(expectedResult, userDAO.changePassword(userBean, password));
     }
 }

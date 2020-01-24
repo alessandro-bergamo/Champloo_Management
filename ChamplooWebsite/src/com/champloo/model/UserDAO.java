@@ -236,9 +236,14 @@ public class UserDAO implements UserModel {
 	public boolean blockUser(String username) {
 		try {
 			connection = connectionPool.getConnection();
-			Statement statement = connection.createStatement();
-			String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where username ='" + username + "'"; 
-			statement.executeUpdate(SQL);
+			Statement resultStatement = connection.createStatement();
+			ResultSet resultSetUser = resultStatement.executeQuery("select * from registred_users where username = " + "'" + username + "'");
+			if(resultSetUser.first()) {
+				Statement statement = connection.createStatement();
+				String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where username ='" + username + "'";
+				statement.executeUpdate(SQL);
+			} else
+				return false;
 		}catch(Exception e) {
 			e.printStackTrace();
 		} finally {

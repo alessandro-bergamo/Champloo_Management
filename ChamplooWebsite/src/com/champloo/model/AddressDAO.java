@@ -9,11 +9,6 @@ import java.util.HashSet;
 
 public class AddressDAO implements AddressModel
 {
-    /**
-     * Insert a new Shipping Address
-     * @param newAddress
-     * @return address_added
-     */
 	
 	public AddressDAO()
 	{
@@ -27,7 +22,12 @@ public class AddressDAO implements AddressModel
 					e.printStackTrace();
 				}
 	}
-	
+
+    /**
+     * Insert a new Shipping Address
+     * @param newAddress
+     * @return address_added
+     */
     public boolean insertAddress(AddressBean newAddress) throws SQLException
     {
         int address_added = 0;
@@ -38,7 +38,7 @@ public class AddressDAO implements AddressModel
         try {
             preparedStatement=connection.prepareStatement(query);
 
-            preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(1, newAddress.getRegistred_User());
             preparedStatement.setString(2, newAddress.getAddress());
             preparedStatement.setString(3, newAddress.getCity());
             preparedStatement.setString(4, newAddress.getProvince());
