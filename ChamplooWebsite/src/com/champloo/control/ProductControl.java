@@ -4,6 +4,8 @@ import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.model.ProductDAO;
 
+import javafx.util.Pair;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,6 +80,21 @@ public class ProductControl extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			else if(operation.equals("createWindow"))
+			{
+				ArrayList<Pair<ProductBean, ProductDetailsBean>> window = new ArrayList<Pair<ProductBean,ProductDetailsBean>>();
+				try {
+					window = productDAO.createWindow();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				session.setAttribute("window", window);
+				session.setAttribute("redirectURL", "index.jsp");
+				
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
 			}
 			else if(operation.equals("showProduct"))
 			{

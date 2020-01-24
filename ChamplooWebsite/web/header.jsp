@@ -7,10 +7,12 @@
 
 <%
 	UserBean utenteLoggato;
+	CartBean cart;
 	synchronized(session) 
 			{
-				utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");		
-			}
+				utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                cart = (CartBean) request.getSession().getAttribute("cart");
+            }
 
 %>
 
@@ -44,7 +46,7 @@
                         </form>
                     </div>
                    <%
-                       if(utenteLoggato != null)
+                       if(utenteLoggato != null && cart != null)
                        {
                            if(utenteLoggato.getType()==2 || utenteLoggato.getType()==3 || utenteLoggato.getType()==4)
                            {

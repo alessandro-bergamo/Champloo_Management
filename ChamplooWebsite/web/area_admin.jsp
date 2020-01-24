@@ -150,7 +150,7 @@
                            <% } else if(utenteLoggato.getType()==3) {%>
                            <div class="container divprod" id="prodiv">
                                <div class="row justify-content-center">
-                                   <a href="inserisci_prodotto.jsp"><h4 class="prodh4">Inserisci Prodotto</h4></a>
+                                   <a href="inserisci_prodotto.jsp"><h4>Inserisci Prodotto</h4></a>
                                </div>
                                <div class="row spacerProd">
                                    <div class="col-xl-1">

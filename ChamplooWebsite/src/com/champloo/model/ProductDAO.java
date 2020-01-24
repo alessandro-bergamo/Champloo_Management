@@ -3,11 +3,15 @@ package com.champloo.model;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
+import com.sun.jndi.url.iiopname.iiopnameURLContextFactory;
+
 import javafx.util.Pair;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.persistence.criteria.From;
 
 public class ProductDAO implements ProductModel 
 {
@@ -856,6 +860,108 @@ public class ProductDAO implements ProductModel
 		return products;
 		
 	}
+	
+	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createWindow() throws SQLException
+	{
+		ArrayList<Pair<ProductBean, ProductDetailsBean>> window = new ArrayList<Pair<ProductBean,ProductDetailsBean>>();
+		ArrayList<ProductDetailsBean> details = new ArrayList<ProductDetailsBean>();
+		boolean isInWindow = false;
+			
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE id_product IN (\r\n" + 
+				"		SELECT id_product FROM products INNER JOIN product_details ON id_product = Product AND status_product = '"+ProductBean.WINDOW_PRODUCT+"' );";
+		
+		try {
+			statement = connection.createStatement();
+			
+			firstResults = statement.executeQuery(query);
+	
+			while(firstResults.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setDescription(firstResults.getString(6));
+				
+				query = "SELECT * FROM product_details WHERE Product = ? AND status_product = '"+ProductBean.WINDOW_PRODUCT+"'";
+				
+				preparedStatement = connection.prepareStatement(query);
+				
+				preparedStatement.setInt(1, product.getId_prod());
+				
+				secondResults = preparedStatement.executeQuery();
+						
+				while(secondResults.next())
+				{
+					isInWindow = false;
+					
+					ProductDetailsBean productDetails = new ProductDetailsBean();
+					
+					productDetails.setId_prod_details(secondResults.getInt(1));
+					productDetails.setProduct(secondResults.getInt(2));
+					productDetails.setColor(secondResults.getString(3));
+					productDetails.setSize(secondResults.getString(4));
+					productDetails.setPrice(secondResults.getFloat(5));
+					productDetails.setDiscount_percent(secondResults.getInt(6));
+					productDetails.setDiscounted_price(secondResults.getFloat(7));
+					productDetails.setQnt_stock(secondResults.getInt(8));
+					productDetails.setStatus(secondResults.getInt(9));
+					productDetails.setAverage_rating(secondResults.getFloat(10));
+					productDetails.setNumber_feedback_users(secondResults.getInt(11));
+					productDetails.setImg_path_folder(secondResults.getString(12));
+						
+					//details.add(productDetails);
+					
+					if(window.isEmpty())
+					{
+						System.out.println("INSERITO ALL'INIZIO \n productDetails product: "+productDetails.getProduct()+" productDetails color: "+productDetails.getColor());
+						
+						window.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
+					}
+					else 
+					{
+						for(int i = 0; i < window.size(); i++)
+						{
+							System.out.println("CONFRONTO \n productDetails product: "+productDetails.getProduct()+" window.ProductDetails product("+i+")"+window.get(i).getValue().getProduct()+" productDetails color: "+productDetails.getColor()+" window.ProductDetails color("+i+") "+window.get(i).getValue().getColor());
+							if(productDetails.getProduct() == window.get(i).getValue().getProduct() && productDetails.getColor().equals(window.get(i).getValue().getColor()) )							
+							{
+								System.out.println("IN VETRINA \n productDetails product: "+productDetails.getProduct()+" window.ProductDetails product"+window.get(i).getValue().getProduct()+" productDetails color: "+productDetails.getColor());
+								
+								isInWindow = true;
+							}
+						}
+						
+						if(!isInWindow)
+						{
+							System.out.println("INSERITO dopo \n productDetails product: "+productDetails.getProduct()+" productDetails color: "+productDetails.getColor());
+							window.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
+						}
+					}
+				}	
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (statement != null)
+                    statement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+
+		System.out.println("PorductDAO 930--> size window"+window.size()+" window="+window);
+		return window;
+	}
+	
+	
 
 	/**
      * Deletes a given product

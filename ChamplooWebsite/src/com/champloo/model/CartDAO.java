@@ -1,20 +1,11 @@
 package com.champloo.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.champloo.bean.*;
+import com.champloo.storage.ConnectionPool;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.champloo.bean.CartBean;
-import com.champloo.bean.CartItemBean;
-import com.champloo.bean.ProductBean;
-import com.champloo.bean.ProductDetailsBean;
-import com.champloo.bean.UserBean;
-import com.champloo.storage.ConnectionPool;
 
 public class CartDAO implements CartModel
 {
@@ -22,7 +13,7 @@ public class CartDAO implements CartModel
 	public CartDAO()
 	{
 		try {
-			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
+			connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
@@ -35,32 +26,33 @@ public class CartDAO implements CartModel
 		connection = connectionPool.getConnection();
 		
 		try {
-			//controlla se nel carrello � gi� presente il prodotto
-			query = "SELECT * FORM cart_item WHERE Cart='"+cart.getId_cart()+"' AND Product_Details='"+id_product_details+"'";
+			//controlla se nel carrello è già presente il prodotto
+			query = "SELECT * FROM cart_item WHERE Cart='"+cart.getId_cart()+"' AND Product_Details='"+id_product_details+"'";
 			statement = connection.createStatement();
 			results = statement.executeQuery(query);
 			
 			if(results.first())
 			{
-				// SE IL PRODOTTO NON ESISTE NEL CARRELLO, AGGIUNGILO
-				query = "INSERT INTO cart_item(Cart, Product_Details, qnt_in_cart) VALUES (?,?,?)";
-				
-				preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-				
-				preparedStatement.setInt(1, cart.getId_cart());
-				preparedStatement.setInt(2, id_product_details);
-				preparedStatement.setInt(3, 1); 	// aggiunta del primo prodotto
-				
-				isAdded = preparedStatement.executeUpdate();	
+				// IL PRODOTTO E' GIA PRESENTE NEL CARRELLO, AGGIUNGE +1 ALLA QUANTIT�
+				int qnt_in_cart = results.getInt("qnt_in_cart");
+				qnt_in_cart += 1;
+				query = "UPDATE cart_item SET qnt_in_cart = '"+qnt_in_cart+"' WHERE Product_Details='"+id_product_details+"'";
+
+				statement = connection.createStatement();
+				isAdded = statement.executeUpdate(query);
 			}
 			else 
 			{
-				// IL PRODOTTO � GI� PRESENTE NEL CARRELLO, AGGIUNGE +1 ALLA QUANTIT�
-				int qnt_in_cart = results.getInt("qnt_in_cart");
-				query = "UPDATE cart_item SET qnt_in_cart = '"+qnt_in_cart+++"' WHERE Product_Details='"+id_product_details+"'";
-				
-				statement = connection.createStatement();
-				isAdded = statement.executeUpdate(query);			
+				// SE IL PRODOTTO NON ESISTE NEL CARRELLO, AGGIUNGILO
+				query = "INSERT INTO cart_item(Cart, Product_Details, qnt_in_cart) VALUES (?,?,?)";
+
+				preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+				preparedStatement.setInt(1, cart.getId_cart());
+				preparedStatement.setInt(2, id_product_details);
+				preparedStatement.setInt(3, 1); 	// aggiunta del primo prodotto
+
+				isAdded = preparedStatement.executeUpdate();
 			}
 		
 		} catch (Exception e) {
@@ -145,11 +137,10 @@ public class CartDAO implements CartModel
 		
 		try {
 			// seleziona tutti i prodotti(generici) presenti nel carrello 
-			query ="\"SELECT * FROM products WHERE id_product IN (\\r\\n\" + \r\n" + 
-					"				\"	SELECT id_product FROM products WHERE id_product IN (\\r\\n\" + \r\n" + 
-					"				\"		SELECT Product FROM product_details INNER JOIN cart_item ON id_product_details = Product_Details AND Cart = '\"++\"\"'\\r\\n\" + \r\n" + 
-					"				\"	)    \\r\\n\" + \r\n" + 
-					"				\") \"";
+			query ="SELECT * FROM products WHERE id_product IN (\r\n" +
+					"SELECT id_product FROM products WHERE id_product IN (\r\n" +
+					"SELECT Product FROM product_details INNER JOIN cart_item ON id_product_details = Product_Details AND Cart = '"+cart.getId_cart()+"' ))";
+
 			
 			statement = connection.createStatement();
 			results = statement.executeQuery(query);
@@ -347,6 +338,14 @@ public class CartDAO implements CartModel
 				cart = new CartBean();
 				cart.setId_cart(results.getInt(1));
 				cart.setUser(results.getInt(2));
+			} else {
+				query = "INSERT INTO carts(Registred_User) VALUES (?)";
+
+				preparedStatement = connection.prepareStatement(query);
+
+				preparedStatement.setInt(1, user.getID());
+
+				preparedStatement.executeUpdate();
 			}
 	
 		} catch (Exception e) {

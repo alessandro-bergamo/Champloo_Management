@@ -20,7 +20,7 @@
 	<link href="images/icona.png" rel="shortcut icon"/>
 
 	<!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -28,6 +28,9 @@
 	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 	<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+	
+	<!-- CDN SWEETALERT2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<!-- STILI CSS -->
 	<link rel="stylesheet" type="text/css" href="styles/product.css">
@@ -158,19 +161,19 @@
 					<!-- Product Info -->
 					<div class="col-lg-6 product_col">
 						<div class="product_info">
-							<div class="product_name"><%=product.getName()%></div>
+							<div class="product_name"><%=product.getName()%>  <%=selectedProductsByColor.get(0).getSize()%>  <%=selectedProductsByColor.get(0).getId_prod_details()%> </div>
 							<div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
-									<input type="radio" id="star5" name="rate" value="5" />
+									
 									<label for="star5" title="5 Stelle">5 stars</label>
-									<input type="radio" id="star4" name="rate" value="4" />
+									
 									<label for="star4" title="4 Stelle">4 stars</label>
-									<input type="radio" id="star3" name="rate" value="3" />
+									
 									<label for="star3" title="3 Stelle">3 stars</label>
-									<input type="radio" id="star2" name="rate" value="2" />
+									
 									<label for="star2" title="2 Stelle">2 stars</label>
-									<input type="radio" id="star1" name="rate" value="1" />
+									
 									<label for="star1" title="1 Stella">1 star</label>
 								</div>
 								<% 	float average_rating = product_details.get(0).getAverage_rating();
@@ -199,22 +202,35 @@
 								<div class="product_size_title">Seleziona taglia</div>
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<%	boolean tagliaS=false, tagliaM=false, tagliaL=false, tagliaXL=false, tagliaXXL=false;
-										
+									int id_product_details_by_sizeS=0, id_product_details_by_sizeM=0, id_product_details_by_sizeL=0, id_product_details_by_sizeXL=0;
+									
 										for(int i = 0; i < selectedProductsByColor.size(); i++)
 										{
 											if(selectedProductsByColor.get(i).getSize().equals("S"))
+											{
 												tagliaS = true;
+												id_product_details_by_sizeS = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("M"))
+											{
 												tagliaM = true;
+												id_product_details_by_sizeM = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("L"))
+											{
 												tagliaL = true;
+												id_product_details_by_sizeL = selectedProductsByColor.get(i).getId_prod_details();
+											}
 											else if(selectedProductsByColor.get(i).getSize().equals("XL"))
-												tagliaXL = true;											
+											{
+												tagliaXL = true;	
+												id_product_details_by_sizeXL = selectedProductsByColor.get(i).getId_prod_details();
+											}
 										}
 						
 										if(tagliaS) {
 											%>
-											<input type="radio" id="radio_1" name="product_radio" value="S" class="regular_radio radio_1">
+											<input type="radio" id="radio_1" name="product_radio" value="<%=id_product_details_by_sizeS%>" class="regular_radio radio_1" required>
 											<label for="radio_1">S</label>
 											<%
 										}
@@ -225,7 +241,7 @@
 										<%}
 										if(tagliaM) {
 											%>
-											<input type="radio" id="radio_2" name="product_radio" value="M" class="regular_radio radio_2">
+											<input type="radio" id="radio_2" name="product_radio" value="<%=id_product_details_by_sizeM%>" class="regular_radio radio_2" required>
 											<label for="radio_2">M</label>
 											<%
 										}
@@ -236,7 +252,7 @@
 										<%}
 										if(tagliaL) {
 											%>
-											<input type="radio" id="radio_3" name="product_radio"  value="L" class="regular_radio radio_3">
+											<input type="radio" id="radio_3" name="product_radio" value="<%=id_product_details_by_sizeL%>" class="regular_radio radio_3" required>
 											<label for="radio_3">L</label>
 											<%
 										}
@@ -247,7 +263,7 @@
 										<%}
 										if(tagliaXL) {
 											%>
-											<input type="radio" id="radio_4" name="product_radio" value="XL" class="regular_radio radio_4">
+											<input type="radio" id="radio_4" name="product_radio" value="<%=id_product_details_by_sizeXL%>" class="regular_radio radio_4" required>
 											<label for="radio_4">XL</label>
 											<%
 										}
@@ -263,7 +279,7 @@
 							<div class="product_text">
 								<p><%=product.getDescription()%></p>
 							</div>
-							<div class="product_buttons">
+							<div class="product_buttons" onclick="addToCart()">
 								<div class="text-right d-flex flex-row align-items-start justify-content-start">
 									<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 										<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
@@ -310,6 +326,43 @@
 
 	</div>
 </div>
+
+<script>
+
+		function addToCart()
+		{
+			var value1 = $("[name='product_radio']");
+			var checkedValue = value1.filter(":checked").val();
+			alert("VALUE "+checkedValue);
+			var value2 = ("insertProduct");
+			$.ajax({
+				type: "GET",
+				url: "Cart",
+				data: {"id_product_details" : checkedValue, "operation" : value2},
+				success: function(results){
+					Swal.fire({
+						title: 'Aggiunto al Carrello',
+						timer: 1700,
+						icon: 'success',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '400px',
+					})
+				},
+				error: function (result){
+					Swal.fire({
+						title: 'Non aggiunto al Carrello',
+						text: 'Prodotto non disponibile',
+						timer: 2000,
+						icon: 'error',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '500px'
+					})
+				}
+			});
+		};
+	</script>
 
 
 <script src="js/jquery-3.2.1.min.js"></script>

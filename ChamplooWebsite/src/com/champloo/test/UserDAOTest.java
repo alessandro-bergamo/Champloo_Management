@@ -5,11 +5,6 @@ import com.champloo.model.UserDAO;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -20,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @RunWith(Parameterized.class)
 public class UserDAOTest {

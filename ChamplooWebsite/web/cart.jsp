@@ -1,3 +1,10 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
+		import="com.champloo.bean.*"
+		import="java.util.*"
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart.css">
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 </head>
-<body>
+<body onload="submittaForm()">
 
 	<!-- Menu -->
 
@@ -59,8 +66,30 @@
 
 		<!-- Header -->
 
-			<%@ include file="header.jsp" %>
+		<%@ include file="header.jsp" %>
 
+		<%
+			HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_cart;
+			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null) || ((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")).isEmpty()))
+			{
+		%>
+
+			<div style="display: none;">
+				<form action="Cart" id="hiddenform" method="POST">
+					<input type="hidden" id="loadedvalue" name="loaded" value="0">
+					<input type="hidden" name="operation" value="retrieveProducts">
+				</form>
+			</div>
+
+		<%
+			} else {
+		%>
+
+			<input type="hidden" id="loadedvalue" name="loaded" value="1">
+
+		<%
+			}
+		%>
 
 		<!-- Home -->
 
@@ -87,7 +116,7 @@
 									<li>Colore</li>
 									<li>Taglia</li>
 									<li>Prezzo</li>
-									<li>Quantit‡</li>
+									<li>Quantit√†</li>
 									<li>Totale</li>
 								</ul>
 							</div>
@@ -95,29 +124,45 @@
 							<!-- Cart Items -->
 							<div class="cart_items">
 								<ul class="cart_items_list">
-
+									<%
+										if(products_in_cart != null)
+										{
+											Iterator iterator = products_in_cart.entrySet().iterator();
+											int num_products = 1;
+											while (iterator.hasNext())
+											{
+												HashMap.Entry entry = (HashMap.Entry) iterator.next();
+												ProductBean product = (ProductBean) entry.getKey();
+												ArrayList<ProductDetailsBean> product_details = (ArrayList<ProductDetailsBean>) entry.getValue();
+												for (int I = 0; I < product_details.size(); I++)
+												{
+									%>
 									<!-- Cart Item -->
 									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
-											<div><div class="product_number">1</div></div>
-											<div><div class="product_image"><img src="" alt=""></div></div>
+											<div><div class="product_number"><%=num_products++%></div></div>
+											<div><div class="product_image"><img src=<%=product_details.get(I).getImg_path_folder()%>img1.png" alt=""></div></div>
 											<div class="product_name_container">
-												<div class="product_name"><a href="product.html">Nome oggetto</a></div>
-												<div class="product_text">Seconda linea per informazioni aggiuntive</div>
+												<div class="product_name"><a href="product.html"><%=product.getName()%></a></div>
+												<div class="product_text"><%=product.getType()+" - BRAND: "+product.getBrand()%></div>
 											</div>
 										</div>
-										<div class="product_color product_text"><span>Colore: </span></div>
-										<div class="product_size product_text"><span>Taglia: </span></div>
-										<div class="product_price product_text"><span>Prezzo: </span></div>
+										<div class="product_color product_text"><span>Colore: </span><%=product_details.get(I).getColor()%></div>
+										<div class="product_size product_text"><span>Taglia: </span><%=product_details.get(I).getSize()%></div>
+										<div class="product_price product_text"><span>Prezzo: </span><%=product_details.get(I).getPrice()%> &euro;</div>
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-												<span class="product_text product_num">1</span>
+												<span class="product_text product_num"><%=product_details.get(I).getQnt_stock()%></span>
 												<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
 												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
 											</div>
 										</div>
-										<div class="product_total product_text"><span>Totale: </span>	</div>
+										<div class="product_total product_text"><span>Totale: </span><%=product_details.get(I).getPrice()*2%>	</div>
 									</li>
+									<%			}
+											}
+										}
+									%>
 								</ul>
 							</div>
 
@@ -198,6 +243,15 @@
 			<%@ include file="footer.jsp" %>
                   
 	</div>
+
+	<script>
+		function submittaForm() {
+			var val = parseInt($("#loadedvalue").val());
+			if (val == 0) {
+				$("#hiddenform").submit();
+			}
+		}
+	</script>
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="styles/bootstrap-4.1.2/popper.js"></script>

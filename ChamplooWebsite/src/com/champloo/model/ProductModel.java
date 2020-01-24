@@ -30,6 +30,8 @@ public interface ProductModel
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveAll() throws SQLException;
 	
+	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createWindow() throws SQLException;
+	
 	public boolean deleteProduct(int id_product) throws SQLException;
 	
 	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;

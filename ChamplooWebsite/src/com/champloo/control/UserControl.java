@@ -49,6 +49,7 @@ public class UserControl extends HttpServlet {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
+						System.out.println("SONO QUI, RIGA 52 USERCONTROL");
 						dispatcher = request.getRequestDispatcher("Address");
 						dispatcher.forward(request,response);
 					} else {

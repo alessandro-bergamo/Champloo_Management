@@ -77,13 +77,12 @@ p a
 {
 	display: inline;
 	position: relative;
-	color: inherit;
-	border-bottom: solid 1px #ffa07f;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	color: #2fce98;
 }
 p:last-of-type
 {
@@ -96,6 +95,8 @@ a
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	color: #2fce98;
+	
 }
 a, a:hover, a:visited, a:active, a:link
 {
@@ -103,20 +104,12 @@ a, a:hover, a:visited, a:active, a:link
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
+	color: #2fce98;
+	
 }
 p a:active
 {
 	position: relative;
-	color: #FF6347;
-}
-p a:hover
-{
-	color: #FFFFFF;
-	background: #ffa07f;
-}
-p a:hover::after
-{
-	opacity: 0.2;
 }
 ::selection
 {
@@ -1048,7 +1041,6 @@ input[type="date"], focus {
 .form-input5 {
     padding: 5px 20px;
     border: 2px solid black;
-    background-color: blue;
     width: 210px;
     color: white;
 }
@@ -1103,10 +1095,6 @@ input[type="date"], focus {
     margin-left: 95px;
     cursor: pointer;
     padding-bottom: 5px;
-}
-
-.adminh4:hover {
-    color: lightskyblue;
 }
 
 .divutenti {
@@ -1211,9 +1199,6 @@ input[type="date"], focus {
     margin-bottom: 20px;
 }
 
-.prodh4:hover {
-    text-decoration: underline;
-}
 
 .uth4 {
     font-size: 15px;
@@ -1867,13 +1852,32 @@ Form Validation
 #registrationForm label.error{
 	color: #f33;
 	padding: 0;
-	margin: 4px 0 0 0;
+	margin-bottom: 0,5px 0 0 0;
 	font-size: 1em;
 	padding-left: 25px;
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	}
 	
+#userInfo label.error{
+	color: #f33;
+	padding: 0;
+	margin-bottom: 0,5px 0 0 0;
+	font-size: 1em;
+	padding-left: 25px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	}
+	
+#login-form label.error{
+	color: #f33;
+	padding: 0;
+	margin-bottom: 0,5px 0 0 0;
+	font-size: 1em;
+	padding-left: 25px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+
 /*********************************
 8. Features
 *********************************/

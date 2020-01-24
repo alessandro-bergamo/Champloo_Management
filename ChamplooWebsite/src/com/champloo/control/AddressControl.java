@@ -4,6 +4,7 @@ import com.champloo.bean.AddressBean;
 import com.champloo.bean.UserBean;
 import com.champloo.model.AddressDAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,7 @@ public class AddressControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
+        RequestDispatcher dispatcher;
     	HttpSession session = request.getSession(true);
 
 
@@ -67,17 +69,16 @@ public class AddressControl extends HttpServlet {
 	            }
 			}
             session.setAttribute("addresses", addresses);
+        	System.out.println("SONO QUI, RIGA 72 ADDRESSCONTROL");
+            dispatcher = request.getRequestDispatcher("Cart");
+            dispatcher.forward(request,response);
         }
 
 
         if (operation.equals("insert") || operation.equals("delete"))
             response.sendRedirect("user_area.jsp");
-        else if(operation.equals("login"))
-        	response.sendRedirect("index.jsp");
         else if(operation.equals("updateUser"))
             response.sendRedirect("user_area.jsp");
-        else
-            response.sendRedirect("pagina bianca.html");
 
     }
 
