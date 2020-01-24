@@ -2,17 +2,7 @@ package com.champloo.bean;
 
 public class ProductDetailsBean {
 	
-	/*
-	 * VALORI DI POSSIBILI per la variabile "status"
-	 *
-	 * */
-	public static final int NORMAL_PRODUCT = 1;
-	public static final int NEW_PRODUCT = 2;
-	public static final int ON_SALE_PRODUCT = 3;
-	public static final int WINDOW_PRODUCT = 4;
-	
-	private int id_prod_details, product, discount_percent, qnt_stock, number_feedback_users, status;
-	private float price, discounted_price, average_rating;
+	private int id_prod_details, product, discount_percent, qnt_stock;	
 	private String color, size, img_path_folder;
 			
 	public int getId_prod_details() {
@@ -39,36 +29,6 @@ public class ProductDetailsBean {
 	public void setQnt_stock(int qnt_stock) {
 		this.qnt_stock = qnt_stock;
 	}
-	public int getNumber_feedback_users() {
-		return number_feedback_users;
-	}
-	public void setNumber_feedback_users(int number_feedback_users) {
-		this.number_feedback_users = number_feedback_users;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
-	public float getDiscounted_price() {
-		return discounted_price;
-	}
-	public void setDiscounted_price(float discounted_price) {
-		this.discounted_price = discounted_price;
-	}
-	public float getAverage_rating() {
-		return average_rating;
-	}
-	public void setAverage_rating(float average_rating) {
-		this.average_rating = average_rating;
-	}
 	public String getColor() {
 		return color;
 	}
@@ -87,5 +47,4 @@ public class ProductDetailsBean {
 	public void setImg_path_folder(String img_path_folder) {
 		this.img_path_folder = img_path_folder;
 	}
-
 }

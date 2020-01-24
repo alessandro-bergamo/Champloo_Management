@@ -40,6 +40,11 @@ public class ProductControl extends HttpServlet{
 				String brand_product = request.getParameter("brand_product");
 				String model_product = request.getParameter("model_product");
 				String type_product = request.getParameter("type_product");
+				float price = Float.parseFloat(request.getParameter("price_product"));
+				int status = Integer.parseInt(request.getParameter("status_product"));
+				//total_ratign = 0
+				// average_rating = 0.0
+				//number_feedback_users = 0
 				String description_product = request.getParameter("description_product");
 				
 				ProductBean product = new ProductBean();
@@ -48,30 +53,25 @@ public class ProductControl extends HttpServlet{
 				product.setBrand(brand_product);
 				product.setModel(model_product);
 				product.setType(type_product);
+				product.setPrice(price);
+				product.setStatus(status);
+				product.setTotal_rating(0);
+				product.setAverage_rating(0);
+				product.setNumber_feedback_users(0);
 				product.setDescription(description_product);
 
 				String color = request.getParameter("color_product");
 				String size = request.getParameter("size_product");
-				float price = Float.parseFloat(request.getParameter("price_product"));
 				int discount_percent = Integer.parseInt(request.getParameter("discount_percent_product"));
-				float discounted_price = Float.parseFloat(request.getParameter("discounted_price_product"));
 				int qnt_stock = Integer.parseInt(request.getParameter("qnt_stock_product"));
-				int status = Integer.parseInt(request.getParameter("status_product"));
-				// average_rating = 0.0
-				//number_feedback_users = 0
 				String img_path_folder = request.getParameter("img_path_folder_product");
 				
 				ProductDetailsBean productDetails = new ProductDetailsBean();
 				
 				productDetails.setColor(color);
 				productDetails.setSize(size);
-				productDetails.setPrice(price);
 				productDetails.setDiscount_percent(discount_percent);
-				productDetails.setDiscounted_price(discounted_price);
 				productDetails.setQnt_stock(qnt_stock);
-				productDetails.setStatus(status);
-				productDetails.setAverage_rating(0);
-				productDetails.setNumber_feedback_users(0);
 				productDetails.setImg_path_folder(img_path_folder);
 				
 				try {
@@ -252,38 +252,32 @@ public class ProductControl extends HttpServlet{
 				String brand_product = request.getParameter("brand_product");
 				String model_product = request.getParameter("model_product");
 				String type_product = request.getParameter("type_product");
+				float price = Float.parseFloat(request.getParameter("price_product"));
+				int status = Integer.parseInt(request.getParameter("status_product"));
 				String description_product = request.getParameter("description_product");
-				
+					
 				ProductBean newProduct = new ProductBean();
 				
 				newProduct.setName(name_product);
 				newProduct.setBrand(brand_product);
 				newProduct.setModel(model_product);
 				newProduct.setType(type_product);
+				newProduct.setPrice(price);
+				newProduct.setStatus(status);
 				newProduct.setDescription(description_product);
 
 				String color = request.getParameter("color_product");
 				String size = request.getParameter("size_product");
-				float price = Float.parseFloat(request.getParameter("price_product"));
-				int discount_percent = Integer.parseInt(request.getParameter("discount_percent_product"));
-				float discounted_price = Float.parseFloat(request.getParameter("discounted_price_product"));
+				int discount_percent = Integer.parseInt(request.getParameter("discount_percent_product"));			
 				int qnt_stock = Integer.parseInt(request.getParameter("qnt_stock_product"));
-				int status = Integer.parseInt(request.getParameter("status_product"));
-				// average_rating invariato
-				//number_feedback_users invariato
 				String img_path_folder = request.getParameter("img_path_folder_product");
 				
 				ProductDetailsBean newProductDetails = new ProductDetailsBean();
 				
 				newProductDetails.setColor(color);
 				newProductDetails.setSize(size);
-				newProductDetails.setPrice(price);
 				newProductDetails.setDiscount_percent(discount_percent);
-				newProductDetails.setDiscounted_price(discounted_price);
 				newProductDetails.setQnt_stock(qnt_stock);
-				newProductDetails.setStatus(status);
-				newProductDetails.setAverage_rating(0);
-				newProductDetails.setNumber_feedback_users(0);
 				newProductDetails.setImg_path_folder(img_path_folder);
 				
 				try {

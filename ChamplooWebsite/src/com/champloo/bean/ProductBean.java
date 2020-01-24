@@ -3,11 +3,13 @@ package com.champloo.bean;
 public class ProductBean {
 	
 	public static final int NORMAL_PRODUCT = 1;
-	public static final int SALED_PRODUCT = 2;
+	public static final int ON_SALE_PRODUCT = 2;
 	public static final int SLIDER_PRODUCT = 3;
 	public static final int WINDOW_PRODUCT = 4;
+	public static final int NEW_PRODUCT = 5;
 	
-	private int id_prod;
+	private int id_prod, status, number_feedback_users, total_rating;
+	private float average_rating, price;
 	private String name, brand, model, type, description;
 	
 	public int getId_prod() {
@@ -45,6 +47,36 @@ public class ProductBean {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public int getNumber_feedback_users() {
+		return number_feedback_users;
+	}
+	public void setNumber_feedback_users(int number_feedback_users) {
+		this.number_feedback_users = number_feedback_users;
+	}
+	public int getTotal_rating() {
+		return total_rating;
+	}
+	public void setTotal_rating(int total_rating) {
+		this.total_rating = total_rating;
+	}
+	public float getAverage_rating() {
+		return average_rating;
+	}
+	public void setAverage_rating(float average_rating) {
+		this.average_rating = average_rating;
+	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
 	}
 	
 }

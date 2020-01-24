@@ -176,14 +176,14 @@
 									
 									<label for="star1" title="1 Stella">1 star</label>
 								</div>
-								<% 	float average_rating = product_details.get(0).getAverage_rating();
-									int reviewers = product_details.get(0).getNumber_feedback_users();
+								<% 	float average_rating = product.getAverage_rating();
+									int reviewers = product.getNumber_feedback_users();
 									float effective_rating = average_rating/reviewers;
 									String format = new DecimalFormat("##.##").format(effective_rating); %>
 								<div class="product_reviews"><%=format%> su (<%=reviewers%>)</div>
 								<div class="product_reviews_link">Recensioni</div>
 							</div>
-							<div class="product_price"><%=String.valueOf(selectedProductsByColor.get(0).getPrice()).substring(0, String.valueOf(product_details.get(0).getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.get(0).getPrice()).substring(String.valueOf(product_details.get(0).getPrice()).indexOf("."))%> &euro;</span></div>
+							<div class="product_price"><%=String.valueOf(product.getPrice()).substring(0, String.valueOf(product.getPrice()).indexOf("."))%><span><%=String.valueOf(product.getPrice()).substring(String.valueOf(product.getPrice()).indexOf("."))%> &euro;</span></div>
 							<div class="product_colors">
 							<%for (int i = 0; i < product_details.size(); i++)
 								{

@@ -18,10 +18,8 @@ public class ProductDAO implements ProductModel
 	public ProductDAO()
 	{
 		try {
-			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
 			connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -40,99 +38,77 @@ public class ProductDAO implements ProductModel
 		
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT id_product, name_product, brand_product, model_product, type_product FROM products WHERE name_product='"+newProduct.getName()+"' AND brand_product='"+newProduct.getBrand()+"' AND model_product='"+newProduct.getModel()+"' AND type_product='"+newProduct.getType()+"'";                            
+		query = "SELECT * FROM products WHERE name_product='"+newProduct.getName()+"' AND brand_product='"+newProduct.getBrand()+"' AND model_product='"+newProduct.getModel()+"' AND type_product='"+newProduct.getType()+"'";                            
 		
-		statement = connection.createStatement();
-		results = statement.executeQuery(query);
-				
-		if(!results.first())
-		{
-		// SE IL PRODOTTO NON ESISTE NEL DB, AGGIUNGI IL PRODOTTO E I SUOI DETTAGLI
-		
-			query = "INSERT INTO products(name_product, brand_product, model_product, type_product, description_product) VALUES (?,?,?,?,?)";
+		try 
+		{		
+			statement = connection.createStatement();
+			results = statement.executeQuery(query);
+					
+			if(!results.first())
+			{
+			// SE IL PRODOTTO NON ESISTE NEL DB, AGGIUNGI IL PRODOTTO E I SUOI DETTAGLI
 			
-			try{
-				preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				query = "INSERT INTO products(name_product, brand_product, model_product, type_product, price_product, status_product, total_rating, average_rating, number_feedback_users, description_product) VALUES (?,?,?,?,?,?,?,?,?,?)";
 				
+				preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+					
 				preparedStatement.setString(1, newProduct.getName());
 				preparedStatement.setString(2, newProduct.getBrand());
 				preparedStatement.setString(3, newProduct.getModel());
 				preparedStatement.setString(4, newProduct.getType());
-				preparedStatement.setString(5, newProduct.getDescription());
-				
-				
+				preparedStatement.setFloat(5, newProduct.getPrice());
+				preparedStatement.setInt(6, newProduct.getStatus());
+				//total_rating
+				preparedStatement.setInt(7, 0);
+				//average_rating
+				preparedStatement.setFloat(8, 0);
+				//number_feedback_users
+				preparedStatement.setInt(9, 0);
+				preparedStatement.setString(10, newProduct.getDescription());
+					
 				isProduct_added = preparedStatement.executeUpdate();
-				
+					
 				ResultSet autokey = preparedStatement.getGeneratedKeys();
+				
 				if( autokey.first())
 					product_auto_key = autokey.getInt(1);
-	
-				
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
-			query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-				
-			try{
+							
+				query = "INSERT INTO product_details(Product, color, size, discount_percent, qnt_stock, img_path_folder) VALUES (?,?,?,?,?,?)";
+					
 				preparedStatement = connection.prepareStatement(query);
-				
+					
 				preparedStatement.setInt(1, product_auto_key);
 				preparedStatement.setString(2, newProductDetails.getColor());
 				preparedStatement.setString(3, newProductDetails.getSize());
-				preparedStatement.setFloat(4, newProductDetails.getPrice());
-				preparedStatement.setInt(5, newProductDetails.getDiscount_percent());
-				preparedStatement.setFloat(6, newProductDetails.getDiscounted_price());
-				preparedStatement.setInt(7, newProductDetails.getQnt_stock());
-				preparedStatement.setInt(8, newProductDetails.getStatus());
-				preparedStatement.setFloat(9, 0);
-				preparedStatement.setInt(10, 0);
-				preparedStatement.setString(11, newProductDetails.getImg_path_folder());
-				
+				preparedStatement.setInt(4, newProductDetails.getDiscount_percent());
+				preparedStatement.setInt(5, newProductDetails.getQnt_stock());
+				preparedStatement.setString(6, newProductDetails.getImg_path_folder());
+					
 				isProduct_details_added = preparedStatement.executeUpdate();	
+						
 			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			finally {
-				try {
-	                if (preparedStatement != null)
-	                    preparedStatement.close();
-	            } finally {
-	            	connectionPool.releaseConnection(connection);
-	            }
+			else 
+			{
+			//IL PRODOTTO GI� ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
+				product_auto_key = results.getInt(1);
 				
-			}
-		}
-	else 
-	{
-	//IL PRODOTTO GI� ESISTE NEL DB, VENGONO INSERITI SOLAMENTE I RELATIVI DETTAGLI
-		product_auto_key = results.getInt(1);
-		
-		query = "INSERT INTO product_details(Product, color, size, price, discount_percent, discounted_price, qnt_stock, status_product, average_rating, number_feedback_users, img_path_folder) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-		
-		try{
-			preparedStatement = connection.prepareStatement(query);
-			
-			preparedStatement.setInt(1, product_auto_key);
-			preparedStatement.setString(2, newProductDetails.getColor());
-			preparedStatement.setString(3, newProductDetails.getSize());
-			preparedStatement.setFloat(4, newProductDetails.getPrice());
-			preparedStatement.setInt(5, newProductDetails.getDiscount_percent());
-			preparedStatement.setFloat(6, newProductDetails.getDiscounted_price());
-			preparedStatement.setInt(7, newProductDetails.getQnt_stock());
-			preparedStatement.setInt(8, newProductDetails.getStatus());
-			preparedStatement.setFloat(9, 0);
-			preparedStatement.setInt(10, 0);
-			preparedStatement.setString(11, newProductDetails.getImg_path_folder());
-			
-			isProduct_details_added = preparedStatement.executeUpdate();	
-		}
-		catch(Exception e){
+				query = "INSERT INTO product_details(Product, color, size, discount_percent, qnt_stock, img_path_folder) VALUES (?,?,?,?,?,?)";
+				
+				preparedStatement = connection.prepareStatement(query);
+					
+				preparedStatement.setInt(1, product_auto_key);
+				preparedStatement.setString(2, newProductDetails.getColor());
+				preparedStatement.setString(3, newProductDetails.getSize());
+				preparedStatement.setInt(4, newProductDetails.getDiscount_percent());
+				preparedStatement.setInt(5, newProductDetails.getQnt_stock());
+				preparedStatement.setString(6, newProductDetails.getImg_path_folder());
+					
+				isProduct_details_added = preparedStatement.executeUpdate();				
+			}		
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
+		}finally {
 			try {
                 if (preparedStatement != null)
                     preparedStatement.close();
@@ -141,8 +117,6 @@ public class ProductDAO implements ProductModel
             }
 			
 		}
-		
-	}		
 		return isProduct_added != 0 && isProduct_details_added != 0;
 	}
 	
@@ -153,7 +127,7 @@ public class ProductDAO implements ProductModel
 		
 		Pair<ProductBean, ProductDetailsBean> productWithDetails = null;
 		ProductBean product = new ProductBean();
-		ProductDetailsBean productDetailsBean = new ProductDetailsBean();
+		ProductDetailsBean productDetails = new ProductDetailsBean();
 		
 		try {
 			query = "SELECT * FROM products WHERE id_product = '"+id_product+"'";
@@ -167,7 +141,12 @@ public class ProductDAO implements ProductModel
 				product.setBrand(results.getString(3));
 				product.setModel(results.getString(4));
 				product.setType(results.getString(5));
-				product.setDescription(results.getString(6));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 			}
 			
 			query = "SELECT * FROM product_details WHERE Product = '"+id_product+"' AND id_product_details = '"+id_product_details+"' ";
@@ -176,21 +155,16 @@ public class ProductDAO implements ProductModel
 			
 			if(results.first())
 			{
-				productDetailsBean.setId_prod_details(secondResults.getInt(1));
-				productDetailsBean.setProduct(secondResults.getInt(2));
-				productDetailsBean.setColor(secondResults.getString(3));
-				productDetailsBean.setSize(secondResults.getString(4));
-				productDetailsBean.setPrice(secondResults.getFloat(5));
-				productDetailsBean.setDiscount_percent(secondResults.getInt(6));
-				productDetailsBean.setDiscounted_price(secondResults.getFloat(7));
-				productDetailsBean.setQnt_stock(secondResults.getInt(8));
-				productDetailsBean.setStatus(secondResults.getInt(9));
-				productDetailsBean.setAverage_rating(secondResults.getFloat(10));
-				productDetailsBean.setNumber_feedback_users(secondResults.getInt(11));
-				productDetailsBean.setImg_path_folder(secondResults.getString(12));
+				productDetails.setId_prod_details(secondResults.getInt(1));
+				productDetails.setProduct(secondResults.getInt(2));
+				productDetails.setColor(secondResults.getString(3));
+				productDetails.setSize(secondResults.getString(4));
+				productDetails.setDiscount_percent(secondResults.getInt(5));
+				productDetails.setQnt_stock(secondResults.getInt(6));
+				productDetails.setImg_path_folder(secondResults.getString(7));
 			}
 			
-			productWithDetails = new Pair<ProductBean, ProductDetailsBean>(product, productDetailsBean);
+			productWithDetails = new Pair<ProductBean, ProductDetailsBean>(product, productDetails);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -219,16 +193,21 @@ public class ProductDAO implements ProductModel
 			
 			firstResults = statement.executeQuery(query);
 			
-			ProductBean productBean = new ProductBean();
+			ProductBean product = new ProductBean();
 			
 			while(firstResults.next())
 			{
-				productBean.setId_prod(firstResults.getInt(1));
-				productBean.setName(firstResults.getString(2));
-				productBean.setBrand(firstResults.getString(3));
-				productBean.setModel(firstResults.getString(4));
-				productBean.setType(firstResults.getString(5));
-				productBean.setDescription(firstResults.getString(6));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
 			}
 			
 			query = "SELECT * FROM product_details WHERE product = '"+id_product+"'";
@@ -239,25 +218,20 @@ public class ProductDAO implements ProductModel
 			
 			while(secondResults.next()) 
 			{
-				ProductDetailsBean productDetailsBean = new ProductDetailsBean();
+				ProductDetailsBean productDetails = new ProductDetailsBean();
 				
-				productDetailsBean.setId_prod_details(secondResults.getInt(1));
-				productDetailsBean.setProduct(secondResults.getInt(2));
-				productDetailsBean.setColor(secondResults.getString(3));
-				productDetailsBean.setSize(secondResults.getString(4));
-				productDetailsBean.setPrice(secondResults.getFloat(5));
-				productDetailsBean.setDiscount_percent(secondResults.getInt(6));
-				productDetailsBean.setDiscounted_price(secondResults.getFloat(7));
-				productDetailsBean.setQnt_stock(secondResults.getInt(8));
-				productDetailsBean.setStatus(secondResults.getInt(9));
-				productDetailsBean.setAverage_rating(secondResults.getFloat(10));
-				productDetailsBean.setNumber_feedback_users(secondResults.getInt(11));
-				productDetailsBean.setImg_path_folder(secondResults.getString(12));
+				productDetails.setId_prod_details(secondResults.getInt(1));
+				productDetails.setProduct(secondResults.getInt(2));
+				productDetails.setColor(secondResults.getString(3));
+				productDetails.setSize(secondResults.getString(4));
+				productDetails.setDiscount_percent(secondResults.getInt(5));
+				productDetails.setQnt_stock(secondResults.getInt(6));
+				productDetails.setImg_path_folder(secondResults.getString(7));
 				
-				productsDetails.add(productDetailsBean);
+				productsDetails.add(productDetails);
 			}
 			
-			products.put(productBean, productsDetails);
+			products.put(product, productsDetails);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -298,12 +272,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -324,14 +303,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -382,12 +356,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -408,14 +387,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -466,12 +440,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -492,14 +471,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -551,12 +525,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ? AND color = ?";
 				
@@ -578,14 +557,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -637,12 +611,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ? AND size = ?";
 				
@@ -664,14 +643,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -709,8 +683,7 @@ public class ProductDAO implements ProductModel
 		
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT * FROM products WHERE id_product IN (\r\n" + 
-				"		SELECT id_product FROM products INNER JOIN product_details ON id_product = Product AND status_product = ? );";
+		query = "SELECT * FROM products WHERE status_product = ? ";
 		
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -723,19 +696,23 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
-				query = "SELECT * FROM product_details WHERE Product = ? AND status_product = ?";
+				query = "SELECT * FROM product_details WHERE Product = ?";
 				
 					preparedStatement = connection.prepareStatement(query);
 					
 					preparedStatement.setInt(1, product.getId_prod());
-					preparedStatement.setString(2, status_product);
 					
 					secondResults = preparedStatement.executeQuery();
 
@@ -749,14 +726,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -801,12 +773,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(firstResults.getInt(1));
-				product.setName(firstResults.getString(2));
-				product.setBrand(firstResults.getString(3));
-				product.setModel(firstResults.getString(4));
-				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setId_prod(results.getInt(1));
+				product.setName(results.getString(2));
+				product.setBrand(results.getString(3));
+				product.setModel(results.getString(4));
+				product.setType(results.getString(5));
+				product.setPrice(results.getFloat(6));
+				product.setStatus(results.getInt(7));
+				product.setTotal_rating(results.getInt(8));
+				product.setAverage_rating(results.getFloat(9));
+				product.setNumber_feedback_users(results.getInt(10));
+				product.setDescription(results.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -827,14 +804,9 @@ public class ProductDAO implements ProductModel
 						productDetails.setProduct(secondResults.getInt(2));
 						productDetails.setColor(secondResults.getString(3));
 						productDetails.setSize(secondResults.getString(4));
-						productDetails.setPrice(secondResults.getFloat(5));
-						productDetails.setDiscount_percent(secondResults.getInt(6));
-						productDetails.setDiscounted_price(secondResults.getFloat(7));
-						productDetails.setQnt_stock(secondResults.getInt(8));
-						productDetails.setStatus(secondResults.getInt(9));
-						productDetails.setAverage_rating(secondResults.getFloat(10));
-						productDetails.setNumber_feedback_users(secondResults.getInt(11));
-						productDetails.setImg_path_folder(secondResults.getString(12));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
 					
 						productsDetails.add(productDetails);			
 					}
@@ -869,8 +841,7 @@ public class ProductDAO implements ProductModel
 			
 		connection = connectionPool.getConnection();
 		
-		query = "SELECT * FROM products WHERE id_product IN (\r\n" + 
-				"		SELECT id_product FROM products INNER JOIN product_details ON id_product = Product AND status_product = '"+ProductBean.WINDOW_PRODUCT+"' );";
+		query = "SELECT * FROM products WHERE status_product = '"+ProductBean.WINDOW_PRODUCT+"'";
 		
 		try {
 			statement = connection.createStatement();
@@ -886,9 +857,14 @@ public class ProductDAO implements ProductModel
 				product.setBrand(firstResults.getString(3));
 				product.setModel(firstResults.getString(4));
 				product.setType(firstResults.getString(5));
-				product.setDescription(firstResults.getString(6));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
 				
-				query = "SELECT * FROM product_details WHERE Product = ? AND status_product = '"+ProductBean.WINDOW_PRODUCT+"'";
+				query = "SELECT * FROM product_details WHERE Product = ?";
 				
 				preparedStatement = connection.prepareStatement(query);
 				
@@ -906,14 +882,9 @@ public class ProductDAO implements ProductModel
 					productDetails.setProduct(secondResults.getInt(2));
 					productDetails.setColor(secondResults.getString(3));
 					productDetails.setSize(secondResults.getString(4));
-					productDetails.setPrice(secondResults.getFloat(5));
-					productDetails.setDiscount_percent(secondResults.getInt(6));
-					productDetails.setDiscounted_price(secondResults.getFloat(7));
-					productDetails.setQnt_stock(secondResults.getInt(8));
-					productDetails.setStatus(secondResults.getInt(9));
-					productDetails.setAverage_rating(secondResults.getFloat(10));
-					productDetails.setNumber_feedback_users(secondResults.getInt(11));
-					productDetails.setImg_path_folder(secondResults.getString(12));
+					productDetails.setDiscount_percent(secondResults.getInt(5));
+					productDetails.setQnt_stock(secondResults.getInt(6));
+					productDetails.setImg_path_folder(secondResults.getString(7));
 						
 					//details.add(productDetails);
 					
@@ -997,6 +968,8 @@ public class ProductDAO implements ProductModel
 		statement.executeUpdate(updateProduct("brand_product", newProduct.getBrand(), newProduct.getId_prod()));
 		statement.executeUpdate(updateProduct("model_product", newProduct.getModel(), newProduct.getId_prod()));
 		statement.executeUpdate(updateProduct("type_product", newProduct.getType(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("price_product", ""+newProduct.getPrice(), newProduct.getId_prod()));
+		statement.executeUpdate(updateProduct("status_product", ""+newProduct.getStatus(), newProduct.getId_prod()));
 		statement.executeUpdate(updateProduct("description_product", newProduct.getDescription(), newProduct.getId_prod()));
 		}
 		catch (Exception e) {
@@ -1007,11 +980,8 @@ public class ProductDAO implements ProductModel
 		//update dei dettagli del prodotto
 		statement.executeUpdate(updateProduct("color", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("size", newProductDetails.getSize(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
-		statement.executeUpdate(updateProduct("price", ""+newProductDetails.getPrice(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("discount_percent", ""+newProductDetails.getDiscount_percent(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
-		statement.executeUpdate(updateProduct("discounted_price", ""+newProductDetails.getDiscounted_price(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("qnt_stock", ""+newProductDetails.getQnt_stock(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
-		statement.executeUpdate(updateProduct("status", ""+newProductDetails.getStatus(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("img_path_folder", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		}
 		catch (Exception e) {
