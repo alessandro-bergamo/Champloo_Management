@@ -1,23 +1,19 @@
 package com.champloo.control;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.champloo.bean.*;
+import com.champloo.model.CartDAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.champloo.bean.CartBean;
-import com.champloo.bean.CartItemBean;
-import com.champloo.bean.ProductBean;
-import com.champloo.bean.ProductDetailsBean;
-import com.champloo.bean.UserBean;
-import com.champloo.model.CartDAO;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet("/Cart")
 public class CartControl extends HttpServlet {
@@ -30,35 +26,33 @@ public class CartControl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
+		System.out.println("OPERATION CARTCONTROL: "+operation);
+		RequestDispatcher dispatcher;
 		session = request.getSession(true);
 		
 		if(operation != null)
 		{
-			if (operation.equals("createCart")) 
+			if(operation.equals("login"))
 			{
-				UserBean user = (UserBean)request.getAttribute("utenteLoggato");
-				
-				try {
-					if(cartDAO.createCart(user))
-					{
+				synchronized (session) {
+					UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+					try {
 						CartBean cart = cartDAO.retrieveCart(user);
-						
-						synchronized(session) {
-							session.setAttribute("cart", cart);				
-						}
+						session.setAttribute("cart", cart);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
 			}
 			else if(operation.equals("insertProduct"))
 			{
-				int id_product_details = Integer.parseInt(request.getParameter("id_product_request"));
+				boolean added = false;
+				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
 				
 				synchronized(session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
 					try {
-						cartDAO.insertProduct(cart, id_product_details);
+						added = cartDAO.insertProduct(cart, id_product_details);
 					} catch (SQLException e) {	
 						e.printStackTrace();
 					}
@@ -92,18 +86,23 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("retrieveProducts"))
 			{
+				System.out.println("RETRIEVE PRODUCTS");
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> productsInCart = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
 				
 				synchronized (session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
-					
+
 					try {
 						productsInCart = cartDAO.retrieveProducts(cart);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
-				request.setAttribute("productsInCart", productsInCart);
+				session.setAttribute("productsInCart", productsInCart);
+				session.setAttribute("redirectURL", "cart.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
 			}
 			else if(operation.equals("retrieveTotal"))
 			{
@@ -146,32 +145,10 @@ public class CartControl extends HttpServlet {
 					}		
 				}				
 			}
-			else if(operation.equals("clearCart"))
-			{
-				synchronized (session) {
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					
-					try {
-						cartDAO.clearCart(cart);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}		
-				}				
-			}
-			else if(operation.equals("retrieveCart"))
-			{
-				
-				synchronized (session) {
-					UserBean user = (UserBean)session.getAttribute("utenteLoggato");
-					try {
-						CartBean cart = cartDAO.retrieveCart(user);
-						session.setAttribute("cart", cart);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}		
-				}				
-			}
-			
+
+
+			if(operation.equals("login"))
+				response.sendRedirect("index.jsp");
 		}
 	}
 		
