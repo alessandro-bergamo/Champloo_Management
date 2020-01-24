@@ -106,7 +106,7 @@
 		ArrayList<Pair<ProductBean, ProductDetailsBean>> prodotti_in_vetrina;
 		
 			if (((prodotti_in_vetrina = (ArrayList) request.getSession().getAttribute("window")) == null) || ((prodotti_in_vetrina = (ArrayList) request.getSession().getAttribute("window")).isEmpty())) 
-			{System.out.println("prodotti in vetrina--> 109"+prodotti_in_vetrina);
+			{
 		%>
 
 		<div style="display: none;">
@@ -123,7 +123,6 @@
 		<input type="hidden" id="loadedvalue" name="loaded" value="1">
 
 		<%
-		System.out.println("prodotti in vetrina-->126"+prodotti_in_vetrina);
 			}
 		%>
 
@@ -323,8 +322,7 @@
 					<!-- Product -->
 					<%
 						if (prodotti_in_vetrina != null) {
-							System.out.println("diocane cosa è--->"+prodotti_in_vetrina);
-
+					
 								for (int I = 0; I < prodotti_in_vetrina.size(); I++) {
 									ProductBean product = prodotti_in_vetrina.get(I).getKey();
 									ProductDetailsBean product_details = prodotti_in_vetrina.get(I).getValue();

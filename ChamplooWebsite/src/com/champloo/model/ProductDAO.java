@@ -918,29 +918,17 @@ public class ProductDAO implements ProductModel
 					//details.add(productDetails);
 					
 					if(window.isEmpty())
-					{
-						System.out.println("INSERITO ALL'INIZIO \n productDetails product: "+productDetails.getProduct()+" productDetails color: "+productDetails.getColor());
-						
-						window.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
-					}
+						window.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));			
 					else 
 					{
 						for(int i = 0; i < window.size(); i++)
 						{
-							System.out.println("CONFRONTO \n productDetails product: "+productDetails.getProduct()+" window.ProductDetails product("+i+")"+window.get(i).getValue().getProduct()+" productDetails color: "+productDetails.getColor()+" window.ProductDetails color("+i+") "+window.get(i).getValue().getColor());
 							if(productDetails.getProduct() == window.get(i).getValue().getProduct() && productDetails.getColor().equals(window.get(i).getValue().getColor()) )							
-							{
-								System.out.println("IN VETRINA \n productDetails product: "+productDetails.getProduct()+" window.ProductDetails product"+window.get(i).getValue().getProduct()+" productDetails color: "+productDetails.getColor());
-								
 								isInWindow = true;
-							}
 						}
-						
+					
 						if(!isInWindow)
-						{
-							System.out.println("INSERITO dopo \n productDetails product: "+productDetails.getProduct()+" productDetails color: "+productDetails.getColor());
 							window.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
-						}
 					}
 				}	
 			}
@@ -957,7 +945,6 @@ public class ProductDAO implements ProductModel
             }
 		}
 
-		System.out.println("PorductDAO 930--> size window"+window.size()+" window="+window);
 		return window;
 	}
 	
