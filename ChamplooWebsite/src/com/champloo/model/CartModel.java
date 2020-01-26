@@ -16,7 +16,7 @@ public interface CartModel {
 	
 	public boolean insertProduct(CartBean cart, int id_product_details) throws SQLException;
 	
-	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException;
+	public boolean modifyQuantity(int id_cart, int id_product_details, String operation) throws SQLException;
 	
 	public int retrieveNumberOfProducts(CartBean cart) throws SQLException;
 	

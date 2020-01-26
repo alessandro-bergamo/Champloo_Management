@@ -70,19 +70,46 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException
+	public boolean modifyQuantity(int id_cart, int id_product_details, String operator) throws SQLException
 	{
-		
 		int isQuantityModified = 0;
 		connection = connectionPool.getConnection();
 		
 		try {
-			int new_quantity = cartItem.getQnt_in_cart() + quantity;
+			query = "SELECT * FROM cart_item WHERE Cart = ? AND Product_Details = ?";
+			preparedStatement = connection.prepareStatement(query);
 			
-			query = "UPDATE car_item SET qnt_in_cart ='"+new_quantity+"' WHERE id_cart_item='"+cartItem.getId_cart_item()+"'";
-			statement = connection.createStatement();
-			isQuantityModified = statement.executeUpdate(query);
+			preparedStatement.setInt(1, id_cart);
+			preparedStatement.setInt(2, id_product_details);
+			results = preparedStatement.executeQuery();
 			
+			CartItemBean cartItem = new CartItemBean();
+			
+			if(results.first())
+			{
+				cartItem.setId_cart_item(results.getInt(1));
+				cartItem.setCart(results.getInt(2));
+				cartItem.setProduct_details(results.getInt(3));
+				cartItem.setQnt_in_cart(results.getInt(4));	
+			}
+			
+			int qnt = cartItem.getQnt_in_cart();
+			
+			if(operator.equals("-"))
+			{
+				qnt--;
+				query = "UPDATE cart_item SET qnt_in_cart = '"+qnt+"' WHERE id_cart_item = '"+cartItem.getId_cart_item()+"'";
+				statement = connection.createStatement();
+				isQuantityModified = statement.executeUpdate(query);
+			}
+			else if(operator.equals("+"))
+			{
+				qnt++;
+				query = "UPDATE cart_item SET qnt_in_cart = '"+qnt+"' WHERE id_cart_item = '"+cartItem.getId_cart_item()+"'";
+				statement = connection.createStatement();
+				isQuantityModified = statement.executeUpdate(query);
+			}
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

@@ -61,12 +61,13 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("modifyQuantity"))
 			{
-				int id_cart_item = Integer.parseInt(request.getParameter("id_cart_item"));
-				int qnt = Integer.parseInt(request.getParameter("quantity"));
+				int id_cart = Integer.parseInt(request.getParameter("id_cart"));
+				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+				String operator = request.getParameter("operator");
 				
 				try {
-					CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
-					cartDAO.modifyQuantity(cart_item, qnt);
+					//CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
+					cartDAO.modifyQuantity(id_cart, id_product_details, operator);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

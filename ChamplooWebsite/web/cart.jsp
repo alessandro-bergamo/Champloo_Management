@@ -109,6 +109,13 @@
 		<!-- Cart -->
 
 		<div class="cart_section">
+		<%	if(cart != null)
+			{
+		%>
+			<input type="hidden" id="id_cart" value="<%=cart.getId_cart()%>">
+		<% 
+			}
+		%>
 			<div class="container">
 				<div class="row">
 					<div class="col">
@@ -162,8 +169,12 @@
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
 												<span class="product_text product_num"><%=qntInCart%></span>
-												<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
-												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
+												<div class="qty_sub qty_button trans_200 text-center" id="qnt_selector">
+													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>-</span>
+												</div>
+												<div class="qty_add qty_button trans_200 text-center" id="qnt_selector">
+													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>+</span>
+												</div>
 											</div>
 										</div>
 										<div class="product_total product_text"><span>Totale: </span><%=product.getPrice()*qntInCart%> &euro;</div>
@@ -299,6 +310,36 @@
 			}
 		});
 
+	</script>
+	
+	<script type="text/javascript">
+	$ ( function selectQnt()
+	{
+		$("[id ='qnt_selector']").on('click', function (){
+			var operation = "modifyQuantity";
+			var id_cart = $("#id_cart").val();
+		    var id_product_details = $(this).find("input").val();			  
+		    var operator = $(this).find("span").html();
+
+		    //calling the ajax function
+		    changeQnt(id_cart,id_product_details,operator,operation);
+		});
+	});
+	
+	function changeQnt(id_cart,id_product_details,operator,operation)
+	{
+		 $.ajax({
+		    	type: "POST",
+		    	url: "Cart",
+		    	data: {"id_cart" : id_cart, "id_product_details" : id_product_details, "operator" : operator, "operation" : operation},
+		    	success: function(results){
+	        		
+		    	},
+	        	error: function(results){
+	        		}
+		    });
+	};
+	
 	</script>
 
 	<script src="js/jquery-3.2.1.min.js"></script>
