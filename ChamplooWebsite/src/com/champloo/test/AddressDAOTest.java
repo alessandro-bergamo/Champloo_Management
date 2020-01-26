@@ -38,7 +38,7 @@ public class AddressDAOTest {
         this.paramForDAO = paramForDAO;
         this.expectedResult = expectedResult;
     }
-
+//ok
     @Parameterized.Parameters
     public static Collection objects() {
         return Arrays.asList(new Object [] [] {
