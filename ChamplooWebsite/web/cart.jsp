@@ -178,8 +178,8 @@
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<div class="button button_clear trans_200"><a href="">Svuota carrello</a></div>
-									<div class="button button_continue trans_200"><a href="checkout.jsp">Continua lo shopping</a></div>
+									<div class="button button_clear trans_200"><a href="Cart?operation=clearCart">Svuota carrello</a></div>
+									<div class="button button_continue trans_200"><a href="category.jsp">Continua lo shopping</a></div>
 								</div>
 							</div>
 						</div>
