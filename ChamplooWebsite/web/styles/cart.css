@@ -552,14 +552,12 @@ section
 }
 .svg path, .svg rect, .svg polygon
 {
-    fill: #778990;
     -webkit-transition: all 200ms ease;
     -moz-transition: all 200ms ease;
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
-.svg:hover path,
 .svg:hover rect,
 .svg:hover polygon
 {
@@ -1134,6 +1132,7 @@ section
 	background: transparent;
 	border: solid 2px #838383;
 	border-radius: 50%;
+	cursor: pointer;
 }
 .radio_mark::after
 {
@@ -1171,6 +1170,7 @@ section
 	font-size: 14px;
 	font-weight: 500;
 	color: #838383;
+	cursor: pointer;
 }
 .shipping_price
 {

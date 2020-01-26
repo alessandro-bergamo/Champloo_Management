@@ -2,9 +2,9 @@ package com.champloo.model;
 
 import com.champloo.bean.*;
 import com.champloo.storage.ConnectionPool;
+import javafx.util.Pair;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CartDAO implements CartModel
@@ -70,7 +70,8 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException {
+	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException
+	{
 		
 		int isQuantityModified = 0;
 		connection = connectionPool.getConnection();
@@ -128,10 +129,9 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveProducts(CartBean cart) throws SQLException {
+	public HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> retrieveProducts(CartBean cart) throws SQLException {
 		
-		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>(); 
-		ArrayList<ProductDetailsBean> productsDetails = new ArrayList<ProductDetailsBean>();
+		HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> products = new HashMap<Pair<ProductBean,ProductDetailsBean>, Integer>(); 
 		
 		connection = connectionPool.getConnection();
 		
@@ -143,47 +143,60 @@ public class CartDAO implements CartModel
 
 			
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			firstResults = statement.executeQuery(query);
 			
-			while(results.next())
+			while(firstResults.next())
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(results.getInt(1));
-				product.setName(results.getString(2));
-				product.setBrand(results.getString(3));
-				product.setModel(results.getString(4));
-				product.setType(results.getString(5));
-				product.setDescription(results.getString(6));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
 				
 				// seleziona tutti i detteagli dei prodotti(generici) presenti nel carrello 
 				query = "SELECT * FROM product_details WHERE id_product_details IN(\r\n" + 
-						"	SELECT Product_Details FROM cart_item INNER JOIN product_details ON Product_Details = id_product_details AND Product = '"+product.getId_prod()+"'\r\n" + 
-						")";
+						"	SELECT Product_Details FROM cart_item INNER JOIN product_details ON Product_Details = id_product_details AND Product = '"+product.getId_prod()+"' AND Cart = '"+cart.getId_cart()+"')";
 				
 				statement = connection.createStatement();
-				results = statement.executeQuery(query);
+				secondResults = statement.executeQuery(query);
 				
-				while(results.next())
+				while(secondResults.next())
 				{
 					ProductDetailsBean productDetails = new ProductDetailsBean();
 					
-					productDetails.setId_prod_details(results.getInt(1));
-					productDetails.setProduct(results.getInt(2));
-					productDetails.setColor(results.getString(3));
-					productDetails.setSize(results.getString(4));
-					productDetails.setPrice(results.getFloat(5));
-					productDetails.setDiscount_percent(results.getInt(6));
-					productDetails.setDiscounted_price(results.getFloat(7));
-					productDetails.setQnt_stock(results.getInt(8));
-					productDetails.setStatus(results.getInt(9));
-					productDetails.setAverage_rating(results.getFloat(10));
-					productDetails.setNumber_feedback_users(results.getInt(11));
-					productDetails.setImg_path_folder(results.getString(12));
+					productDetails.setId_prod_details(secondResults.getInt(1));
+					productDetails.setProduct(secondResults.getInt(2));
+					productDetails.setColor(secondResults.getString(3));
+					productDetails.setSize(secondResults.getString(4));
+					productDetails.setDiscount_percent(secondResults.getInt(5));
+					productDetails.setQnt_stock(secondResults.getInt(6));
+					productDetails.setImg_path_folder(secondResults.getString(7));
+					
+					query = "SELECT qnt_in_cart FROM cart_item WHERE Cart = '"+cart.getId_cart()+"' AND Product_Details = '"+productDetails.getId_prod_details()+"'";
+					
+					System.out.println(query);
+					
+					statement = connection.createStatement();
+					results = statement.executeQuery(query);
+					
+					int qnt = 0;
+					
+					if(results.first())
+						qnt = results.getInt(1);
 				
-					productsDetails.add(productDetails);			
+					Pair<ProductBean, ProductDetailsBean> newPair = new Pair<ProductBean, ProductDetailsBean>(product, productDetails);
+					products.put(newPair, qnt);
+					System.out.println(products.get(newPair).toString());
 				}
-				products.put(product, productsDetails);	
+				
 			}
 			
 		} catch (Exception e) {
@@ -402,6 +415,6 @@ public class CartDAO implements CartModel
 	String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
-    ResultSet results;
+    ResultSet results, firstResults, secondResults;
 	
 }

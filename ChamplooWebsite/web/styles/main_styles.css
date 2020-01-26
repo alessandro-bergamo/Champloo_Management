@@ -551,14 +551,12 @@ section
 }
 .svg path, .svg rect, .svg polygon
 {
-    fill: #778990;
     -webkit-transition: all 200ms ease;
     -moz-transition: all 200ms ease;
     -ms-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
-.svg:hover path,
 .svg:hover rect,
 .svg:hover polygon
 {
@@ -1862,21 +1860,22 @@ Form Validation
 #userInfo label.error{
 	color: #f33;
 	padding: 0;
-	margin-bottom: 0,5px 0 0 0;
+	margin-bottom: 0.5px;
 	font-size: 1em;
 	padding-left: 25px;
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	}
 	
-#login-form label.error{
+#login-form label.error {
 	color: #f33;
 	padding: 0;
-	margin-bottom: 0,5px 0 0 0;
+	margin-bottom: 0.5px;
 	font-size: 1em;
 	padding-left: 25px;
 	background-position: 0 0;
 	background-repeat: no-repeat;
+}
 
 /*********************************
 8. Features

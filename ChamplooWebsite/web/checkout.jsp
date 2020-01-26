@@ -1,3 +1,8 @@
+<%@page
+		language="java"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +67,12 @@
    		<!-- Header -->
 
 		<%@ include file="header.jsp" %>
+
+		<%
+			Float shipping_price = (Float) (request.getSession().getAttribute("shipping_price"));
+
+			System.out.println("SHIPPING PRICE: "+shipping_price);
+		%>
 
 		<!-- Home -->
 

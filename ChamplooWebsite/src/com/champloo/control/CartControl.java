@@ -2,6 +2,7 @@ package com.champloo.control;
 
 import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
+import javafx.util.Pair;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @WebServlet("/Cart")
@@ -46,13 +46,14 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("insertProduct"))
 			{
-				boolean added = false;
 				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
 				
 				synchronized(session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
 					try {
-						added = cartDAO.insertProduct(cart, id_product_details);
+						cartDAO.insertProduct(cart, id_product_details);
+						session.removeAttribute("productsInCart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
 					} catch (SQLException e) {	
 						e.printStackTrace();
 					}
@@ -87,11 +88,10 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("retrieveProducts"))
 			{
 				System.out.println("RETRIEVE PRODUCTS");
-				HashMap<ProductBean, ArrayList<ProductDetailsBean>> productsInCart = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+				HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> productsInCart = new HashMap<Pair<ProductBean,ProductDetailsBean>, Integer>();
 				
 				synchronized (session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
-
 					try {
 						productsInCart = cartDAO.retrieveProducts(cart);
 					} catch (SQLException e) {
@@ -145,6 +145,17 @@ public class CartControl extends HttpServlet {
 					}		
 				}				
 			}
+			else if(operation.equals("submitCheckout"))
+			{
+				Float total_price_order, shipping_price, total_price;
+				total_price = Float.parseFloat(request.getParameter("total_price"));
+				shipping_price = Float.parseFloat(request.getParameter("shipping_price"));
+				total_price_order = Float.parseFloat(request.getParameter("total_price_order"));
+
+				session.setAttribute("total_price", total_price);
+				session.setAttribute("shipping_price", shipping_price);
+				session.setAttribute("total_price_order", total_price_order);
+			}
 
 
 			if(operation.equals("login"))
@@ -157,7 +168,9 @@ public class CartControl extends HttpServlet {
     {
         doGet(request, response);
     }
-    
+
+
+
 	 private static final long serialVersionUID = 1L;
 	 private static CartDAO cartDAO = new CartDAO();
 	 private HttpSession session;

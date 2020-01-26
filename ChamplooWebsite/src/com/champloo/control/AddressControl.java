@@ -69,7 +69,6 @@ public class AddressControl extends HttpServlet {
 	            }
 			}
             session.setAttribute("addresses", addresses);
-        	System.out.println("SONO QUI, RIGA 72 ADDRESSCONTROL");
             dispatcher = request.getRequestDispatcher("Cart");
             dispatcher.forward(request,response);
         }

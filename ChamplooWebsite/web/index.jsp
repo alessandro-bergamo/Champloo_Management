@@ -19,6 +19,7 @@
 <link href="images/icona.png" rel="shortcut icon" />
 
 <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>
@@ -348,30 +349,30 @@
 									</div>
 									<div class="ml-auto text-right">
 										<%
-											if (product_details.getAverage_rating() == 0) {
+											if (product.getAverage_rating() == 0) {
 										%>
 										<div class="rating_r rating_r_0 home_item_rating">
 											<%
-												} else if (product_details.getAverage_rating() <= 10
-																	&& product_details.getAverage_rating() != 0) {
+												} else if (product.getAverage_rating() <= 20
+																	&& product.getAverage_rating() != 0) {
 											%>
 											<div class="rating_r rating_r_1 home_item_rating">
 												<%
-													} else if (product_details.getAverage_rating() > 10
-																		&& product_details.getAverage_rating() <= 25) {
+													} else if (product.getAverage_rating() > 20
+																		&& product.getAverage_rating() <= 40) {
 												%>
 												<div class="rating_r rating_r_2 home_item_rating">
 													<%
-														} else if (product_details.getAverage_rating() > 25
-																			&& product_details.getAverage_rating() <= 50) {
+														} else if (product.getAverage_rating() > 40
+																			&& product.getAverage_rating() <= 60) {
 													%>
 													<div class="rating_r rating_r_3 home_item_rating">
 														<%
-															} else if (product_details.getAverage_rating() > 50 && product_details.getAverage_rating() <= 100) {
+															} else if (product.getAverage_rating() > 60 && product.getAverage_rating() <= 80) {
 														%>
 														<div class="rating_r rating_r_4 home_item_rating">
 															<%
-																} else if (product_details.getAverage_rating() > 100) {
+																} else if (product.getAverage_rating() > 80) {
 															%>
 															<div class="rating_r rating_r_5 home_item_rating">
 																<%
@@ -379,7 +380,7 @@
 																%>
 																<i></i><i></i><i></i><i></i><i></i>
 															</div>
-															<div class="product_price text-right"><%=String.valueOf(product_details.getPrice()).substring(0, String.valueOf(product_details.getPrice()).indexOf("."))%><span><%=String.valueOf(product_details.getPrice()).substring(String.valueOf(product_details.getPrice()).indexOf("."))%>&euro;</span></div>
+															<div class="product_price text-right"><%=String.valueOf(product.getPrice()).substring(0, String.valueOf(product.getPrice()).indexOf("."))%><span><%=String.valueOf(product.getPrice()).substring(String.valueOf(product.getPrice()).indexOf("."))%>&euro;</span></div>
 														</div>
 													</div>
 												</div>
@@ -492,15 +493,13 @@
 
 											<!-- Feature -->
 											<div class="col-lg-4 feature_col">
-												<div
-													class="feature d-flex flex-row align-items-start justify-content-start">
+												<div class="feature d-flex flex-row align-items-start justify-content-start">
 													<div class="feature_left">
 														<div class="feature_icon ml-auto mr-auto">
 															<img src="images/icon_2.svg" alt="">
 														</div>
 													</div>
-													<div
-														class="feature_right d-flex flex-column align-items-start justify-content-center">
+													<div class="feature_right d-flex flex-column align-items-start justify-content-center">
 														<div class="feature_title">Reso gratuito</div>
 													</div>
 												</div>
@@ -526,32 +525,31 @@
 								</div>
 
 								<!-- Footer -->
-
+						
 								<%@ include file="footer.jsp"%>
-
+								
 							</div>
-
 						</div>
-
-
-						<script>
-							function submittaForm() {
-								var val = parseInt($("#loadedvalue").val());
-								if (val == 0) {
-									$("#hiddenform").submit();
-								}
+					</div>
+			
+			<script>
+				function submittaForm() {
+						var val = parseInt($("#loadedvalue").val());
+						if (val == 0) {
+								$("#hiddenform").submit();
 							}
-						</script>
+						}
+			</script>
 
-						<script src="plugins/greensock/TweenMax.min.js"></script>
-						<script src="plugins/greensock/TimelineMax.min.js"></script>
-						<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
-						<script src="plugins/greensock/animation.gsap.min.js"></script>
-						<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
-						<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-						<script src="plugins/easing/easing.js"></script>
-						<script src="plugins/progressbar/progressbar.min.js"></script>
-						<script src="plugins/parallax-js-master/parallax.min.js"></script>
-						<script src="js/custom.js"></script>
+			<script src="plugins/greensock/TweenMax.min.js"></script>
+			<script src="plugins/greensock/TimelineMax.min.js"></script>
+			<script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+			<script src="plugins/greensock/animation.gsap.min.js"></script>
+			<script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+			<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+			<script src="plugins/easing/easing.js"></script>
+			<script src="plugins/progressbar/progressbar.min.js"></script>
+			<script src="plugins/parallax-js-master/parallax.min.js"></script>
+			<script src="js/custom.js"></script>
 </body>
 </html>

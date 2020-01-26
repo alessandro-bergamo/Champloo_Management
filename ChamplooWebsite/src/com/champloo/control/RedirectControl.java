@@ -19,6 +19,8 @@ public class RedirectControl extends HttpServlet
     {
         String redirectURL = (String) request.getSession().getAttribute("redirectURL");
 
+        System.out.println(redirectURL);
+
         response.sendRedirect(redirectURL);
     }
 

@@ -1,7 +1,7 @@
 package com.champloo.model;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import com.champloo.bean.CartBean;
@@ -9,6 +9,8 @@ import com.champloo.bean.CartItemBean;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.bean.UserBean;
+
+import javafx.util.Pair;
 
 public interface CartModel {
 	
@@ -18,7 +20,7 @@ public interface CartModel {
 	
 	public int retrieveNumberOfProducts(CartBean cart) throws SQLException;
 	
-	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveProducts(CartBean cart) throws SQLException;
+	public HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> retrieveProducts(CartBean cart) throws SQLException;
 	
 	public float retrieveTotal(CartBean cart) throws SQLException;
 	
