@@ -2,7 +2,6 @@ package com.champloo.control;
 
 import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
-
 import javafx.util.Pair;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @WebServlet("/Cart")
@@ -48,13 +46,14 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("insertProduct"))
 			{
-				boolean added = false;
 				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
 				
 				synchronized(session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
 					try {
-						added = cartDAO.insertProduct(cart, id_product_details);
+						cartDAO.insertProduct(cart, id_product_details);
+						session.removeAttribute("productsInCart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
 					} catch (SQLException e) {	
 						e.printStackTrace();
 					}

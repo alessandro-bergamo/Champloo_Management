@@ -32,7 +32,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart.css">
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 </head>
-<body>
+<body onload="submittaForm()">
 
 	<!-- Menu -->
 
@@ -73,8 +73,8 @@
 			if(utenteLoggato == null)
 				response.sendRedirect("user_log.jsp");
 			
-			HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart");
-			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null) || ((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")).isEmpty()))
+			HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart;
+			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null))
 			{
 				System.out.println("ottenimaneto del cart ");
 		%>
@@ -88,11 +88,9 @@
 
 		<%
 		} else {
-				System.out.println("cart già ottenuto ");
 		%>
 
-			<input type="hidden" id="loadedvalue" name="loaded" value="1"> 
-			<input type="hidden" id="loadedvalue" name="loaded" value="0"> 
+			<input type="hidden" id="loadedvalue" name="loaded" value="1">
 
 		<%
 			}
@@ -168,10 +166,10 @@
 												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
 											</div>
 										</div>
-										<div class="product_total product_text"><span>Totale: </span><%=product.getPrice()%>	</div>
+										<div class="product_total product_text"><span>Totale: </span><%=product.getPrice()*qntInCart%> &euro;</div>
 									</li>
 									<%			
-										total_price += product.getPrice();
+												total_price += (product.getPrice()*qntInCart);
 											}
 									%>
 								</ul>
@@ -228,9 +226,6 @@
 							<div class="cart_extra_content cart_extra_total">
 								<div class="cart_extra_title">Totale carrello</div>
 								<ul class="cart_extra_total_list">
-									<%
-										
-									%>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Prodotti</div>
 										<div class="cart_extra_total_value ml-auto" id="total_price"><p class="cart_extra_total_value ml-auto"><%=total_price%></p></div><div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
@@ -248,7 +243,7 @@
 							</div>
 						</div>
 					</div>
-					<%		}
+					<%					}
 					%>
 				</div>
 			</div>
@@ -261,8 +256,7 @@
 	</div>
 
 	<script>
-	window.onload = submittaForm();
-	
+
 	function submittaForm() {
 		var val = parseInt($("#loadedvalue").val());
 		if (val == 0) {

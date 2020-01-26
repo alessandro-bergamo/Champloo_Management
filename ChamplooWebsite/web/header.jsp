@@ -9,11 +9,10 @@
 	UserBean utenteLoggato;
 	CartBean cart;
 	synchronized(session) 
-			{
-				utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");
-                cart = (CartBean) request.getSession().getAttribute("cart");
-            }
-
+        {
+            utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");
+            cart = (CartBean) request.getSession().getAttribute("cart");
+        }
 %>
 
 

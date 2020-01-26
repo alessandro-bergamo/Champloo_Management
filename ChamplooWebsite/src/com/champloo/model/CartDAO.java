@@ -2,12 +2,9 @@ package com.champloo.model;
 
 import com.champloo.bean.*;
 import com.champloo.storage.ConnectionPool;
-import com.sun.org.apache.xerces.internal.parsers.IntegratedParserConfiguration;
-
 import javafx.util.Pair;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CartDAO implements CartModel
@@ -73,7 +70,8 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException {
+	public boolean modifyQuantity(CartItemBean cartItem, int quantity) throws SQLException
+	{
 		
 		int isQuantityModified = 0;
 		connection = connectionPool.getConnection();
