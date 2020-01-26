@@ -4,6 +4,7 @@
 		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
 		import="java.util.*"
+		import="javafx.util.Pair"
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +32,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart.css">
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 </head>
-<body onload="submittaForm()">
+<body>
 
 	<!-- Menu -->
 
@@ -71,10 +72,11 @@
 		<%
 			if(utenteLoggato == null)
 				response.sendRedirect("user_log.jsp");
-
-			HashMap<ProductBean, ArrayList<ProductDetailsBean>> products_in_cart;
+			
+			HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart");
 			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null) || ((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")).isEmpty()))
 			{
+				System.out.println("ottenimaneto del cart ");
 		%>
 
 			<div style="display: none;">
@@ -85,10 +87,12 @@
 			</div>
 
 		<%
-			} else {
+		} else {
+				System.out.println("cart già ottenuto ");
 		%>
 
-			<input type="hidden" id="loadedvalue" name="loaded" value="1">
+			<input type="hidden" id="loadedvalue" name="loaded" value="1"> 
+			<input type="hidden" id="loadedvalue" name="loaded" value="0"> 
 
 		<%
 			}
@@ -128,42 +132,47 @@
 							<div class="cart_items">
 								<ul class="cart_items_list">
 									<%
+									int total_price = 0;
 										if(products_in_cart != null)
 										{
+											System.out.println("cart.jsp riga 137");
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;
 											while (iterator.hasNext())
 											{
 												HashMap.Entry entry = (HashMap.Entry) iterator.next();
-												ProductBean product = (ProductBean) entry.getKey();
-												ArrayList<ProductDetailsBean> product_details = (ArrayList<ProductDetailsBean>) entry.getValue();
-												for (int I = 0; I < product_details.size(); I++)
-												{
+												Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair)entry.getKey();
+												ProductBean product = (ProductBean) pairInCart.getKey();
+												ProductDetailsBean productDetails = (ProductDetailsBean) pairInCart.getValue();
+												
+												int qntInCart = (int) entry.getValue();
 									%>
 									<!-- Cart Item -->
 									<input type="hidden" id="products_to_checkout" value="<%=products_in_cart%>">
 									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
 											<div><div class="product_number"><%=num_products++%></div></div>
-											<div><div class="product_image"><img src=<%=product_details.get(I).getImg_path_folder()%>img1.png" alt=""></div></div>
+											<div><div class="product_image"><img src=<%=productDetails.getImg_path_folder()%>img1.png" alt=""></div></div>
 											<div class="product_name_container">
-												<div class="product_name"><a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.get(I).getColor()%>"><%=product.getName()%></a></div>
+												<div class="product_name"><a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=productDetails.getColor()%>"><%=product.getName()%></a></div>
 												<div class="product_text"><%=product.getType()+" - BRAND: "+product.getBrand()%></div>
 											</div>
 										</div>
-										<div class="product_color product_text"><span>Colore: </span><%=product_details.get(I).getColor()%></div>
-										<div class="product_size product_text"><span>Taglia: </span><%=product_details.get(I).getSize()%></div>
-										<div class="product_price product_text"><span>Prezzo: </span><%=product_details.get(I).getPrice()%> &euro;</div>
+										<div class="product_color product_text"><span>Colore: </span><%=productDetails.getColor()%></div>
+										<div class="product_size product_text"><span>Taglia: </span><%=productDetails.getSize()%></div>
+										<div class="product_price product_text"><span>Prezzo: </span><%=product.getPrice()%> &euro;</div>
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-												<span class="product_text product_num"><%=product_details.get(I).getQnt_stock()%></span>
+												<span class="product_text product_num"><%=qntInCart%></span>
 												<div class="qty_sub qty_button trans_200 text-center"><span>-</span></div>
 												<div class="qty_add qty_button trans_200 text-center"><span>+</span></div>
 											</div>
 										</div>
-										<div class="product_total product_text"><span>Totale: </span><%=product_details.get(I).getPrice()*2%>	</div>
+										<div class="product_total product_text"><span>Totale: </span><%=product.getPrice()%>	</div>
 									</li>
-									<%			}
+									<%			
+										total_price += product.getPrice();
+											}
 									%>
 								</ul>
 							</div>
@@ -220,11 +229,7 @@
 								<div class="cart_extra_title">Totale carrello</div>
 								<ul class="cart_extra_total_list">
 									<%
-										int total_price = 0;
-										for(int I=0; I<product_details.size(); I++)
-										{
-											total_price += product_details.get(I).getPrice();
-										}
+										
 									%>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Prodotti</div>
@@ -244,7 +249,6 @@
 						</div>
 					</div>
 					<%		}
-						}
 					%>
 				</div>
 			</div>
@@ -257,9 +261,11 @@
 	</div>
 
 	<script>
-		function submittaForm() {
-			var val = parseInt($("#loadedvalue").val());
-			if (val == 0) {
+	window.onload = submittaForm();
+	
+	function submittaForm() {
+		var val = parseInt($("#loadedvalue").val());
+		if (val == 0) {
 				$("#hiddenform").submit();
 			}
 		}

@@ -3,6 +3,8 @@ package com.champloo.control;
 import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
 
+import javafx.util.Pair;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -87,11 +89,10 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("retrieveProducts"))
 			{
 				System.out.println("RETRIEVE PRODUCTS");
-				HashMap<ProductBean, ArrayList<ProductDetailsBean>> productsInCart = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+				HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> productsInCart = new HashMap<Pair<ProductBean,ProductDetailsBean>, Integer>();
 				
 				synchronized (session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
-
 					try {
 						productsInCart = cartDAO.retrieveProducts(cart);
 					} catch (SQLException e) {
