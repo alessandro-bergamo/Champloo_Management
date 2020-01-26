@@ -163,8 +163,7 @@ public class CartDAO implements CartModel
 				
 				// seleziona tutti i detteagli dei prodotti(generici) presenti nel carrello 
 				query = "SELECT * FROM product_details WHERE id_product_details IN(\r\n" + 
-						"	SELECT Product_Details FROM cart_item INNER JOIN product_details ON Product_Details = id_product_details AND Product = '"+product.getId_prod()+"'\r\n" + 
-						")";
+						"	SELECT Product_Details FROM cart_item INNER JOIN product_details ON Product_Details = id_product_details AND Product = '"+product.getId_prod()+"' AND Cart = '"+cart.getId_cart()+"')";
 				
 				statement = connection.createStatement();
 				secondResults = statement.executeQuery(query);
