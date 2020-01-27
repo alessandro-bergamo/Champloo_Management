@@ -42,7 +42,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
         try {
             preparedStatement=connection.prepareStatement(query);
 
-            preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(1, 3);
             preparedStatement.setString(2, newPMethod.getCard_number());
             preparedStatement.setString(3, newPMethod.getCard_bank());
             preparedStatement.setInt(4, newPMethod.getCard_cvc());
@@ -74,7 +74,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
 
         connection = connectionPool.getConnection();
 
-        query="DELETE FROM payement_methods WHERE card_number = '"+id_method+"'";
+        query="DELETE FROM payment_methods WHERE id_method = '"+id_method+"'";
 
         try {
             statement = connection.createStatement();

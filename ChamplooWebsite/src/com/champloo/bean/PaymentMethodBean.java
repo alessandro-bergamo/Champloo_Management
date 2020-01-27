@@ -5,6 +5,22 @@ import java.time.LocalDate;
 public class PaymentMethodBean
 {
 
+    public PaymentMethodBean(int card_cvc, String card_number, String card_bank, String card_owner, String username, LocalDate expiry_date, LocalDate registration_method_date) {
+        this.card_cvc = card_cvc;
+        this.card_number = card_number;
+        this.card_bank = card_bank;
+        this.card_owner = card_owner;
+        this.username = username;
+        this.expiry_date = expiry_date;
+        this.registration_method_date = registration_method_date;
+    }
+
+    public PaymentMethodBean() {
+
+    }
+
+
+
     public int getId_method() { return id_method; }
 
     public void setId_method(int id_method) { this.id_method = id_method; }
@@ -37,7 +53,9 @@ public class PaymentMethodBean
 
     public void setUsername(String username) { this.username = username; }
 
-
+    public boolean isEmpty() {
+        return id_method == 0 && card_cvc == 0 && card_number == null && card_bank == null && card_owner == null && username == null;
+    }
 
     private int id_method, card_cvc;
     private String card_number, card_bank, card_owner, username;
