@@ -7,6 +7,7 @@
 %>
 <%
 	ArrayList<AddressBean> datiUtente = (ArrayList) request.getSession().getAttribute("addresses");
+	ArrayList<PaymentMethodBean> paymentMethod = (ArrayList) request.getSession().getAttribute("payment_method"); 
 %>
 
 
@@ -47,7 +48,7 @@
 <div class="menu">
 
   
-        <!-- Navigation -->
+        <!-- Navigation --> 
         <div class="menu_nav">
             <ul>
                 <li><a href="index.jsp">Home</a></li>
@@ -212,6 +213,7 @@
                                        </div>
                                    </div>
                                </div>
+                               <%   }%>
                                <div class="row justify-content-start">
                                    <div class="col-xl-12">
                                        <div class="row">
@@ -220,57 +222,39 @@
                                    </div>
                                </div>
                                <div class="row justify-content-start" id="inputNewInd">
+                              	 <form action="Address" name="addressModify" id="addressModify" method="POST">
                                    <div class="col-xl-12">
+           	                         <input name="operation" type="hidden" value="insert">
                                        <div class="row">
                                            <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="indirizzo" placeholder="Inserisci Indirizzo">
+                                               <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
                                            </div>
                                            <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="città" placeholder="Inserisci città">
+                                               <input type="text" class="form-input" name="city" placeholder="Inserisci città">
                                            </div>
                                            <div class="col-xl-1">
-                                               <input type="text" class="form-input3" id="provincia" maxlength="2" name="provincia" placeholder="Provincia">
+                                               <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
+                                           </div>
+                                           <div class="row spacerUP2 justify-content-start">
+                                           <div class="col-xl-4">
+                                               <input type="text" class="form-input" name="cap" placeholder="Inserisci cap">
+                                           </div>
+                                           <div class="col-xl-1">
+                                               <input type="text" class="form-input3" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
                                            </div>
                                            <div class="col-xl-3">
                                                <div class="row justify-content-end">
-                                                   <input type="button" class="site-btn6" value="Salva Indirizzo" style="margin-top: 5px">
+                                                   <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px">
                                                </div>
                                            </div>
                                        </div>
                                    </div>
+                                  </div>
+								</form>
                                </div>
                            </div>
                        </div>
                    </div>
-                   <%   } else {  %>
-                   <div class="row justify-content-start">
-                       <div class="col-xl-12">
-                           <div class="row">
-                               <h4 style="color:#2fce98; margin-left: 5px; cursor: pointer;" id="newInd">+ Inserisci nuovo indirizzo</h4>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="row justify-content-start" id="inputNewInd">
-                       <div class="col-xl-12">
-                           <div class="row">
-                               <div class="col-xl-4">
-                                   <input type="text" class="form-input" name="indirizzo" placeholder="Inserisci Indirizzo">
-                               </div>
-                               <div class="col-xl-4">
-                                   <input type="text" class="form-input" name="città" placeholder="Inserisci città">
-                               </div>
-                               <div class="col-xl-1">
-                                   <input type="text" class="form-input3" id="provincia" maxlength="2" name="provincia" placeholder="Provincia">
-                               </div>
-                               <div class="col-xl-3">
-                                   <div class="row justify-content-end">
-                                       <input type="button" class="site-btn6" value="Salva Indirizzo" style="margin-top: 5px">
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <%   }   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">
@@ -283,7 +267,7 @@
                                    <div class="col-xl-4">
                                        <div class="row">
                                            <h4 class="upH4">Tipo Carta: </h4>
-                                           <p class="upPCircle">Carta di Credito - Paypal</p>
+                                           <p class="upPCircle"><%=paymentMethod.get(0).getCard_bank()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">

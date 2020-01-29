@@ -35,7 +35,6 @@ public class AddressControl extends HttpServlet {
         if (operation.equals("insert"))
         {
             AddressBean newAddress = new AddressBean();
-
             try {
                 newAddress.setId_address(1);
                 newAddress.setRegistred_User(Integer.parseInt(request.getParameter("user")));
