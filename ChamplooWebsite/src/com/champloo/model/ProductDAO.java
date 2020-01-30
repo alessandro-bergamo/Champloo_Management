@@ -116,7 +116,7 @@ public class ProductDAO implements ProductModel
             }
 			
 		}
-		return isProduct_added != 0 && isProduct_details_added != 0;
+		return isProduct_added != 0 || isProduct_details_added != 0;
 	}
 	
 	@Override
@@ -150,9 +150,9 @@ public class ProductDAO implements ProductModel
 			
 			query = "SELECT * FROM product_details WHERE Product = '"+id_product+"' AND id_product_details = '"+id_product_details+"' ";
 			statement = connection.createStatement();
-			results = statement.executeQuery(query);
+			secondResults = statement.executeQuery(query);
 			
-			if(results.first())
+			if(secondResults.first())
 			{
 				productDetails.setId_prod_details(secondResults.getInt(1));
 				productDetails.setProduct(secondResults.getInt(2));
@@ -960,6 +960,7 @@ public class ProductDAO implements ProductModel
 	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException {
 	
 		connection = connectionPool.getConnection();
+		statement = connection.createStatement();
 		
 		try {
 		// update del prodotto
@@ -970,24 +971,27 @@ public class ProductDAO implements ProductModel
 		statement.executeUpdate(updateProduct("price_product", ""+newProduct.getPrice(), newProduct.getId_prod()));
 		statement.executeUpdate(updateProduct("status_product", ""+newProduct.getStatus(), newProduct.getId_prod()));
 		statement.executeUpdate(updateProduct("description_product", newProduct.getDescription(), newProduct.getId_prod()));
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		try {
+
 		//update dei dettagli del prodotto
 		statement.executeUpdate(updateProduct("color", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("size", newProductDetails.getSize(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("discount_percent", ""+newProductDetails.getDiscount_percent(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("qnt_stock", ""+newProductDetails.getQnt_stock(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("img_path_folder", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+		finally {
+			try {
+				if (statement != null)
+					statement.close();
+			} finally {
+				connectionPool.releaseConnection(connection);
+			}
+		}
 		return true;
 	}
 	
@@ -1008,7 +1012,7 @@ public class ProductDAO implements ProductModel
      * */
 	// metodo ausiliario interno per l'update di una singola colonna della tabella 'product_details'
 	private static String updateProduct(String columnName, String value, int product, int id_product_details) {
-		return "UPDATE products SET "+columnName+" = '"+value+"' WHERE product = '"+product+"' AND id_product_details = '"+id_product_details+"'";
+		return "UPDATE product_details SET "+columnName+" = '"+value+"' WHERE Product = '"+product+"' AND id_product_details = '"+id_product_details+"'";
 	}
 	
 	private static ConnectionPool connectionPool;

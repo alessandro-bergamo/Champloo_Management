@@ -11,6 +11,37 @@ public class ProductBean {
 	private int id_prod, status, number_feedback_users, total_rating;
 	private float average_rating, price;
 	private String name, brand, model, type, description;
+
+	public ProductBean(int id_prod, int status, int number_feedback_users, int total_rating, float average_rating, float price, String name, String brand, String model, String type, String description) {
+		this.id_prod = id_prod;
+		this.status = status;
+		this.number_feedback_users = number_feedback_users;
+		this.total_rating = total_rating;
+		this.average_rating = average_rating;
+		this.price = price;
+		this.name = name;
+		this.brand = brand;
+		this.model = model;
+		this.type = type;
+		this.description = description;
+	}
+
+	public ProductBean(int status, int number_feedback_users, int total_rating, float average_rating, float price, String name, String brand, String model, String type, String description) {
+		this.status = status;
+		this.number_feedback_users = number_feedback_users;
+		this.total_rating = total_rating;
+		this.average_rating = average_rating;
+		this.price = price;
+		this.name = name;
+		this.brand = brand;
+		this.model = model;
+		this.type = type;
+		this.description = description;
+	}
+
+	public ProductBean() {
+
+	}
 	
 	public int getId_prod() {
 		return id_prod;
@@ -77,6 +108,10 @@ public class ProductBean {
 	}
 	public void setPrice(float price) {
 		this.price = price;
+	}
+
+	public boolean isEmpty() {
+		return status == 0 && number_feedback_users == 0 && total_rating == 0 && average_rating == 0 && price == 0 && name == null && brand == null && model == null && type == null && description == null;
 	}
 	
 }
