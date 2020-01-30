@@ -139,8 +139,8 @@
 								<ul class="cart_items_list">
 									<%
 									int total_price = 0;
-										if(products_in_cart != null)
-										{
+										//if(products_in_cart != null)
+										//{
 											System.out.println("cart.jsp riga 144");
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;
@@ -166,11 +166,11 @@
 										</div>
 										<div class="product_color product_text"><span>Colore: </span><%=productDetails.getColor()%></div>
 										<div class="product_size product_text"><span>Taglia: </span><%=productDetails.getSize()%></div>
-										<div class="product_price product_text"><input name="priceProduct" type="hidden" id="productPrice" value=<%=product.getPrice()%>><span>Prezzo: </span><%=product.getPrice()%> &euro;</div>
+										<div class="product_price product_text"><input name="productPrice" type="hidden" id="productPrice" value=<%=product.getPrice()%>><span>Prezzo: </span><%=product.getPrice()%> &euro;</div>
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-												<input type="hidden" name="qntSelectorLabel" value="qntInCart">
-												<span class="product_text product_num" id="productQnt"><%=qntInCart%></span>
+												<input type="hidden"  value=<%=qntInCart%>>
+												<p class="product_text product_num" name="qntSelectorLabel"><%=qntInCart%></p>
 												<div class="qty_sub qty_button trans_200 text-center" id="qnt_selector">
 													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>-</span>
 												</div>
@@ -252,7 +252,7 @@
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Totale</div>
 										<div class="cart_extra_total_value ml-auto" id="total_price_order">
-											<p class="cart_extra_total_value ml-auto" id="totalCartPrice"><%=total_price%></p>
+											<!--  <p class="cart_extra_total_value ml-auto"><%=total_price%></p>-->
 										</div>
 										<div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
 									</li>
@@ -261,7 +261,7 @@
 							</div>
 						</div>
 					</div>
-					<%					}
+					<%				//}
 					%>
 				</div>
 			</div>
@@ -288,7 +288,7 @@
 
 	<script>
 
-		var total_price_order = 0;
+		var total_price_order = $("#total_price_order p").text();
 		var shipping_price = 0;
 		var total_price = $("#total_price p").text();
 
@@ -331,8 +331,7 @@
 		    var id_product_details = $(this).find("input").val();			  
 		    var operator = $(this).find("span").html();
 			
-		    var qntInCart = parseInt($(this).parent().find("span").html());
-		    alert(qntInCart);
+		    var qntInCart = parseInt($(this).parent().find("p").html());
 		    var productPrice = parseFloat($(this).parent().parent().prev().find("input").val());
 		    
 		    if(operator == "+")
@@ -355,7 +354,7 @@
 		    	url: "Cart",
 		    	data: {"id_cart" : id_cart, "id_product_details" : id_product_details, "operator" : operator, "operation" : operation},
 		    	success: function(results){
-	        		
+		    		calcolaTot()
 		    	},
 	        	error: function(results){
 	        		}
@@ -374,8 +373,31 @@
 	function calcolaTot()
 	{
 		var quantities = document.getElementsByName("qntSelectorLabel");
-		var prices = document.getElementsByName("priceProduct");
+		var prices = document.getElementsByName("productPrice");
+		
+		var qntXprice;
+		var tot = 0.00;
+		
+		i=0; 	// quantities[i] � relativa a prices[i]
+		while(i<quantities.length && i<prices.length)
+		{
+			qntXprice = parseInt(quantities[i].innerHTML) * prices[i].value; 
+			tot += qntXprice;
+			i++;
+		}
+		var price = numberWithCommas(tot);
+		document.getElementById("total_price_order").innerHTML = "<input type=\"hidden\" name=\"totalCartPrice\" value="+tot+"><p class=\"cart_extra_total_value ml-auto\">"+price+"</p>";
 	}
+	
+	function numberWithCommas(tot) {
+		var x = parseFloat(tot).toPrecision(4);
+	    return x.toString().replace(".", ",");
+	}
+	
+	// questo � l'equivalente di $(document).ready
+	document.addEventListener("DOMContentLoaded", function(event) { 
+		calcolaTot();
+	});
 	
 	</script>
 

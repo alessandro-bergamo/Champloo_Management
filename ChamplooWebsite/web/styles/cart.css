@@ -918,7 +918,7 @@ section
 	border: solid 2px #969696;
 	border-radius: 3px;
 }
-.product_quantity > span
+.product_quantity > p
 {
 	line-height: 28px;
 	font-size: 16px;
