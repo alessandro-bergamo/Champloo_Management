@@ -36,7 +36,9 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
     <!-- STILI CSS -->
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
@@ -83,6 +85,36 @@
             <div class="super_overlay"></div>
 
            <!-- MAIN SECTION User-->
+
+
+
+  <script>
+  $(document).ready(function() {
+	   $('#txtDate').datepicker({
+	     changeMonth: true,
+	     changeYear: true,
+	     dateFormat: 'MM yy',
+	       
+	     onClose: function() {
+	        var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+	        var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+	        $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+	     },
+	       
+	     beforeShow: function() {
+	       if ((selDate = $(this).val()).length > 0) 
+	       {
+	          iYear = selDate.substring(selDate.length - 4, selDate.length);
+	          iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+	          $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+	           $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+	       }
+	    }
+	  });
+	});
+  </script>
+
+
 
            <section class="utente-section">
                <div class="container">
@@ -203,13 +235,13 @@
                                    <div class="col-xl-7">
                                        <div class="row">
                                            <h4 class="upH4">Indirizzo: </h4>
-                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%>, <%=datiUtente.get(0).getCivic_number()%></p>
+                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%> <%=datiUtente.get(0).getCivic_number()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Città: </h4>
-                                           <p class="upPCircle"><%=datiUtente.get(0).getCity()%>, <%=datiUtente.get(0).getProvince()%>, <%=datiUtente.get(0).getCAP()%></p>
+                                           <p class="upPCircle"><%=datiUtente.get(0).getCity()%> - (<%=datiUtente.get(0).getProvince()%>) - <%=datiUtente.get(0).getCAP()%></p>
                                        </div>
                                    </div>
                                </div>
@@ -249,9 +281,7 @@
                                                </div>
                                            </div>
                                        </div>
-                                   </div>
-                                  </div>
-								</form>
+                                     </form>
                                </div>
                            </div>
                        </div>
@@ -268,7 +298,7 @@
                                    <div class="col-xl-4">
                                        <div class="row">
                                            <h4 class="upH4">Tipo Carta: </h4>
-                                           <p class="upPCircle">CAZZATE DI TATORE</p>
+                                           <p class="upPCircle"></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
@@ -304,23 +334,25 @@
                                    <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
                                </div>
                            </div>
+                            <form action="PaymentMethod" name="insertPaymentMethod" id="insertPaymentMethod" method="POST">
                            <div class="row justify-content-start" id="inputNewCard">
                                <div class="row">
                                    <div class="col-xl-4">
+           	                         <input name="operation" type="hidden" value="insert">
                                        <select class="arrows" style="margin-left: 20px">
-                                           <option value="selTipoCarta" disabled selected hidden>Tipo Carta</option>
+                                           <option value="selTipoCarta" id="bank" name="bank" disabled selected hidden>Tipo Carta</option>
                                            <option class="singleOption" value="hurr">Paypal</option>
                                            <option class="singleOption" value="hurr">Carta di Credito</option>
                                        </select>
                                    </div>
                                    <div class="col-xl-4">
-                                       <input type="text" class="form-input2" id="codcarta" name="codcarta" maxlength="19" placeholder="Codice Carta">
+                                       <input type="text" class="form-input2" id="number" name="number" maxlength="16" placeholder="Codice Carta">
                                    </div>
                                    <div class="col-xl-2">
-                                       <input type="password" class="form-input4" name="codcvc" maxlength="3" placeholder="Codice CVC">
+                                       <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" placeholder="Codice CVC">
                                    </div>
                                    <div class="col-xl-2">
-                                       <input type="date" name="dataexpcarta" id="dataexpcarta" style="margin-left: 40px;" placeholder="Data scadenza">
+                                        <input type="text" name="expiry" id="txtDate" style="margin-left: 40px" placeholder="Data scadenza">
                                    </div>
                                </div>
                                <div class="row">
@@ -331,8 +363,10 @@
                                    </div>
                                </div>
                            </div>
+                           </form>
                        </div>
                    </div>
+               </div>
                </div>
                <div class="container" id="ordiv">
                    <div class="container spacerUP borderutdiv">
@@ -414,8 +448,9 @@
                    </div>
 
                        </div>
-           </section>
         </div>
+                   </section>
+        
         <!-- END SECTION -->
 
 
@@ -425,7 +460,7 @@
             
     <script>
 
-          document.getElementById('codcarta').addEventListener('input', function (e) {
+          document.getElementById('number').addEventListener('input', function (e) {
           var target = e.target, position = target.selectionEnd, length = target.value.length;
 
               target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
@@ -433,7 +468,7 @@
           });
 
           $(function() {
-              $("#dataexpcarta").datepicker({dateFormat: 'mm/yy'});
+              $("#txtDate").datepicker({dateFormat: 'mm/yy'});
           });
 
           $("#list1").on('click', function() {
@@ -486,6 +521,10 @@
     <script src="plugins/parallax-js-master/parallax.min.js"></script>
     <script src="js/custom.js"></script>
     <script src="/ChamplooWebsite/js/userAreaForm.js"></script>
+    <script src="/ChamplooWebsite/js/addressForm.js"></script>
+    <script src="/ChamplooWebsite/js/paymentMethodForm.js"></script>
+    
+    
 
 </body>
 
