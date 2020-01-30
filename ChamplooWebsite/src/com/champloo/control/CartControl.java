@@ -160,10 +160,24 @@ public class CartControl extends HttpServlet {
 				session.setAttribute("shipping_price", shipping_price);
 				session.setAttribute("total_price_order", total_price_order);
 			}
+			else if(operation.equals("createOrder"))
+			{
+				CartBean cart = (CartBean) session.getAttribute("cart");
+
+				try
+				{
+					cartDAO.clearCart(cart);
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			}
 
 
 			if(operation.equals("login"))
 				response.sendRedirect("index.jsp");
+			else if(operation.equals("createOrder"))
+				response.sendRedirect("user_area.jsp");
 		}
 	}
 		

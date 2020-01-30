@@ -1,16 +1,17 @@
 package com.champloo.control;
 
-import com.champloo.bean.OrderBean;
-import com.champloo.bean.OrderItemBean;
-import com.champloo.bean.ProductBean;
-import com.champloo.bean.UserBean;
+import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
 import com.champloo.model.OrderDAO;
+import javafx.util.Pair;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -32,22 +33,22 @@ public class OrderControl extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
+        RequestDispatcher dispatcher;
+        HttpSession session = request.getSession(true);
 
         if(operation != null)
         {
-            if(operation.equals("insertOrder"))
+            if(operation.equals("createOrder"))
             {
-                UserBean user = (UserBean) request.getSession().getAttribute("user");
-                CartDAO cart = (CartDAO) request.getSession().getAttribute("cart");
+                UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+                HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_order= (HashMap<Pair<ProductBean, ProductDetailsBean>, Integer>) session.getAttribute("productsInCart");
 
                 int id_user = user.getID();
-
-                ArrayList<ProductBean> products = null; //AGGIUNGERE IL RETRIEVE DEI PRODOTTI IN CARRELLO
+                String order_owner = user.getFirstName()+" "+user.getSurname();
 
                 String address = request.getParameter("address");
                 String payment_method = request.getParameter("payment_method");
-                String order_owner = user.getFirstName()+user.getSurname();
-                Float order_price = Float.parseFloat(request.getParameter("order_price"));
+                Float order_price = (Float) session.getAttribute("total_price_order");
 
                 //SYSTEM DATE ON ORDER CREATION
                 Date creation_date = new Date(System.currentTimeMillis());
@@ -57,7 +58,6 @@ public class OrderControl extends HttpServlet
 
                 OrderBean newOrder = new OrderBean();
 
-                newOrder.setId_order(1);        //USELESS
                 newOrder.setAddress(address);
                 newOrder.setPayment_method(payment_method);
                 newOrder.setRegistred_User(id_user);
@@ -67,12 +67,17 @@ public class OrderControl extends HttpServlet
                 newOrder.setDelivery_date(delivery_date);
                 newOrder.setStatus_order(0);
 
-                try {
-                    model_order.createOrder(newOrder, products);
+                try
+                {
+                    model_order.createOrder(newOrder, products_in_order);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            } else if(operation.equals("cancelOrder"))
+
+                dispatcher = request.getRequestDispatcher("Cart");
+                dispatcher.forward(request, response);
+            }
+            else if(operation.equals("cancelOrder"))
             {
                 int id_order = Integer.parseInt(request.getParameter("id_order"));
                 try {
@@ -200,14 +205,6 @@ public class OrderControl extends HttpServlet
                 request.setAttribute("orders", orders);
             }
         }
-
-        //FIX REDIRECT
-        if(operation.equals("insertOrder"))
-            response.sendRedirect("user_area.jsp");
-        else if(operation.equals("showOrdersPerUser"))
-            response.sendRedirect("user_area.jsp");
-        else
-            response.sendRedirect("index.jsp");
 
     }
 
