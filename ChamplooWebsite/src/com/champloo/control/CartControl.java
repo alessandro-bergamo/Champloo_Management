@@ -141,13 +141,17 @@ public class CartControl extends HttpServlet {
 			{
 				synchronized (session) {
 					CartBean cart = (CartBean) session.getAttribute("cart");
-					
 					try {
 						cartDAO.clearCart(cart);
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						dispatcher = request.getRequestDispatcher("cart.jsp");
+						dispatcher.forward(request, response);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}		
-				}				
+					}	
+					
+				}
+				
 			}
 			else if(operation.equals("submitCheckout"))
 			{

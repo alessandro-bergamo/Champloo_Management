@@ -139,9 +139,8 @@
 								<ul class="cart_items_list">
 									<%
 									int total_price = 0;
-										//if(products_in_cart != null)
-										//{
-											System.out.println("cart.jsp riga 144");
+										if(products_in_cart != null && !products_in_cart.isEmpty())
+										{
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;
 											while (iterator.hasNext())
@@ -243,7 +242,10 @@
 								<ul class="cart_extra_total_list">
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Prodotti</div>
-										<div class="cart_extra_total_value ml-auto" id="total_price"><p class="cart_extra_total_value ml-auto"><%=total_price%></p></div><div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
+										<div class="cart_extra_total_value ml-auto" id="total_price">
+											<!--  <p class="cart_extra_total_value ml-auto"><%=total_price%></p> -->
+										</div>
+										<div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Spedizione</div>
@@ -261,7 +263,7 @@
 							</div>
 						</div>
 					</div>
-					<%				//}
+					<%				}
 					%>
 				</div>
 			</div>
@@ -284,13 +286,10 @@
 					);
 		}
 */
-	</script>
-
-	<script>
-
-		var total_price_order = $("#total_price_order p").text();
-		var shipping_price = 0;
-		var total_price = $("#total_price p").text();
+	var shipping_price = 0;
+	var total_price_order;
+	var total_price;
+	
 
 		function submitCheckout() {
 			var value1 = ("submitCheckout");
@@ -298,31 +297,28 @@
 				type: "GET",
 				url: "Cart",
 				data: {"total_price_order": total_price_order, "shipping_price": shipping_price, "total_price": total_price, "operation": value1},
-			}); window.location.href = "/checkout.jsp";
+			}); window.location.href = "checkout.jsp";
 		}
 
-		$('input[type=radio][name=shipping_radio]').change(function() {
+		$('input[type=radio][name=shipping_radio]').change(function() {			
 			if (this.value == 'veloce') {
 				shipping_price = 4.99;
 				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
 				$("#price_shipping").text("4.99 €");
-				$("#total_price_order").text(total_price_order);
+				$("#total_price_order").find("p").text(total_price_order);
 			} else if (this.value == 'standard') {
 				shipping_price = 1.99;
 				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
 				$("#price_shipping").text("1.99 €");
-				$("#total_price_order").text(total_price_order);
+				$("#total_price_order").find("p").text(total_price_order);
 			} else if (this.value == 'lenta') {
 				shipping_price = 0;
 				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
 				$("#price_shipping").text("GRATUITA");
-				$("#total_price_order").text(total_price_order);
+				$("#total_price_order").find("p").text(total_price_order);
 			}
 		});
 
-	</script>
-	
-	<script type="text/javascript">
 	$ ( function selectQnt()
 	{
 		$("[id ='qnt_selector']").on('click', function (){
@@ -385,9 +381,15 @@
 			tot += qntXprice;
 			i++;
 		}
+		
+		total_price = tot;
+		total_price_order = tot + parseFloat(shipping_price);
+		alert(total_price_order);
+		
 		var price = numberWithCommas(tot);
-		document.getElementById("total_price_order").innerHTML = "<input type=\"hidden\" name=\"totalCartPrice\" value="+tot+"><p class=\"cart_extra_total_value ml-auto\">"+price+"</p>";
-	}
+		document.getElementById("total_price_order").innerHTML = "<input type=\"hidden\" name=\"totalCartPrice\" value="+total_price_order+"><p class=\"cart_extra_total_value ml-auto\">"+total_price_order+"</p>";
+		document.getElementById("total_price").innerHTML = "<input type=\"hidden\" name=\"totalProductPrice\" value="+tot+"><p class=\"cart_extra_total_value ml-auto\">"+price+"</p>";
+	}																														
 	
 	function numberWithCommas(tot) {
 		var x = parseFloat(tot).toPrecision(4);
@@ -397,6 +399,8 @@
 	// questo � l'equivalente di $(document).ready
 	document.addEventListener("DOMContentLoaded", function(event) { 
 		calcolaTot();
+		total_price_order = $("#total_price_order").find("p").text();
+		total_price = $("#total_price").find("p").text();
 	});
 	
 	</script>
