@@ -159,6 +159,9 @@ public class CartControl extends HttpServlet {
 				session.setAttribute("total_price", total_price);
 				session.setAttribute("shipping_price", shipping_price);
 				session.setAttribute("total_price_order", total_price_order);
+
+				dispatcher = request.getRequestDispatcher("Address");
+				dispatcher.forward(request, response);
 			}
 
 

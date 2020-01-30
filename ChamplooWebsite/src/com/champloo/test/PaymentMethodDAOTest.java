@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -82,7 +83,7 @@ public class PaymentMethodDAOTest {
         Assume.assumeTrue(type.equals(Type.RETRIEVEBYUSERID));
         try {
             Integer integer = (Integer)paramForDAO;
-            HashSet<PaymentMethodBean> paymentMethodBeanHashSet = paymentMethodDAO.retrieveByUserID(integer.intValue());
+            ArrayList<PaymentMethodBean> paymentMethodBeanHashSet = paymentMethodDAO.retrieveByUserID(integer.intValue());
             Assert.assertEquals(expectedResult, paymentMethodBeanHashSet.isEmpty());
         }catch(Exception e) {
             e.printStackTrace();

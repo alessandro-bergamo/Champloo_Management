@@ -1,17 +1,21 @@
 package com.champloo.control;
 
 import com.champloo.bean.PaymentMethodBean;
+import com.champloo.bean.UserBean;
 import com.champloo.model.PaymentMethodDAO;
 
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -24,6 +28,8 @@ public class PaymentMethodControl extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
+        RequestDispatcher dispatcher;
+        HttpSession session = request.getSession(true);
 
         if(operation.equals("insert"))
         {
@@ -48,26 +54,45 @@ public class PaymentMethodControl extends HttpServlet
         } else if(operation.equals("delete"))
         {
             try {
-                model_pmethod.deletePMethod(Integer.parseInt(request.getParameter("id")));
+                UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                model_pmethod.deletePMethod(user.getID());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if(operation.equals("retrieveMethods"))
+        } else if(operation.equals("submitCheckout"))
         {
-            HashSet<PaymentMethodBean> pMethods = null;
+            ArrayList<PaymentMethodBean> methods = null;
+
             try {
-                pMethods = model_pmethod.retrieveByUserID(Integer.parseInt(request.getParameter("id_user")));
-            } catch (SQLException e) {
+                UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                methods = model_pmethod.retrieveByUserID(user.getID());
+            } catch(SQLException e) {
                 e.printStackTrace();
             }
-            request.setAttribute("methods", pMethods);
+
+            session.setAttribute("methods", methods);
+        } else if(operation.equals("login"))
+        {
+            ArrayList<PaymentMethodBean> methods = new ArrayList<PaymentMethodBean>();
+
+            synchronized (session) {
+                try {
+                    UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                    methods = model_pmethod.retrieveByUserID(user.getID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                session.setAttribute("methods", methods);
+
+                dispatcher = request.getRequestDispatcher("Cart");
+                dispatcher.forward(request,response);
+            }
         }
 
 
         if(operation.equals("insert") || operation.equals("delete"))
             response.sendRedirect("user_area.jsp");
-        else
-            response.sendRedirect("index.jsp");
 
     }
 

@@ -1139,6 +1139,7 @@ section
 	background: transparent;
 	border: solid 2px #838383;
 	border-radius: 50%;
+	margin-top: -1px;
 }
 .radio_mark::after
 {

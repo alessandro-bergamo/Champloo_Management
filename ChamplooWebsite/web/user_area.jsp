@@ -189,7 +189,7 @@
                    </form>
                    </div>
 
-                   <%   if(!datiUtente.isEmpty())
+                   <%   if(!datiUtente.isEmpty() && datiUtente != null)
                         {   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
@@ -235,14 +235,15 @@
                                            <div class="col-xl-1">
                                                <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
                                            </div>
-                                           <div class="row spacerUP2 justify-content-start">
+                                       </div>
+                                       <div class="row spacerUP2 justify-content-start">
                                            <div class="col-xl-4">
                                                <input type="text" class="form-input" name="cap" placeholder="Inserisci cap">
                                            </div>
-                                           <div class="col-xl-1">
-                                               <input type="text" class="form-input3" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
-                                           </div>
                                            <div class="col-xl-3">
+                                               <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
+                                           </div>
+                                           <div class="col-xl-4">
                                                <div class="row justify-content-end">
                                                    <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px">
                                                </div>
@@ -267,7 +268,7 @@
                                    <div class="col-xl-4">
                                        <div class="row">
                                            <h4 class="upH4">Tipo Carta: </h4>
-                                           <p class="upPCircle"><%=paymentMethod.get(0).getCard_bank()%></p>
+                                           <p class="upPCircle">CAZZATE DI TATORE</p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
