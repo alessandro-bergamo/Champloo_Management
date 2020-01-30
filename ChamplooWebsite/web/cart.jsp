@@ -32,7 +32,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/cart.css">
 	<link rel="stylesheet" type="text/css" href="styles/cart_responsive.css">
 </head>
-<body onload="submittaForm()">
+<body>
 
 	<!-- Menu -->
 
@@ -73,27 +73,28 @@
 			if(utenteLoggato == null)
 				response.sendRedirect("user_log.jsp");
 			
-			HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart;
-			if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null))
-			{
-				System.out.println("ottenimaneto del cart ");
+		//	HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart;
+			//if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null))
+			//{
 		%>
 
-			<div style="display: none;">
+		<!--  	<div style="display: none;">
 				<form action="Cart" id="hiddenform" method="POST">
 					<input type="hidden" id="loadedvalue" name="loaded" value="0">
 					<input type="hidden" name="operation" value="retrieveProducts">
 				</form>
-			</div>
+		)	</div>-->
 
 		<%
-		} else {
+	//} else {
 		%>
 
-			<input type="hidden" id="loadedvalue" name="loaded" value="1">
+		<!--  <input type="hidden" id="loadedvalue" name="loaded" value="1"> -->
 
 		<%
-			}
+		//	}
+			
+			HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart");
 		%>
 
 		<!-- Home -->
@@ -140,7 +141,7 @@
 									int total_price = 0;
 										if(products_in_cart != null)
 										{
-											System.out.println("cart.jsp riga 137");
+											System.out.println("cart.jsp riga 144");
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;
 											while (iterator.hasNext())
@@ -165,10 +166,11 @@
 										</div>
 										<div class="product_color product_text"><span>Colore: </span><%=productDetails.getColor()%></div>
 										<div class="product_size product_text"><span>Taglia: </span><%=productDetails.getSize()%></div>
-										<div class="product_price product_text"><span>Prezzo: </span><%=product.getPrice()%> &euro;</div>
+										<div class="product_price product_text"><input name="priceProduct" type="hidden" id="productPrice" value=<%=product.getPrice()%>><span>Prezzo: </span><%=product.getPrice()%> &euro;</div>
 										<div class="product_quantity_container">
 											<div class="product_quantity ml-lg-auto mr-lg-auto text-center">
-												<span class="product_text product_num"><%=qntInCart%></span>
+												<input type="hidden" name="qntSelectorLabel" value="qntInCart">
+												<span class="product_text product_num" id="productQnt"><%=qntInCart%></span>
 												<div class="qty_sub qty_button trans_200 text-center" id="qnt_selector">
 													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>-</span>
 												</div>
@@ -177,7 +179,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="product_total product_text"><span>Totale: </span><%=product.getPrice()*qntInCart%> &euro;</div>
+										<div class="product_total product_text">
+											<input type="hidden"><%=product.getPrice()*qntInCart%> &euro;
+										</div>
 									</li>
 									<%			
 												total_price += (product.getPrice()*qntInCart);
@@ -247,7 +251,10 @@
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Totale</div>
-										<div class="cart_extra_total_value ml-auto" id="total_price_order"><p class="cart_extra_total_value ml-auto"><%=total_price%></p></div><div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
+										<div class="cart_extra_total_value ml-auto" id="total_price_order">
+											<p class="cart_extra_total_value ml-auto" id="totalCartPrice"><%=total_price%></p>
+										</div>
+										<div class="cart_extra_total_value ml-auto" style="margin-left: 5px !important;"> &euro;</div>
 									</li>
 								</ul>
 								<div class="checkout_button trans_200" onclick="submitCheckout()"><a style="color: white; cursor: pointer;">Procedi all'acquisto</a></div>
@@ -267,13 +274,16 @@
 	</div>
 
 	<script>
-
+/*
 	function submittaForm() {
 		var val = parseInt($("#loadedvalue").val());
-		if (val == 0) {
-				$("#hiddenform").submit();
-			}
+		//if (val == 0) {
+				$("#hiddenform").submit( function(e){
+							e.stopPropagation();
+						}
+					);
 		}
+*/
 	</script>
 
 	<script>
@@ -320,7 +330,19 @@
 			var id_cart = $("#id_cart").val();
 		    var id_product_details = $(this).find("input").val();			  
 		    var operator = $(this).find("span").html();
-
+			
+		    var qntInCart = parseInt($(this).parent().find("span").html());
+		    alert(qntInCart);
+		    var productPrice = parseFloat($(this).parent().parent().prev().find("input").val());
+		    
+		    if(operator == "+")
+		    	qntInCart += 1;
+		    else if (operator == "-")
+		    	qntInCart -= 1;
+		   
+		    var total = qntInCart*productPrice; 
+		    var totalProductPrice = $(this).parent().parent().next().html(total+" €");
+		   
 		    //calling the ajax function
 		    changeQnt(id_cart,id_product_details,operator,operation);
 		});
@@ -339,6 +361,21 @@
 	        		}
 		    });
 	};
+	
+	function updateProductsInCart()
+	{
+			$.ajax({
+				type: "GET",
+				url : "Cart",
+				data : {"operation" : "retrieveProducts"}
+					});
+	};
+	
+	function calcolaTot()
+	{
+		var quantities = document.getElementsByName("qntSelectorLabel");
+		var prices = document.getElementsByName("priceProduct");
+	}
 	
 	</script>
 

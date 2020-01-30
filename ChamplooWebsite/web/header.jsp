@@ -61,7 +61,7 @@
                     <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                   	<% } %>
                     <!-- Cart -->
-                    <div class="cart"><a href="cart.jsp"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="cart"><a href="Cart?operation=retrieveProducts"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <!-- Phone -->
                     <div class="header_phone d-flex flex-row align-items-center justify-content-start">
                     

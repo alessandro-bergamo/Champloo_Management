@@ -11,7 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.persistence.criteria.From;
 
 public class ProductDAO implements ProductModel 
 {

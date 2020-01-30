@@ -3,7 +3,8 @@ package com.champloo.model;
 import com.champloo.bean.PaymentMethodBean;
 import com.champloo.storage.ConnectionPool;
 import java.sql.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+
 
 public class PaymentMethodDAO implements PaymentMethodModel
 {
@@ -12,7 +13,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
      {
          try {
 				//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-				connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
+             connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -139,13 +140,13 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param user_id
      * @return payment_methods
      */
-    public HashSet<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException
+    public ArrayList<PaymentMethodBean> retrieveByUserID(int user_id) throws SQLException
     {
-        HashSet<PaymentMethodBean> payment_methods = new HashSet<PaymentMethodBean>();
+        ArrayList<PaymentMethodBean> payment_methods = new ArrayList<PaymentMethodBean>();
 
         connection = connectionPool.getConnection();
 
-        query="SELECT * FROM payement_methods WHERE card_owner = ?";
+        query="SELECT * FROM payment_methods WHERE Registred_User = ?";
 
         try {
 

@@ -35,7 +35,6 @@ public class AddressControl extends HttpServlet {
         if (operation.equals("insert"))
         {
             AddressBean newAddress = new AddressBean();
-
             try {
                 newAddress.setId_address(1);
                 newAddress.setRegistred_User(Integer.parseInt(request.getParameter("user")));
@@ -69,8 +68,26 @@ public class AddressControl extends HttpServlet {
 	            }
 			}
             session.setAttribute("addresses", addresses);
-            dispatcher = request.getRequestDispatcher("Cart");
+
+            dispatcher = request.getRequestDispatcher("PaymentMethod");
             dispatcher.forward(request,response);
+        } else if (operation.equals("submitCheckout"))
+        {
+            ArrayList<AddressBean> addresses = null;
+
+            try
+            {
+                UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                addresses = model_address.retrieveByUserID(user.getID());
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+
+            session.setAttribute("addresses", addresses);
+
+            dispatcher = request.getRequestDispatcher("PaymentMethod");
+            dispatcher.forward(request, response);
         }
 
 

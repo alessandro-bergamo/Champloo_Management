@@ -1,3 +1,4 @@
+<%@ page import="java.util.ArrayList" %>
 <%@page
 		language="java"
 		contentType="text/html; charset=UTF-8"
@@ -69,9 +70,12 @@
 		<%@ include file="header.jsp" %>
 
 		<%
-			Float shipping_price = (Float) (request.getSession().getAttribute("shipping_price"));
+			Float shipping_price = (Float) request.getSession().getAttribute("shipping_price");
+			Float order_price = (Float) request.getSession().getAttribute("total_price");
+			Float total_price_order = (Float) request.getSession().getAttribute("total_price_order");
 
-			System.out.println("SHIPPING PRICE: "+shipping_price);
+			ArrayList<AddressBean> addresses = (ArrayList) request.getSession().getAttribute("addresses");
+			ArrayList<PaymentMethodBean> methods = (ArrayList) request.getSession().getAttribute("methods");
 		%>
 
 		<!-- Home -->
@@ -93,81 +97,26 @@
 					<!-- Billing -->
 					<div class="col-lg-6">
 						<div class="billing">
-							<div class="checkout_title">Indirizzo fatturazione</div>
-							<div class="checkout_form_container">
-								<form action="#" id="checkout_form" class="checkout_form">
-									<div class="row">
-										<div class="col-lg-6">
-											<!-- Name -->
-											<input type="text" id="checkout_nome" class="checkout_input" placeholder="Nome" required="required">
-										</div>
-										<div class="col-lg-6">
-											<!-- Last Name -->
-											<input type="text" id="checkout_cognome" class="checkout_input" placeholder="Cognome" required="required">
-										</div>
-									</div>
-
+							<div class="payment_options" style="margin-top: 0px !important;">
+								<div class="checkout_title">Indirizzi</div>
+								<ul>
+									<%
+										if(addresses != null && !addresses.isEmpty()) {
+										for(int I=0;I<addresses.size();I++) {
+									%>
+									<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
+										<label class="radio_container">
+											<input type="radio" id="radio_1" name="address_radio" class="payment_radio" required>
+											<span class="radio_mark"></span>
+											<span class="radio_text"><%=addresses.get(I).getAddress()+", "+addresses.get(I).getCity()+", "+addresses.get(I).getCivic_number()+", "+addresses.get(I).getProvince()%></span>
+										</label>
+									</li>
+									<%	} } else {	%>
 									<div>
-										<!-- Country -->
-										<select name="checkout_nazione" id="checkout_country" class="dropdown_item_select checkout_input" require="required">
-											<option>Nazione</option>
-											<option>Francia</option>
-											<option>Svizzera</option>
-											<option>UK</option>
-											<option>Italia</option>
-										</select>
+										CIAO
 									</div>
-									<div>
-										<!-- Address -->
-										<input type="text" id="checkout_address" class="checkout_input" placeholder="Indirizzo" required="required">
-										<input type="text" id="checkout_address_2" class="checkout_input checkout_address_2" placeholder="Indirizzo secondario" required="required">
-									</div>
-									<div>
-										<!-- Zipcode -->
-										<input type="text" id="checkout_codiceP" class="checkout_input" placeholder="Codice postale" required="required">
-									</div>
-                                        <div>
-                                            <!-- Regione -->
-                                            <input type="text" id="checkout_regione" class="checkout_input" placeholder="Regione" required="required">
-                                        </div>
-									                                    <div>
-                                        <!-- Provincia -->
-                                        <input type="text" id="checkout_provincia" class="checkout_input" placeholder="Provincia" required="required">
-                                    </div>
-									<div>
-										<!-- Phone no -->
-										<input type="phone" id="checkout_telefono" class="checkout_input" placeholder="Telefono" required="required">
-									</div>
-									<div>
-										<!-- Email -->
-										<input type="phone" id="checkout_email" class="checkout_input" placeholder="Email" required="required">
-									</div>
-									<div class="checkout_extra">
-										<ul>
-											<li class="billing_info d-flex flex-row align-items-center justify-content-start">
-												<label class="checkbox_container">
-													<input type="checkbox" id="cb_1" name="billing_checkbox" class="billing_checkbox">
-													<span class="checkbox_mark"></span>
-													<span class="checkbox_text">Ho preso visione e accetto i termini e condizioni</span>
-												</label>
-											</li>
-											<li class="billing_info d-flex flex-row align-items-center justify-content-start">
-												<label class="checkbox_container">
-													<input type="checkbox" id="cb_2" name="billing_checkbox" class="billing_checkbox">
-													<span class="checkbox_mark"></span>
-													<span class="checkbox_text">Crea un account (O completa l'ordine come guest)</span>
-												</label>
-											</li>
-											<li class="billing_info d-flex flex-row align-items-center justify-content-start">
-												<label class="checkbox_container">
-													<input type="checkbox" id="cb_3" name="billing_checkbox" class="billing_checkbox">
-													<span class="checkbox_mark"></span>
-													<span class="checkbox_text">Iscriviti alla nostra newsletter</span>
-												</label>
-											</li>
-										</ul>
-									</div>
-								</form>
+									<% 	}	 %>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -180,44 +129,41 @@
 								<ul class="cart_extra_total_list">
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Oggetti</div>
-										<div class="cart_extra_total_value ml-auto">$29.90</div>
+										<div class="cart_extra_total_value ml-auto"><%=order_price%> &euro;</div>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Spedizione</div>
-										<div class="cart_extra_total_value ml-auto">Gratis</div>
+										<%	if(shipping_price == 0.0) {%>
+										<div class="cart_extra_total_value ml-auto">Gratuita</div>
+										<% 	} else {%>
+										<div class="cart_extra_total_value ml-auto"><%=shipping_price%> &euro;</div>
+										<%	}%>
 									</li>
 									<li class="d-flex flex-row align-items-center justify-content-start">
 										<div class="cart_extra_total_title">Totale</div>
-										<div class="cart_extra_total_value ml-auto">$29.90</div>
+										<div class="cart_extra_total_value ml-auto"><%=total_price_order%> &euro;</div>
 									</li>
 								</ul>
 								<div class="payment_options">
 									<div class="checkout_title">Pagamento</div>
 									<ul>
+										<%
+											if(methods != null && !methods.isEmpty()) {
+											for(int I=0;I<methods.size();I++) {	%>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_1" name="payment_radio" class="payment_radio">
+												<input type="radio" id="radio_1" name="payment_radio" class="payment_radio" required>
 												<span class="radio_mark"></span>
-												<span class="radio_text">Paypal</span>
+												<span class="radio_text"><%=methods.get(I).getCard_bank()+", "+methods.get(I).getCard_number()%></span>
 											</label>
 										</li>
-										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
-											<label class="radio_container">
-												<input type="radio" id="radio_2" name="payment_radio" class="payment_radio">
-												<span class="radio_mark"></span>
-												<span class="radio_text">Pagamento alla consegna</span>
-											</label>
-										</li>
-										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
-											<label class="radio_container">
-												<input type="radio" id="radio_3" name="payment_radio" class="payment_radio" checked>
-												<span class="radio_mark"></span>
-												<span class="radio_text">Carta di credito</span>
-											</label>
-										</li>
+										<%	} } else {	%>
+										<div>
+											CIAO2
+										</div>
+										<% 	}	%>
 									</ul>
 								</div>
-								
 								<div class="checkout_button trans_200"><a href="checkout.html">Conferma ordine</a></div>
 							</div>
 						</div>

@@ -68,9 +68,12 @@ public class CartControl extends HttpServlet {
 				try {
 					//CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
 					cartDAO.modifyQuantity(id_cart, id_product_details, operator);
+					CartBean cart = (CartBean) session.getAttribute("cart");
+					request.setAttribute("numberOfProducts", cartDAO.retrieveProducts(cart));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				
 			}
 			else if(operation.equals("retrieveNumberOfProducts"))
 			{
@@ -156,6 +159,9 @@ public class CartControl extends HttpServlet {
 				session.setAttribute("total_price", total_price);
 				session.setAttribute("shipping_price", shipping_price);
 				session.setAttribute("total_price_order", total_price_order);
+
+				dispatcher = request.getRequestDispatcher("Address");
+				dispatcher.forward(request, response);
 			}
 
 
