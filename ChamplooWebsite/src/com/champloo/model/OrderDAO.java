@@ -3,19 +3,22 @@ package com.champloo.model;
 import com.champloo.bean.OrderBean;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.OrderItemBean;
+import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
+import javafx.util.Pair;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class OrderDAO implements OrderModel
 {    	
 	public OrderDAO()
 	{
-		//parametri astratti, aggiungere reali successivamente		
 		try {
-			//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
-			connectionPool = ConnectionPool.create("jdbc:mysql://localhost:3306/champloo_store_db", "root", "rootroot");
+            connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -27,75 +30,73 @@ public class OrderDAO implements OrderModel
      * @param newOrder
      * @return order_created
      */
-    public synchronized boolean createOrder(OrderBean newOrder, ArrayList<ProductBean> products_in_order) throws SQLException
+    public synchronized boolean createOrder(OrderBean newOrder, HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_order) throws SQLException
     {
-        int order_created = 0;
+        int order_created = 0, id_order = 0;
         connection = connectionPool.getConnection();
 
-        ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
+        query = "INSERT INTO orders (Registred_User, shipping_address, payment_method, order_owner, total_price, creation_date, delivery_date, status_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        for(int I=0; I<products_in_order.size(); I++)
-        {
-            OrderItemBean item_in_order = new OrderItemBean();
-            item_in_order.setId_order(newOrder.getId_order());
-            item_in_order.setId_order_item(1);      //USELESS
-            item_in_order.setId_product(products_in_order.get(I).hashCode());       //CAMBIARE NELL'ID DEL PRODOTTO QUANDO CI SARANNO GETTER AND SETTERS
-            item_in_order.setPrice_in_order(products_in_order.get(I).hashCode());   //CAMBIARE NEL PREZZO DEL PRODOTTO
-            item_in_order.setQnt_in_order(products_in_order.get(I).hashCode());     //CAMBIARE NELLA QUANTITA' DEL PRODOTTO IN CARRELLO
+        try {
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            items_in_order.add(item_in_order);
+            preparedStatement.setInt(1, newOrder.getRegistred_User());
+            preparedStatement.setString(2, newOrder.getAddress());
+            preparedStatement.setString(3, newOrder.getPayment_method());
+            preparedStatement.setString(4, newOrder.getOrder_owner());
+            preparedStatement.setFloat(5, newOrder.getTotal_price());
+            preparedStatement.setDate(6, newOrder.getCreation_date());
+            preparedStatement.setDate(7, newOrder.getDelivery_date());
+            preparedStatement.setInt(8, newOrder.getStatus_order());
+
+            order_created = preparedStatement.executeUpdate();
+
+            ResultSet autokey = preparedStatement.getGeneratedKeys();
+            if(autokey.first())
+                id_order = autokey.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         query = "INSERT INTO order_item (Order_number, Product_details, payed_price, qnt_in_order) VALUES (?, ?, ?, ?)";
 
         try {
-             for(int I=0; I<items_in_order.size(); I++)
-             {
-            	 preparedStatement = connection.prepareStatement(query);
+            Iterator iterator = products_in_order.entrySet().iterator();
+            int num_products = 1;
+            while (iterator.hasNext())
+            {
+                HashMap.Entry entry = (HashMap.Entry) iterator.next();
+                Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair) entry.getKey();
+                ProductBean product = (ProductBean) pairInCart.getKey();
+                ProductDetailsBean productDetails = (ProductDetailsBean) pairInCart.getValue();
 
-                 preparedStatement.setInt(1, items_in_order.get(I).getId_order());
-                 preparedStatement.setInt(2, items_in_order.get(I).getId_product());
-                 preparedStatement.setFloat(3, items_in_order.get(I).getPrice_in_order());
-                 preparedStatement.setInt(4, items_in_order.get(I).getQnt_in_order());
+                int qntInCart = (int) entry.getValue();
 
-                 preparedStatement.executeUpdate();
-             }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+                preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+                preparedStatement.setInt(1, id_order);
+                preparedStatement.setInt(2, productDetails.getId_prod_details());
+                preparedStatement.setFloat(3, product.getPrice()*qntInCart);
+                preparedStatement.setInt(4, qntInCart);
+
+                preparedStatement.executeUpdate();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        query = "INSERT INTO orders (Registred_User, shipping_address, payment_method, order_owner, total_price, creation_date, delivery_date, status_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        //SCRIVERE LE DUE QUERY CHE UPDATANO LA QUANTITA DEL PRODOTTO NEL DATABASE
 
-        try {
-             preparedStatement = connection.prepareStatement(query);
-
-              preparedStatement.setInt(1, newOrder.getRegistred_User());
-              preparedStatement.setString(2, newOrder.getAddress());
-              preparedStatement.setString(3, newOrder.getPayment_method());
-              preparedStatement.setString(4, newOrder.getOrder_owner());
-              preparedStatement.setFloat(5, newOrder.getTotal_price());
-              preparedStatement.setDate(6, newOrder.getCreation_date());
-              preparedStatement.setDate(7, newOrder.getDelivery_date());
-              preparedStatement.setInt(8, newOrder.getStatus_order());
-
-              order_created = preparedStatement.executeUpdate();
-            } catch (Exception e3) {
-                e3.printStackTrace();
+        finally {
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
             }
-
-
-            //SCRIVERE LE DUE QUERY CHE UPDATANO LA QUANTITA DEL PRODOTTO NEL DATABASE
-
-      finally {
-    	  		try {
-    	  				if (preparedStatement != null)
-    	  					preparedStatement.close();
-    	  			} 
-    	  			finally 
-    	  			{
-    	  				connectionPool.releaseConnection(connection);
-    	  			}
-      			}
+            finally
+            {
+                connectionPool.releaseConnection(connection);
+            }
+        }
 
         return order_created != 0;
     }

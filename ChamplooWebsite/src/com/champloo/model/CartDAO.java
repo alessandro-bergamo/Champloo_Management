@@ -311,7 +311,7 @@ public class CartDAO implements CartModel
 		
 		try {
 			
-			query = "DELETE FROM cart WHERE id_cart ='"+cart.getId_cart()+"'";
+			query = "DELETE FROM carts WHERE id_cart ='"+cart.getId_cart()+"'";
 			statement = connection.createStatement();
 			isCleared = statement.executeUpdate(query);
 			

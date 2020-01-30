@@ -92,93 +92,121 @@
 
 		<div class="checkout">
 			<div class="container">
-				<div class="row">
-					
-					<!-- Billing -->
-					<div class="col-lg-6">
-						<div class="billing">
-							<div class="payment_options" style="margin-top: 0px !important;">
-								<div class="checkout_title">Indirizzi</div>
-								<ul>
-									<%
-										if(addresses != null && !addresses.isEmpty()) {
-										for(int I=0;I<addresses.size();I++) {
-									%>
-									<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
-										<label class="radio_container">
-											<input type="radio" id="radio_1" name="address_radio" class="payment_radio" required>
-											<span class="radio_mark"></span>
-											<span class="radio_text"><%=addresses.get(I).getAddress()+", "+addresses.get(I).getCity()+", "+addresses.get(I).getCivic_number()+", "+addresses.get(I).getProvince()%></span>
-										</label>
-									</li>
-									<%	} } else {	%>
-									<div>
-										CIAO
-									</div>
-									<% 	}	 %>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<!-- Cart Total -->
-					<div class="col-lg-6 cart_col">
-						<div class="cart_total">
-							<div class="cart_extra_content cart_extra_total">
-								<div class="checkout_title">Totale carrello</div>
-								<ul class="cart_extra_total_list">
-									<li class="d-flex flex-row align-items-center justify-content-start">
-										<div class="cart_extra_total_title">Oggetti</div>
-										<div class="cart_extra_total_value ml-auto"><%=order_price%> &euro;</div>
-									</li>
-									<li class="d-flex flex-row align-items-center justify-content-start">
-										<div class="cart_extra_total_title">Spedizione</div>
-										<%	if(shipping_price == 0.0) {%>
-										<div class="cart_extra_total_value ml-auto">Gratuita</div>
-										<% 	} else {%>
-										<div class="cart_extra_total_value ml-auto"><%=shipping_price%> &euro;</div>
-										<%	}%>
-									</li>
-									<li class="d-flex flex-row align-items-center justify-content-start">
-										<div class="cart_extra_total_title">Totale</div>
-										<div class="cart_extra_total_value ml-auto"><%=total_price_order%> &euro;</div>
-									</li>
-								</ul>
-								<div class="payment_options">
-									<div class="checkout_title">Pagamento</div>
+				<form action="Order" method="GET" id="create_order">
+					<div class="row">
+						<!-- Billing -->
+						<div class="col-lg-6">
+							<div class="billing">
+								<div class="payment_options" style="margin-top: 0px !important;">
+									<div class="checkout_title">Indirizzi</div>
 									<ul>
 										<%
-											if(methods != null && !methods.isEmpty()) {
-											for(int I=0;I<methods.size();I++) {	%>
+											if(addresses != null && !addresses.isEmpty()) {
+											for(int I=0;I<addresses.size();I++) {
+										%>
 										<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
 											<label class="radio_container">
-												<input type="radio" id="radio_1" name="payment_radio" class="payment_radio" required>
+												<input type="radio" id="radio_<%=I+1%>" name="address" value="<%=addresses.get(I).getAddress()+", "+addresses.get(I).getCity()+", "+addresses.get(I).getCivic_number()+", "+addresses.get(I).getProvince()%>" class="payment_radio" required>
 												<span class="radio_mark"></span>
-												<span class="radio_text"><%=methods.get(I).getCard_bank()+", "+methods.get(I).getCard_number()%></span>
+												<span class="radio_text"><%=addresses.get(I).getAddress()+", "+addresses.get(I).getCity()+", "+addresses.get(I).getCivic_number()+", "+addresses.get(I).getProvince()%></span>
 											</label>
 										</li>
 										<%	} } else {	%>
 										<div>
-											CIAO2
+											CIAO
 										</div>
-										<% 	}	%>
+										<% 	}	 %>
 									</ul>
 								</div>
-								<div class="checkout_button trans_200"><a href="checkout.html">Conferma ordine</a></div>
+							</div>
+						</div>
+
+						<!-- Cart Total -->
+						<div class="col-lg-6 cart_col">
+							<div class="cart_total">
+								<div class="cart_extra_content cart_extra_total">
+									<div class="checkout_title">Totale carrello</div>
+									<ul class="cart_extra_total_list">
+										<li class="d-flex flex-row align-items-center justify-content-start">
+											<div class="cart_extra_total_title">Oggetti</div>
+											<div class="cart_extra_total_value ml-auto"><%=order_price%> &euro;</div>
+										</li>
+										<li class="d-flex flex-row align-items-center justify-content-start">
+											<div class="cart_extra_total_title">Spedizione</div>
+											<%	if(shipping_price == 0.0) {%>
+											<div class="cart_extra_total_value ml-auto">Gratuita</div>
+											<% 	} else {%>
+											<div class="cart_extra_total_value ml-auto"><%=shipping_price%> &euro;</div>
+											<%	}%>
+										</li>
+										<li class="d-flex flex-row align-items-center justify-content-start">
+											<div class="cart_extra_total_title">Totale</div>
+											<div class="cart_extra_total_value ml-auto"><%=total_price_order%> &euro;</div>
+										</li>
+									</ul>
+									<div class="payment_options">
+										<div class="checkout_title">Pagamento</div>
+										<ul>
+											<%
+												if(methods != null && !methods.isEmpty()) {
+												for(int I=0;I<methods.size();I++) {	%>
+											<li class="shipping_option d-flex flex-row align-items-center justify-content-start">
+												<label class="radio_container">
+													<input type="radio" id="radio_<%=I+1%>" name="payment_method" value="<%=methods.get(I).getCard_number()%>" class="payment_radio" required>
+													<span class="radio_mark"></span>
+													<span class="radio_text"><%=methods.get(I).getCard_bank()+", "+methods.get(I).getCard_number()%></span>
+												</label>
+											</li>
+											<%	} } else {	%>
+											<div>
+												CIAO2
+											</div>
+											<% 	}	%>
+										</ul>
+									</div>
+									<input type="hidden" value="createOrder" name="operation">
+									<div class="checkout_button trans_200"><a style="color: white; cursor: pointer;" onclick="createOrder()">Conferma ordine</a></div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 
-		  <!-- Footer -->
+		<!-- Footer -->
 
-                        			<%@ include file="footer.jsp" %>
+		<%@ include file="footer.jsp" %>
 
-                    </div>
-                        
-                </div>
+	</div>
+
+	<script>
+		function createOrder() {
+			$("#create_order").submit();
+			$.ajax({
+				success: function (results) {
+					Swal.fire({
+						title: 'Ordine Creato',
+						timer: 1700,
+						icon: 'success',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '400px',
+					})
+				},
+				error: function (result) {
+					Swal.fire({
+						title: 'Ordine non creato',
+						timer: 2000,
+						icon: 'error',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '500px'
+					})
+				}
+			});
+		}
+	</script>
 
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="styles/bootstrap-4.1.2/popper.js"></script>
@@ -191,5 +219,6 @@
 	<script src="plugins/easing/easing.js"></script>
 	<script src="plugins/parallax-js-master/parallax.min.js"></script>
 	<script src="js/checkout.js"></script>
+
 </body>
 </html>

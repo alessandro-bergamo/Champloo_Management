@@ -3,16 +3,19 @@ package com.champloo.model;
 import com.champloo.bean.OrderBean;
 import com.champloo.bean.OrderItemBean;
 import com.champloo.bean.ProductBean;
+import com.champloo.bean.ProductDetailsBean;
+import javafx.util.Pair;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public interface OrderModel
 {
 
     //Method that creates an order
-    boolean createOrder(OrderBean newOrder, ArrayList<ProductBean> products_in_order) throws SQLException;
+    boolean createOrder(OrderBean newOrder, HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_order) throws SQLException;
 
     //Method that modifies an order
     boolean modifyOrder(OrderBean order) throws SQLException;
