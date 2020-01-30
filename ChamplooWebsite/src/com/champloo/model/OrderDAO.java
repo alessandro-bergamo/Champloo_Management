@@ -32,7 +32,7 @@ public class OrderDAO implements OrderModel
      */
     public synchronized boolean createOrder(OrderBean newOrder, HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_order) throws SQLException
     {
-        int order_created = 0, id_order = 0;
+        int order_created = 0, id_order = 0, qntInStock = 0;
         connection = connectionPool.getConnection();
 
         query = "INSERT INTO orders (Registred_User, shipping_address, payment_method, order_owner, total_price, creation_date, delivery_date, status_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -52,19 +52,16 @@ public class OrderDAO implements OrderModel
             order_created = preparedStatement.executeUpdate();
 
             ResultSet autokey = preparedStatement.getGeneratedKeys();
+            
             if(autokey.first())
                 id_order = autokey.getInt(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        query = "INSERT INTO order_item (Order_number, Product_details, payed_price, qnt_in_order) VALUES (?, ?, ?, ?)";
-
-        try {
+      
             Iterator iterator = products_in_order.entrySet().iterator();
             int num_products = 1;
             while (iterator.hasNext())
             {
+            	query = "INSERT INTO order_item (Order_number, Product_details, payed_price, qnt_in_order) VALUES (?, ?, ?, ?)";
+                
                 HashMap.Entry entry = (HashMap.Entry) iterator.next();
                 Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair) entry.getKey();
                 ProductBean product = (ProductBean) pairInCart.getKey();
@@ -80,13 +77,23 @@ public class OrderDAO implements OrderModel
                 preparedStatement.setInt(4, qntInCart);
 
                 preparedStatement.executeUpdate();
+                
+                //SCRIVERE LE DUE QUERY CHE UPDATANO LA QUANTITA DEL PRODOTTO NEL DATABASE
+                query = "SELECT qnt_stock FROM product_details WHERE id_product_details = '"+productDetails.getId_prod_details()+"'";
+                statement = connection.createStatement();
+                results = statement.executeQuery(query);
+                
+                if(results.first())
+                	qntInStock = results.getInt(1);
+                
+                query = "UPDATE product_details SET qnt_stock = '"+(qntInStock - qntInCart)+"' WHERE id_product_details = '"+productDetails.getId_prod_details()+"' ";
+                
+                statement.executeUpdate(query);
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //SCRIVERE LE DUE QUERY CHE UPDATANO LA QUANTITA DEL PRODOTTO NEL DATABASE
-
         finally {
             try {
                 if (preparedStatement != null)
