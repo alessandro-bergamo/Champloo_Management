@@ -42,7 +42,7 @@
 		<div class="menu_nav">
 			<ul>
 				<li><a href="index.jsp">Home</a></li>
-				<li><a href="category.jsp">Catalogo</a>
+				<li><a href="Product?operation=retrieveAll">Catalogo</a>
 					<div class="submenu">
 						<ul>
 							<li><a href="Product?operation=retrieveByCategory&category=T-Shirt">T-Shirt</a></li>
@@ -136,31 +136,25 @@
 												<div class="row">
 													<div class="col-sm-3 offset-lg-1">
 														<div class="home_item_side">
-															<a href="product.html"><img src="images/home_1.jpg"
-																alt=""></a>
+															<a href="product.html"><img src="images/home_1.jpg" alt=""></a>
 														</div>
 													</div>
-													<div
-														class="col-lg-4 col-md-6 col-sm-8 offset-sm-2 offset-md-0">
+													<div class="col-lg-4 col-md-6 col-sm-8 offset-sm-2 offset-md-0">
 														<div class="product home_item_large">
-															<div
-																class="product_tag d-flex flex-column align-items-center justify-content-center">
+															<div class="product_tag d-flex flex-column align-items-center justify-content-center">
 																<div>
 																	<div>A partire da</div>
-																	<div>
-																		49<span>.99 &euro;</span>
-																	</div>
+																	<div>49<span>.99 &euro;</span></div>
 																</div>
 															</div>
 															<div class="product_image">
-																<img src="images/home_2.jpg" alt="">
+																<a href="#"><img src="images/home_2.jpg" alt=""></a>
 															</div>
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="home_item_side">
-															<a href="product.html"><img src="images/home_3.jpg"
-																alt=""></a>
+															<a href="product.html"><img src="images/home_3.jpg" alt=""></a>
 														</div>
 													</div>
 												</div>

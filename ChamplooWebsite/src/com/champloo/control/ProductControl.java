@@ -237,8 +237,13 @@ public class ProductControl extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				request.setAttribute("AllProducts", products);
+
+				session.setAttribute("category", "Catalogo Prodotti");
+				session.setAttribute("productsByCategory", products);
+				session.setAttribute("redirectURL", "category.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
 			}
 			else if(operation.equals("deleteProduct"))
 			{
