@@ -21,7 +21,11 @@ public interface ProductModel
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByCategory(String type_product) throws SQLException;
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByBrand(String brand_product) throws SQLException;
-	
+
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByFeedbacks() throws SQLException;
+
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByAverage() throws SQLException;
+
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByColor(String color_product) throws SQLException;
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveBySize(String size_product) throws SQLException;
@@ -32,7 +36,7 @@ public interface ProductModel
 	
 	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createWindow() throws SQLException;
 	
-	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createSlider() throws SQLException;
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveNewProducts() throws SQLException;
 	
 	public boolean deleteProduct(int id_product) throws SQLException;
 	

@@ -31,7 +31,7 @@
                                             <a href="#"><div>Return Policy</div></a>
                                         </li>
                                         <li>
-                                            <a href="#"><div>Guida alle taglie<div class="footer_tag_2">consigliato</div></div></a>
+                                            <a href="/images/guida_taglie.pdf" target="_blank"><div>Guida alle taglie<div class="footer_tag_2">consigliato</div></div></a>
                                         </li>
                                         <li>
                                             <a href="#"><div>Termini e condizioni</div></a>
@@ -46,13 +46,13 @@
                             <!-- Footer Contact -->
                             <div class="col-lg-4 footer_col">
                                 <div class="footer_contact">
-                                            <div class="footer_title">Social</div>
-                                            <ul class="footer_social_list d-flex flex-row align-items-start justify-content-start">
-                                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                            </ul>
+                                    <div class="footer_title">Social</div>
+                                    <ul class="footer_social_list d-flex flex-row align-items-start justify-content-start">
+                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

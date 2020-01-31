@@ -28,14 +28,6 @@
                     </a>
                 </div>
                 <div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
-                <nav class="main_nav">
-                    <ul class="d-flex flex-row align-items-start justify-content-start">
-                        <li class="active"><a href="category.jsp">Donna</a></li>
-                        <li><a href="category.jsp">Uomo</a></li>
-                        <li><a href="index.jsp">Home</a></li>
-                        <li><a href="#">Contatti</a></li>
-                    </ul>
-                </nav>
                 <div class="header_right d-flex flex-row align-items-center justify-content-start ml-auto">
                     <!-- Search -->
                     <div class="header_search">

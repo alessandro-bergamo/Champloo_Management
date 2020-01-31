@@ -378,7 +378,6 @@ section
 }
 .hamburger
 {
-	display: none;
 	margin-left: 25px;
 	cursor: pointer;
 	margin-top: 4px;
@@ -1787,7 +1786,7 @@ input[type="date"], focus {
 	font-size: 26px;
 	font-weight: 700;
 	color: #FFFFFF;
-	margin-left: 20px;
+	margin-left: 25px;
 	margin-right: auto;
 }
 .box_image

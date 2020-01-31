@@ -3,7 +3,6 @@ package com.champloo.model;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.storage.ConnectionPool;
-import com.sun.jndi.url.iiopname.iiopnameURLContextFactory;
 
 import javafx.util.Pair;
 
@@ -499,6 +498,170 @@ public class ProductDAO implements ProductModel
 	}
 
 	/**
+	 * Retrieves all products with rating > 60
+	 * param
+	 * return an HashMap of products with their relatives details
+	 */
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByFeedbacks() throws SQLException {
+
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+		ArrayList<ProductDetailsBean> productsDetails = null;
+
+		connection = connectionPool.getConnection();
+
+		query = "SELECT * FROM products WHERE number_feedback_users < 30";
+
+		try {
+			preparedStatement = connection.prepareStatement(query);
+
+			firstResults = preparedStatement.executeQuery();
+
+			while(firstResults.next())
+			{
+				ProductBean product = new ProductBean();
+
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
+
+				query = "SELECT * FROM product_details WHERE Product = ?";
+
+				try {
+					preparedStatement = connection.prepareStatement(query);
+
+					preparedStatement.setInt(1, product.getId_prod());
+
+					secondResults = preparedStatement.executeQuery();
+
+					productsDetails = new ArrayList<ProductDetailsBean>();
+
+					while(secondResults.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+
+						productDetails.setId_prod_details(secondResults.getInt(1));
+						productDetails.setProduct(secondResults.getInt(2));
+						productDetails.setColor(secondResults.getString(3));
+						productDetails.setSize(secondResults.getString(4));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
+
+						productsDetails.add(productDetails);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				products.put(product, productsDetails);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				connectionPool.releaseConnection(connection);
+			}
+		}
+
+		return products;
+	}
+
+	/**
+	 * Retrieves all products with average rating > 3
+	 * param
+	 * return an HashMap of products with their relatives details
+	 */
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveByAverage() throws SQLException {
+
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+		ArrayList<ProductDetailsBean> productsDetails = null;
+
+		connection = connectionPool.getConnection();
+
+		query = "SELECT * FROM products WHERE total_rating/number_feedback_users > 3";
+
+		try {
+			preparedStatement = connection.prepareStatement(query);
+
+			firstResults = preparedStatement.executeQuery();
+
+			while(firstResults.next())
+			{
+				ProductBean product = new ProductBean();
+
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
+
+				query = "SELECT * FROM product_details WHERE Product = ?";
+
+				try {
+					preparedStatement = connection.prepareStatement(query);
+
+					preparedStatement.setInt(1, product.getId_prod());
+
+					secondResults = preparedStatement.executeQuery();
+
+					productsDetails = new ArrayList<ProductDetailsBean>();
+
+					while(secondResults.next())
+					{
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+
+						productDetails.setId_prod_details(secondResults.getInt(1));
+						productDetails.setProduct(secondResults.getInt(2));
+						productDetails.setColor(secondResults.getString(3));
+						productDetails.setSize(secondResults.getString(4));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
+
+						productsDetails.add(productDetails);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				products.put(product, productsDetails);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				connectionPool.releaseConnection(connection);
+			}
+		}
+
+		return products;
+	}
+
+	/**
      * Retrieves all products with a given color
      * param color_product
      * return an HashMap of products with their relatives details
@@ -917,27 +1080,31 @@ public class ProductDAO implements ProductModel
 
 		return window;
 	}
-	
-	
-	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createSlider() throws SQLException {
-		
-		ArrayList<Pair<ProductBean, ProductDetailsBean>> slider = new ArrayList<Pair<ProductBean,ProductDetailsBean>>();
-		ArrayList<ProductDetailsBean> details = new ArrayList<ProductDetailsBean>();
-		boolean isInSlider = false;
-			
+
+	/**
+	 * Retrieves all products with average rating > 3
+	 * param
+	 * return an HashMap of products with their relatives details
+	 * @return
+	 */
+	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveNewProducts() throws SQLException
+	{
+		HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+		ArrayList<ProductDetailsBean> productsDetails = null;
+
 		connection = connectionPool.getConnection();
-		
+
 		query = "SELECT * FROM products WHERE status_product = '"+ProductBean.SLIDER_PRODUCT+"'";
-		
+
 		try {
-			statement = connection.createStatement();
-			
-			firstResults = statement.executeQuery(query);
-	
+			preparedStatement = connection.prepareStatement(query);
+
+			firstResults = preparedStatement.executeQuery();
+
 			while(firstResults.next())
 			{
 				ProductBean product = new ProductBean();
-				
+
 				product.setId_prod(firstResults.getInt(1));
 				product.setName(firstResults.getString(2));
 				product.setBrand(firstResults.getString(3));
@@ -949,59 +1116,52 @@ public class ProductDAO implements ProductModel
 				product.setAverage_rating(firstResults.getFloat(9));
 				product.setNumber_feedback_users(firstResults.getInt(10));
 				product.setDescription(firstResults.getString(11));
-				
+
 				query = "SELECT * FROM product_details WHERE Product = ?";
-				
-				preparedStatement = connection.prepareStatement(query);
-				
-				preparedStatement.setInt(1, product.getId_prod());
-				
-				secondResults = preparedStatement.executeQuery();
-						
-				while(secondResults.next())
-				{
-					isInSlider = false;
-					
-					ProductDetailsBean productDetails = new ProductDetailsBean();
-					
-					productDetails.setId_prod_details(secondResults.getInt(1));
-					productDetails.setProduct(secondResults.getInt(2));
-					productDetails.setColor(secondResults.getString(3));
-					productDetails.setSize(secondResults.getString(4));
-					productDetails.setDiscount_percent(secondResults.getInt(5));
-					productDetails.setQnt_stock(secondResults.getInt(6));
-					productDetails.setImg_path_folder(secondResults.getString(7));
-						
-					//details.add(productDetails);
-					
-					if(slider.isEmpty())
-						slider.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));			
-					else 
+
+				try {
+					preparedStatement = connection.prepareStatement(query);
+
+					preparedStatement.setInt(1, product.getId_prod());
+
+					secondResults = preparedStatement.executeQuery();
+
+					productsDetails = new ArrayList<ProductDetailsBean>();
+
+					while(secondResults.next())
 					{
-						for(int i = 0; i < slider.size(); i++)
-						{
-							if(productDetails.getProduct() == slider.get(i).getValue().getProduct() && productDetails.getColor().equals(slider.get(i).getValue().getColor()) )							
-								isInSlider = true;
-						}
-					
-						if(!isInSlider)
-							slider.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
+						ProductDetailsBean productDetails = new ProductDetailsBean();
+
+						productDetails.setId_prod_details(secondResults.getInt(1));
+						productDetails.setProduct(secondResults.getInt(2));
+						productDetails.setColor(secondResults.getString(3));
+						productDetails.setSize(secondResults.getString(4));
+						productDetails.setDiscount_percent(secondResults.getInt(5));
+						productDetails.setQnt_stock(secondResults.getInt(6));
+						productDetails.setImg_path_folder(secondResults.getString(7));
+
+						productsDetails.add(productDetails);
 					}
-				}	
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				products.put(product, productsDetails);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		finally {
 			try {
-                if (statement != null)
-                    statement.close();
-            } finally {
-            	connectionPool.releaseConnection(connection);
-            }
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				connectionPool.releaseConnection(connection);
+			}
 		}
-		return slider;
+
+		return products;
 	}
 	
 	

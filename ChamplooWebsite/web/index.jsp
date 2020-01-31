@@ -122,7 +122,7 @@
 
 					<!-- Slide -->
 					<div class="owl-item">
-						<div class="background_image" style="background-image: url(images/sfondo.jpg)"></div>
+						<div class="background_image" style="background-image: url(images/sfondi/sfondo.jpg)"></div>
 						<div class="container fill_height">
 							<div class="row fill_height">
 								<div class="col fill_height">
@@ -168,7 +168,7 @@
 					<!-- Slide -->
 					<div class="owl-item">
 						<div class="background_image"
-							style="background-image: url(images/sfondo.jpg)"></div>
+							style="background-image: url(images/sfondi/sfondo.jpg)"></div>
 						<div class="container fill_height">
 							<div class="row fill_height">
 								<div class="col fill_height">
@@ -267,7 +267,7 @@
 												<a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=product_details.getColor()%>"><%=product.getName()%></a>
 											</div>
 											<div class="product_category">
-												In <a href="category.html"><%=product.getType()%> <%=product_details.getColor()%></a>
+												In <a href="Product?operation=retrieveByCategory&category=<%=product.getType()%>"><%=product.getType()%> - Colore: <%=product_details.getColor()%></a>
 											</div>
 										</div>
 									</div>
@@ -330,14 +330,13 @@
 													<!-- Box -->
 													<div class="box">
 														<div class="background_image"
-															style="background-image: url(images/box_1.jpg)"></div>
+															style="background-image: url(images/sfondi/miniatura2.jpg)"></div>
 														<div
 															class="box_content d-flex flex-row align-items-center justify-content-start">
 															<div class="box_left">
 																<div class="box_image">
-																	<a href="category.html">
-																		<div class="background_image"
-																			style="background-image: url(images/box_1_img.jpg)"></div>
+																	<a href="Product?operation=retrieveNewProducts">
+																		<div class="background_image" style="background-image: url(images/modelli/modellominiatura3.jpg)"></div>
 																	</a>
 																</div>
 															</div>
@@ -350,19 +349,18 @@
 													<!-- Box -->
 													<div class="box">
 														<div class="background_image"
-															style="background-image: url(images/box_2.jpg)"></div>
+															style="background-image: url(images/sfondi/miniatura1.jpg)"></div>
 														<div
 															class="box_content d-flex flex-row align-items-center justify-content-start">
 															<div class="box_left">
 																<div class="box_image">
-																	<a href="category.html">
-																		<div class="background_image"
-																			style="background-image: url(images/box_2_img.jpg)"></div>
+																	<a href="Product?operation=retrieveByFeedbacks">
+																		<div class="background_image" style="background-image: url(images/modelli/modellominiatura1.jpg)"></div>
 																	</a>
 																</div>
 															</div>
 															<div class="box_right text-center">
-																<div class="box_title">Scelte popolari</div>
+																<div class="box_title" style="color: black !important;">Scelte popolari</div>
 															</div>
 														</div>
 													</div>
@@ -370,14 +368,13 @@
 													<!-- Box -->
 													<div class="box">
 														<div class="background_image"
-															style="background-image: url(images/box_3.jpg)"></div>
+															style="background-image: url(images/sfondi/miniaatura3.jpg)"></div>
 														<div
 															class="box_content d-flex flex-row align-items-center justify-content-start">
 															<div class="box_left">
 																<div class="box_image">
-																	<a href="category.html">
-																		<div class="background_image"
-																			style="background-image: url(images/box_3_img.jpg)"></div>
+																	<a href="Product?operation=retrieveByAverage">
+																		<div class="background_image" style="background-image: url(images/modelli/modellominiatura2.jpg)"></div>
 																	</a>
 																</div>
 															</div>

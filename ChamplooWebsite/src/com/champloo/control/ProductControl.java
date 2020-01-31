@@ -227,6 +227,60 @@ public class ProductControl extends HttpServlet{
 					dispatcher.forward(request, response);
 				}
 			}
+			else if(operation.equals("retrieveByFeedbacks"))
+			{
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+				try {
+					products = productDAO.retrieveByFeedbacks();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				session.setAttribute("category", "Scelte Popolari - Champloo");
+				session.setAttribute("productsByCategory", products);
+				session.setAttribute("redirectURL", "category.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
+			}
+			else if(operation.equals("retrieveByAverage"))
+			{
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+				try {
+					products = productDAO.retrieveByAverage();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				session.setAttribute("category", "I più amati - Champloo");
+				session.setAttribute("productsByCategory", products);
+				session.setAttribute("redirectURL", "category.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
+			}
+			else if(operation.equals("retrieveNewProducts"))
+			{
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+				try {
+					products = productDAO.retrieveNewProducts();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				session.setAttribute("category", "Nuovi Arrivi - Champloo");
+				session.setAttribute("productsByCategory", products);
+				session.setAttribute("redirectURL", "category.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
+			}
 			else if(operation.equals("retrieveAll"))
 			{
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();			
