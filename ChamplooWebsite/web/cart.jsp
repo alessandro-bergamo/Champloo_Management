@@ -384,11 +384,10 @@
 		
 		total_price = tot;
 		total_price_order = tot + parseFloat(shipping_price);
-		alert(total_price_order);
 		
 		var price = numberWithCommas(tot);
 		document.getElementById("total_price_order").innerHTML = "<input type=\"hidden\" name=\"totalCartPrice\" value="+total_price_order+"><p class=\"cart_extra_total_value ml-auto\">"+total_price_order+"</p>";
-		document.getElementById("total_price").innerHTML = "<input type=\"hidden\" name=\"totalProductPrice\" value="+tot+"><p class=\"cart_extra_total_value ml-auto\">"+price+"</p>";
+		document.getElementById("total_price").innerHTML = "<input type=\"hidden\" name=\"totalProductPrice\" value="+tot+"><p class=\"cart_extra_total_value ml-auto\">"+total_price+"</p>";
 	}																														
 	
 	function numberWithCommas(tot) {
