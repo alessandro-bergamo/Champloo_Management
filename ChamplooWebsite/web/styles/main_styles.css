@@ -441,7 +441,6 @@ section
 .search_input:hover
 {
 	border-color: #2fce98;
-	box-shadow: 0 0 1px 0px #2fce98 inset, 0 0 1px 0px #2fce98;
 }
 .search_input::-webkit-input-placeholder
 {
@@ -801,11 +800,12 @@ section
 }
 
 .spacerUP2 {
-    margin-top: 45px;
+    margin-top: 15px;
 }
 
 .spacerUP3 {
-    margin-top: 80px;
+    margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 .spacerUP4 {
@@ -817,9 +817,13 @@ section
     padding: 30px 30px;
 }
 
+.spacerMethods {
+	border-bottom: 1px solid gray;
+}
+
 .borderutdiv {
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
     padding: 30px 30px;
 }
 
@@ -958,6 +962,7 @@ section
 
 #inputNewCard {
     display: none;
+	margin-bottom: 30px;
 }
 
 #infPut2 {
@@ -1118,7 +1123,6 @@ input[type="date"], focus {
     border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
-
 #utP {
     font-size: 20px;
     text-align: center;

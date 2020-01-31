@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -45,8 +47,14 @@ public class PaymentMethodControl extends HttpServlet
                 payment_method.setCard_bank(request.getParameter("bank"));
                 payment_method.setCard_owner(request.getParameter("owner"));
                 payment_method.setRegistred_User(user.getID());
-                payment_method.setExpiry_date(LocalDate.parse(request.getParameter("expiry")));
-                payment_method.setRegistration_method_date(LocalDate.parse(request.getParameter("registration_date")));
+
+                System.out.println(request.getParameter("expiry"));
+
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-YYYY");
+                LocalDate date = LocalDate.parse(request.getParameter("expiry"), df);
+                payment_method.setExpiry_date(date);
+
+                payment_method.setRegistration_method_date(LocalDate.now());
 
                 model_pmethod.insertPMethod(payment_method);
             } catch (SQLException e)
@@ -79,7 +87,7 @@ public class PaymentMethodControl extends HttpServlet
 
             synchronized (session) {
                 try {
-                    UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
+                    UserBean user = (UserBean) session.getAttribute("utenteLoggato");
                     methods = model_pmethod.retrieveByUserID(user.getID());
                 } catch (SQLException e) {
                     e.printStackTrace();

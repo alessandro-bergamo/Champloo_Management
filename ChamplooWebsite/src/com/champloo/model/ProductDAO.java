@@ -355,17 +355,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(results.getInt(1));
-				product.setName(results.getString(2));
-				product.setBrand(results.getString(3));
-				product.setModel(results.getString(4));
-				product.setType(results.getString(5));
-				product.setPrice(results.getFloat(6));
-				product.setStatus(results.getInt(7));
-				product.setTotal_rating(results.getInt(8));
-				product.setAverage_rating(results.getFloat(9));
-				product.setNumber_feedback_users(results.getInt(10));
-				product.setDescription(results.getString(11));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				

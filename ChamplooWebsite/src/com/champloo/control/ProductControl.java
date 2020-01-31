@@ -145,7 +145,7 @@ public class ProductControl extends HttpServlet{
 			}
 			else if(operation.equals("retrieveByCategory"))
 			{
-				String type_product = request.getParameter("type_product");
+				String type_product = request.getParameter("category");
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
 				
 				try {
@@ -154,8 +154,13 @@ public class ProductControl extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				request.setAttribute("productsByCategory", products);
+
+				session.setAttribute("category", type_product);
+				session.setAttribute("productsByCategory", products);
+				session.setAttribute("redirectURL", "category.jsp");
+
+				dispatcher = request.getRequestDispatcher("Redirect");
+				dispatcher.forward(request, response);
 			}
 			else if(operation.equals("retrieveByBrand"))
 			{

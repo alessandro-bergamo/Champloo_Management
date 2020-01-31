@@ -5,9 +5,10 @@
 		import="com.champloo.bean.*"
 		import="java.util.*"
 %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%
 	ArrayList<AddressBean> datiUtente = (ArrayList) request.getSession().getAttribute("addresses");
-	ArrayList<PaymentMethodBean> paymentMethod = (ArrayList) request.getSession().getAttribute("payment_method"); 
+	ArrayList<PaymentMethodBean> paymentMethods = (ArrayList) request.getSession().getAttribute("methods");
 %>
 
 
@@ -176,7 +177,7 @@
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
-                                   <h4 class="upH4">Password: ********</h4>
+                                   <h4 class="upH4">Password: &#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</h4>
                                    <p class="upPCircle"><a href="modify-password.jsp">Cambia password</a></p>
                                </div>
                            </div>
@@ -226,7 +227,6 @@
                                    </div>
                                </div>
                    <%               }
-                                   System.out.println("STAMPATI: "+stampati);
                        } if(stampati < 3) {   %>
                                <div class="row justify-content-start">
                                    <div class="col-xl-12">
@@ -270,6 +270,12 @@
                            </div>
                        </div>
                    </div>
+                   <%
+                       int methods_stampati = 0;
+
+                       if(!paymentMethods.isEmpty() && paymentMethods != null)
+                       {
+                   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">
@@ -277,24 +283,34 @@
                            </div>
                        </div>
                        <div class="row borderutdiv">
-                           <div class="col-xl-12">
+                           <%
+                               for(int I=0;I<paymentMethods.size(); I++)
+                               {
+                                   methods_stampati++;
+                           %>
+                           <div class="col-xl-12 spacerMethods">
                                <div class="row spacerUP4 justify-content-start">
                                    <div class="col-xl-4">
                                        <div class="row">
                                            <h4 class="upH4">Tipo Carta: </h4>
-                                           <p class="upPCircle"></p>
+                                           <p class="upPCircle"><%=paymentMethods.get(I).getCard_bank()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Intestatario Carta: </h4>
-                                           <p class="upPCircle">Alessandro Bergamo</p>
+                                           <p class="upPCircle"><%=paymentMethods.get(I).getCard_owner()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-3">
                                        <div class="row">
+                                           <%
+                                                DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                                                String date = paymentMethods.get(I).getExpiry_date().format(pattern);
+                                                date = date.substring(3);
+                                           %>
                                            <h4 class="upH4">Scadenza Carta: </h4>
-                                           <p class="upPCircle">09/20</p>
+                                           <p class="upPCircle"><%=date%></p>
                                        </div>
                                    </div>
                                </div>
@@ -302,55 +318,60 @@
                                    <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Codice Carta: </h4>
-                                           <p class="upPCircle">4023 8098 7361 2617</p>
+                                           <p class="upPCircle"><%=paymentMethods.get(I).getCard_number()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-3">
                                        <div class="row">
                                            <h4 class="upH4">Codice CVC: </h4>
-                                           <p class="upPCircle">•••</p>
+                                           <p class="upPCircle">&#8226;&#8226;&#8226;</p>
                                        </div>
                                    </div>
                                </div>
                            </div>
+                           <%           }
+                                } if(methods_stampati < 3) {   %>
                            <div class="row justify-content-start">
-                               <div class="col-xl-12">
+                               <div class="col-xl-12" style="margin-top: 10px;">
                                    <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
                                </div>
                            </div>
                            <form action="PaymentMethod" method="POST">
                                <div class="row justify-content-start" id="inputNewCard">
                                    <div class="row">
-                                       <div class="col-xl-4">
+                                       <div class="col-xl-3">
                                            <input name="operation" type="hidden" value="insert">
-                                           <select class="arrows" style="margin-left: 20px">
+                                           <select class="arrows form-input4" style="margin-left: 20px">
                                                <option value="selTipoCarta" id="bank" name="bank" disabled selected hidden>Tipo Carta</option>
                                                <option class="singleOption" value="hurr">Paypal</option>
                                                <option class="singleOption" value="hurr">Carta di Credito</option>
                                            </select>
                                        </div>
                                        <div class="col-xl-4">
-                                           <input type="text" class="form-input2" id="number" name="number" maxlength="16" placeholder="Codice Carta">
+                                           <input type="text" class="form-input2" id="number" name="number" maxlength="19" autocomplete="off" placeholder="Codice Carta">
                                        </div>
                                        <div class="col-xl-2">
-                                           <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" placeholder="Codice CVC">
+                                           <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" autocomplete="off" placeholder="Codice CVC">
                                        </div>
                                        <div class="col-xl-2">
-                                            <input type="text" name="expiry" id="txtDate" style="margin-left: 40px" placeholder="Data scadenza">
+                                            <input type="text" class="form-input4" name="expiry" id="txtDate" autocomplete="off" style="margin-left: 40px" placeholder="Data scadenza">
                                        </div>
                                    </div>
                                    <div class="row">
                                        <div class="col-xl-12">
                                            <div class="row justify-content-center">
-                                               <input type="button" class="site-btn7" value="Salva Carta" style="margin-top: 25px;">
+                                               <input type="submit" class="site-btn7" value="Salva Carta" style="margin-top: 25px;">
                                            </div>
                                        </div>
                                    </div>
                                </div>
                            </form>
+                           <%   } %>
                        </div>
                    </div>
                </div>
+
+               <!--- INIZIO DIV ORDINI --->
                <div class="container" id="ordiv">
                    <div class="container spacerUP borderutdiv">
                        <div class="container" style="margin-bottom: 15px">
