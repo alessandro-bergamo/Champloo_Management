@@ -84,46 +84,16 @@
         <div class="super_container_inner">
             <div class="super_overlay"></div>
 
-           <!-- MAIN SECTION User-->
+            <!-- MAIN SECTION User-->
 
-
-
-  <script>
-  $(document).ready(function() {
-	   $('#txtDate').datepicker({
-	     changeMonth: true,
-	     changeYear: true,
-	     dateFormat: 'MM yy',
-	       
-	     onClose: function() {
-	        var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-	        var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-	        $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
-	     },
-	       
-	     beforeShow: function() {
-	       if ((selDate = $(this).val()).length > 0) 
-	       {
-	          iYear = selDate.substring(selDate.length - 4, selDate.length);
-	          iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
-	          $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
-	           $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
-	       }
-	    }
-	  });
-	});
-  </script>
-
-
-
-           <section class="utente-section">
-               <div class="container">
+            <section class="utente-section">
+                <div class="container">
                    <div class="row justify-content-center">
                        <h1>Area Utente - Benvenuto</h1>
                    </div>
-               </div>
-               <div class="container border-utentepage">
-                   <div class="row justify-content-start">
+                </div>
+                <div class="container border-utentepage">
+                    <div class="row justify-content-start">
                        <div class="col-xl-6">
                            <h4 id="list1" class="utenteh4">Informazioni Utente</h4>
                        </div>
@@ -206,7 +176,7 @@
                            </div>
                            <div class="col-xl-3">
                                <div class="row">
-                                   <h4 class="upH4">Password: ***********</h4>
+                                   <h4 class="upH4">Password: ********</h4>
                                    <p class="upPCircle"><a href="modify-password.jsp">Cambia password</a></p>
                                </div>
                            </div>
@@ -221,8 +191,13 @@
                    </form>
                    </div>
 
-                   <%   if(!datiUtente.isEmpty() && datiUtente != null)
-                        {   %>
+                   <%
+                       int stampati = 0;
+
+                       if(!datiUtente.isEmpty() && datiUtente != null)
+                       {
+
+                   %>
                    <div class="container spacerUP3">
                        <div class="row justify-content-start">
                            <div class="col-xl-5">
@@ -231,21 +206,28 @@
                        </div>
                        <div class="row borderutdiv">
                            <div class="col-xl-12">
+                               <%
+                                   for(int I=0;I<datiUtente.size(); I++)
+                                   {
+                                       stampati++;
+                               %>
                                <div class="row justify-content-start">
                                    <div class="col-xl-7">
                                        <div class="row">
                                            <h4 class="upH4">Indirizzo: </h4>
-                                           <p class="upPCircle"><%=datiUtente.get(0).getAddress()%> <%=datiUtente.get(0).getCivic_number()%></p>
+                                           <p class="upPCircle"><%=datiUtente.get(I).getAddress()%>, <%=datiUtente.get(I).getCivic_number()%></p>
                                        </div>
                                    </div>
                                    <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Città: </h4>
-                                           <p class="upPCircle"><%=datiUtente.get(0).getCity()%> - (<%=datiUtente.get(0).getProvince()%>) - <%=datiUtente.get(0).getCAP()%></p>
+                                           <p class="upPCircle"><%=datiUtente.get(I).getCity()%>, <%=datiUtente.get(I).getProvince()%>, <%=datiUtente.get(I).getCAP()%></p>
                                        </div>
                                    </div>
                                </div>
-                               <%   }%>
+                   <%               }
+                                   System.out.println("STAMPATI: "+stampati);
+                       } if(stampati < 3) {   %>
                                <div class="row justify-content-start">
                                    <div class="col-xl-12">
                                        <div class="row">
@@ -254,35 +236,37 @@
                                    </div>
                                </div>
                                <div class="row justify-content-start" id="inputNewInd">
-                              	 <form action="Address" name="addressModify" id="addressModify" method="POST">
-                                   <div class="col-xl-12">
-           	                         <input name="operation" type="hidden" value="insert">
-                                       <div class="row">
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
+                                   <form action="Address" method="POST">
+                                       <div class="col-xl-12">
+                                           <input name="operation" type="hidden" value="insert">
+                                           <div class="row">
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
+                                               </div>
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="city" placeholder="Inserisci città">
+                                               </div>
+                                               <div class="col-xl-1">
+                                                   <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
+                                               </div>
                                            </div>
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="city" placeholder="Inserisci città">
-                                           </div>
-                                           <div class="col-xl-1">
-                                               <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
-                                           </div>
-                                       </div>
-                                       <div class="row spacerUP2 justify-content-start">
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="cap" placeholder="Inserisci cap">
-                                           </div>
-                                           <div class="col-xl-3">
-                                               <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
-                                           </div>
-                                           <div class="col-xl-4">
-                                               <div class="row justify-content-end">
-                                                   <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px">
+                                           <div class="row spacerUP2 justify-content-start">
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="cap" placeholder="Inserisci CAP">
+                                               </div>
+                                               <div class="col-xl-3">
+                                                   <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
+                                               </div>
+                                               <div class="col-xl-4">
+                                                   <div class="row justify-content-end">
+                                                       <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px">
+                                                   </div>
                                                </div>
                                            </div>
                                        </div>
-                                     </form>
+                                   </form>
                                </div>
+                       <%   } %>
                            </div>
                        </div>
                    </div>
@@ -334,39 +318,38 @@
                                    <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
                                </div>
                            </div>
-                            <form action="PaymentMethod" name="insertPaymentMethod" id="insertPaymentMethod" method="POST">
-                           <div class="row justify-content-start" id="inputNewCard">
-                               <div class="row">
-                                   <div class="col-xl-4">
-           	                         <input name="operation" type="hidden" value="insert">
-                                       <select class="arrows" style="margin-left: 20px">
-                                           <option value="selTipoCarta" id="bank" name="bank" disabled selected hidden>Tipo Carta</option>
-                                           <option class="singleOption" value="hurr">Paypal</option>
-                                           <option class="singleOption" value="hurr">Carta di Credito</option>
-                                       </select>
+                           <form action="PaymentMethod" method="POST">
+                               <div class="row justify-content-start" id="inputNewCard">
+                                   <div class="row">
+                                       <div class="col-xl-4">
+                                           <input name="operation" type="hidden" value="insert">
+                                           <select class="arrows" style="margin-left: 20px">
+                                               <option value="selTipoCarta" id="bank" name="bank" disabled selected hidden>Tipo Carta</option>
+                                               <option class="singleOption" value="hurr">Paypal</option>
+                                               <option class="singleOption" value="hurr">Carta di Credito</option>
+                                           </select>
+                                       </div>
+                                       <div class="col-xl-4">
+                                           <input type="text" class="form-input2" id="number" name="number" maxlength="16" placeholder="Codice Carta">
+                                       </div>
+                                       <div class="col-xl-2">
+                                           <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" placeholder="Codice CVC">
+                                       </div>
+                                       <div class="col-xl-2">
+                                            <input type="text" name="expiry" id="txtDate" style="margin-left: 40px" placeholder="Data scadenza">
+                                       </div>
                                    </div>
-                                   <div class="col-xl-4">
-                                       <input type="text" class="form-input2" id="number" name="number" maxlength="16" placeholder="Codice Carta">
-                                   </div>
-                                   <div class="col-xl-2">
-                                       <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" placeholder="Codice CVC">
-                                   </div>
-                                   <div class="col-xl-2">
-                                        <input type="text" name="expiry" id="txtDate" style="margin-left: 40px" placeholder="Data scadenza">
-                                   </div>
-                               </div>
-                               <div class="row">
-                                   <div class="col-xl-12">
-                                       <div class="row justify-content-center">
-                                           <input type="button" class="site-btn7" value="Salva Carta" style="margin-top: 25px;">
+                                   <div class="row">
+                                       <div class="col-xl-12">
+                                           <div class="row justify-content-center">
+                                               <input type="button" class="site-btn7" value="Salva Carta" style="margin-top: 25px;">
+                                           </div>
                                        </div>
                                    </div>
                                </div>
-                           </div>
                            </form>
                        </div>
                    </div>
-               </div>
                </div>
                <div class="container" id="ordiv">
                    <div class="container spacerUP borderutdiv">
@@ -446,10 +429,8 @@
                            </div>
                        </div>
                    </div>
-
-                       </div>
-        </div>
-                   </section>
+               </div>
+           </section>
         
         <!-- END SECTION -->
 
@@ -457,7 +438,34 @@
         <!-- Footer -->
         <%@ include file="footer.jsp" %>
 
-            
+
+
+    <script>
+        $(document).ready(function() {
+            $('#txtDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'MM yy',
+
+                onClose: function() {
+                    var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                },
+
+                beforeShow: function() {
+                    if ((selDate = $(this).val()).length > 0)
+                    {
+                        iYear = selDate.substring(selDate.length - 4, selDate.length);
+                        iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+                        $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+                        $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                    }
+                }
+            });
+        });
+    </script>
+
     <script>
 
           document.getElementById('number').addEventListener('input', function (e) {

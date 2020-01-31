@@ -36,8 +36,8 @@ public class PaymentMethodDAOTest {
     @Parameterized.Parameters
     public static Collection objects() {
         return Arrays.asList(new Object[][] {
-                {Type.INSERTPMETHOD, new PaymentMethodBean(402, "40824280482", "Visa", "Antonio Mancuso", "Tony", LocalDate.now(), LocalDate.now()), true},
-                {Type.INSERTPMETHOD, new PaymentMethodBean(402, "40824280482", "Visa", "Antonio Mancuso", "Tony", LocalDate.now(), LocalDate.now()), false},
+                {Type.INSERTPMETHOD, new PaymentMethodBean(402, "40824280482", "Visa", "Antonio Mancuso", 2, LocalDate.now(), LocalDate.now()), true},
+                {Type.INSERTPMETHOD, new PaymentMethodBean(402, "40824280482", "Visa", "Antonio Mancuso", 2, LocalDate.now(), LocalDate.now()), false},
                 {Type.DELETEPMETHOD, new Integer(2), true},
                 {Type.DELETEPMETHOD, new Integer(3), false},
                 {Type.RETRIEVEBYCARDNUMBER, "40824280482", false},

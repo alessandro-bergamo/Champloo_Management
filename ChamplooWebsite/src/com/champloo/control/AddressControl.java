@@ -35,6 +35,8 @@ public class AddressControl extends HttpServlet {
         if (operation.equals("insert"))
         {
             AddressBean newAddress = new AddressBean();
+            ArrayList<AddressBean> addresses = null;
+
             UserBean user = (UserBean) session.getAttribute("utenteLoggato");
             try {
                 newAddress.setId_address(1); //USELESS
@@ -49,6 +51,17 @@ public class AddressControl extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+            try
+            {
+                session.removeAttribute("addresses");
+                addresses = model_address.retrieveByUserID(user.getID());
+                session.setAttribute("addresses", addresses);
+            } catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+
         } else if (operation.equals("delete"))
         {
             try {
