@@ -1343,7 +1343,7 @@ input[type="date"], focus {
 	right: 15px;
 	width: 127px;
 	height: 127px;
-	background: #2fce98;
+	background: darkgray;
 	border-radius: 50%;
 	z-index: 1;
 }
