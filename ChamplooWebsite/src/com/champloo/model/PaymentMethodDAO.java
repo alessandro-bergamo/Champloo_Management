@@ -12,7 +12,6 @@ public class PaymentMethodDAO implements PaymentMethodModel
 	 public PaymentMethodDAO()
      {
          try {
-				//FINIRE A DISCUTERNE CON DAVID/ ALESSANDRO
              connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/champloo_store_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -43,7 +42,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
         try {
             preparedStatement=connection.prepareStatement(query);
 
-            preparedStatement.setInt(1, 3);
+            preparedStatement.setInt(1, newPMethod.getRegistred_User());
             preparedStatement.setString(2, newPMethod.getCard_number());
             preparedStatement.setString(3, newPMethod.getCard_bank());
             preparedStatement.setInt(4, newPMethod.getCard_cvc());
@@ -115,7 +114,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
             results = preparedStatement.executeQuery();
 
             PMethod.setId_method(results.getInt(1));
-            PMethod.setUsername(results.getString(2));
+            PMethod.setRegistred_User(results.getInt(2));
             PMethod.setCard_number(results.getString(3));
             PMethod.setCard_bank(results.getString(4));
             PMethod.setCard_cvc(results.getInt(5));
@@ -161,7 +160,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 PaymentMethodBean PMethod = new PaymentMethodBean();
 
                 PMethod.setId_method(results.getInt(1));
-                PMethod.setUsername(results.getString(2));
+                PMethod.setRegistred_User(results.getInt(2));
                 PMethod.setCard_number(results.getString(3));
                 PMethod.setCard_bank(results.getString(4));
                 PMethod.setCard_cvc(results.getInt(5));

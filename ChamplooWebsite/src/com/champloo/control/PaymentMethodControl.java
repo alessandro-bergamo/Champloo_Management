@@ -35,14 +35,16 @@ public class PaymentMethodControl extends HttpServlet
         {
             PaymentMethodBean payment_method = new PaymentMethodBean();
 
+            UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+
             try
             {
-                payment_method.setId_method(1);
+                payment_method.setId_method(1);  //USELESS
                 payment_method.setCard_cvc(Integer.parseInt(request.getParameter("cvc")));
                 payment_method.setCard_number(request.getParameter("number"));
                 payment_method.setCard_bank(request.getParameter("bank"));
                 payment_method.setCard_owner(request.getParameter("owner"));
-                payment_method.setUsername(request.getParameter("username"));
+                payment_method.setRegistred_User(user.getID());
                 payment_method.setExpiry_date(LocalDate.parse(request.getParameter("expiry")));
                 payment_method.setRegistration_method_date(LocalDate.parse(request.getParameter("registration_date")));
 

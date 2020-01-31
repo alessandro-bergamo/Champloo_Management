@@ -35,9 +35,10 @@ public class AddressControl extends HttpServlet {
         if (operation.equals("insert"))
         {
             AddressBean newAddress = new AddressBean();
+            UserBean user = (UserBean) session.getAttribute("utenteLoggato");
             try {
-                newAddress.setId_address(1);
-                newAddress.setRegistred_User(Integer.parseInt(request.getParameter("user")));
+                newAddress.setId_address(1); //USELESS
+                newAddress.setRegistred_User(user.getID());
                 newAddress.setAddress(request.getParameter("address"));
                 newAddress.setCity(request.getParameter("city"));
                 newAddress.setProvince(request.getParameter("province"));
