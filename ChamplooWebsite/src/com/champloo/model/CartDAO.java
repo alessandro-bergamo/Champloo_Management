@@ -372,6 +372,8 @@ public class CartDAO implements CartModel
 			statement = connection.createStatement();
 			
 			results = statement.executeQuery(query);
+
+			System.out.println("-----> RIGA 376 CARTDAO - RESULTS: "+results.first());
 			
 			if(results.first())
 			{
@@ -379,6 +381,7 @@ public class CartDAO implements CartModel
 				cart.setId_cart(results.getInt(1));
 				cart.setUser(results.getInt(2));
 			} else {
+				System.out.println("SONO QUI - RIGA 384 CARTDAO");
 				query = "INSERT INTO carts(Registred_User) VALUES (?)";
 
 				preparedStatement = connection.prepareStatement(query);
@@ -386,7 +389,22 @@ public class CartDAO implements CartModel
 				preparedStatement.setInt(1, user.getID());
 
 				preparedStatement.executeUpdate();
+				System.out.println("SONO QUI - RIGA 392 CARTDAO");
+				query = "SELECT * FROM carts WHERE Registred_User = '"+user.getID()+"'";
+
+				statement = connection.createStatement();
+
+				results = statement.executeQuery(query);
+
+				if(results.first())
+				{
+					cart = new CartBean();
+					cart.setId_cart(results.getInt(1));
+					cart.setUser(results.getInt(2));
+				}
 			}
+
+
 	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,7 +416,8 @@ public class CartDAO implements CartModel
             	connectionPool.releaseConnection(connection);
             }
 		}
-		
+
+		System.out.println("-----> RIGA 402 CARTDAO - CART: "+cart);
 		return cart;
 	}
 	

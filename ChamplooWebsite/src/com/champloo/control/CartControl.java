@@ -26,7 +26,7 @@ public class CartControl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
-		System.out.println("OPERATION CARTCONTROL: "+operation);
+		System.out.println("-----> RIGA 29 CARTCONTROL - OPERATION CARTCONTROL: "+operation);
 		RequestDispatcher dispatcher;
 		session = request.getSession(true);
 		
@@ -36,8 +36,11 @@ public class CartControl extends HttpServlet {
 			{
 				synchronized (session) {
 					UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+					System.out.println("-----> RIGA 39 CARTCONTROL - UTENTE: "+user.getFirstName());
 					try {
 						CartBean cart = cartDAO.retrieveCart(user);
+						System.out.println("-----> RIGA 42 CARTCONTROL - CART: "+cart);
+						System.out.println("-----> RIGA 42 CARTCONTROL - CART: "+cart.getId_cart());
 						session.setAttribute("cart", cart);
 					} catch (Exception e) {
 						e.printStackTrace();

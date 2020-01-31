@@ -139,7 +139,7 @@
 								<ul class="cart_items_list">
 									<%
 									int total_price = 0;
-										if(products_in_cart != null && !products_in_cart.isEmpty())
+										if(products_in_cart != null || !products_in_cart.isEmpty())
 										{
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;
@@ -272,8 +272,8 @@
         <!-- Footer -->
 
 		<%@ include file="footer.jsp" %>
-                  
 	</div>
+</div>
 
 	<script>
 /*
@@ -291,33 +291,33 @@
 	var total_price;
 	
 
-		function submitCheckout() {
-			var value1 = ("submitCheckout");
-			$.ajax({
-				type: "GET",
-				url: "Cart",
-				data: {"total_price_order": total_price_order, "shipping_price": shipping_price, "total_price": total_price, "operation": value1},
-			}); window.location.href = "checkout.jsp";
-		}
+	function submitCheckout() {
+		var value1 = ("submitCheckout");
+		$.ajax({
+			type: "GET",
+			url: "Cart",
+			data: {"total_price_order": total_price_order, "shipping_price": shipping_price, "total_price": total_price, "operation": value1},
+		}); window.location.href = "checkout.jsp";
+	}
 
-		$('input[type=radio][name=shipping_radio]').change(function() {			
-			if (this.value == 'veloce') {
-				shipping_price = 4.99;
-				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
-				$("#price_shipping").text("4.99 €");
-				$("#total_price_order").find("p").text(total_price_order);
-			} else if (this.value == 'standard') {
-				shipping_price = 1.99;
-				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
-				$("#price_shipping").text("1.99 €");
-				$("#total_price_order").find("p").text(total_price_order);
-			} else if (this.value == 'lenta') {
-				shipping_price = 0;
-				total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
-				$("#price_shipping").text("GRATUITA");
-				$("#total_price_order").find("p").text(total_price_order);
-			}
-		});
+	$('input[type=radio][name=shipping_radio]').change(function() {
+		if (this.value == 'veloce') {
+			shipping_price = 4.99;
+			total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+			$("#price_shipping").text("4.99 €");
+			$("#total_price_order").find("p").text(total_price_order);
+		} else if (this.value == 'standard') {
+			shipping_price = 1.99;
+			total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+			$("#price_shipping").text("1.99 €");
+			$("#total_price_order").find("p").text(total_price_order);
+		} else if (this.value == 'lenta') {
+			shipping_price = 0;
+			total_price_order = parseFloat(total_price, 10) + parseFloat(shipping_price, 10);
+			$("#price_shipping").text("GRATUITA");
+			$("#total_price_order").find("p").text(total_price_order);
+		}
+	});
 
 	$ ( function selectQnt()
 	{
