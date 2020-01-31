@@ -772,17 +772,17 @@ public class ProductDAO implements ProductModel
 			{
 				ProductBean product = new ProductBean();
 				
-				product.setId_prod(results.getInt(1));
-				product.setName(results.getString(2));
-				product.setBrand(results.getString(3));
-				product.setModel(results.getString(4));
-				product.setType(results.getString(5));
-				product.setPrice(results.getFloat(6));
-				product.setStatus(results.getInt(7));
-				product.setTotal_rating(results.getInt(8));
-				product.setAverage_rating(results.getFloat(9));
-				product.setNumber_feedback_users(results.getInt(10));
-				product.setDescription(results.getString(11));
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
 				
 				query = "SELECT * FROM product_details WHERE Product = ?";
 				
@@ -919,6 +919,92 @@ public class ProductDAO implements ProductModel
 	}
 	
 	
+	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createSlider() throws SQLException {
+		
+		ArrayList<Pair<ProductBean, ProductDetailsBean>> slider = new ArrayList<Pair<ProductBean,ProductDetailsBean>>();
+		ArrayList<ProductDetailsBean> details = new ArrayList<ProductDetailsBean>();
+		boolean isInSlider = false;
+			
+		connection = connectionPool.getConnection();
+		
+		query = "SELECT * FROM products WHERE status_product = '"+ProductBean.SLIDER_PRODUCT+"'";
+		
+		try {
+			statement = connection.createStatement();
+			
+			firstResults = statement.executeQuery(query);
+	
+			while(firstResults.next())
+			{
+				ProductBean product = new ProductBean();
+				
+				product.setId_prod(firstResults.getInt(1));
+				product.setName(firstResults.getString(2));
+				product.setBrand(firstResults.getString(3));
+				product.setModel(firstResults.getString(4));
+				product.setType(firstResults.getString(5));
+				product.setPrice(firstResults.getFloat(6));
+				product.setStatus(firstResults.getInt(7));
+				product.setTotal_rating(firstResults.getInt(8));
+				product.setAverage_rating(firstResults.getFloat(9));
+				product.setNumber_feedback_users(firstResults.getInt(10));
+				product.setDescription(firstResults.getString(11));
+				
+				query = "SELECT * FROM product_details WHERE Product = ?";
+				
+				preparedStatement = connection.prepareStatement(query);
+				
+				preparedStatement.setInt(1, product.getId_prod());
+				
+				secondResults = preparedStatement.executeQuery();
+						
+				while(secondResults.next())
+				{
+					isInSlider = false;
+					
+					ProductDetailsBean productDetails = new ProductDetailsBean();
+					
+					productDetails.setId_prod_details(secondResults.getInt(1));
+					productDetails.setProduct(secondResults.getInt(2));
+					productDetails.setColor(secondResults.getString(3));
+					productDetails.setSize(secondResults.getString(4));
+					productDetails.setDiscount_percent(secondResults.getInt(5));
+					productDetails.setQnt_stock(secondResults.getInt(6));
+					productDetails.setImg_path_folder(secondResults.getString(7));
+						
+					//details.add(productDetails);
+					
+					if(slider.isEmpty())
+						slider.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));			
+					else 
+					{
+						for(int i = 0; i < slider.size(); i++)
+						{
+							if(productDetails.getProduct() == slider.get(i).getValue().getProduct() && productDetails.getColor().equals(slider.get(i).getValue().getColor()) )							
+								isInSlider = true;
+						}
+					
+						if(!isInSlider)
+							slider.add(new Pair<ProductBean, ProductDetailsBean>(product, productDetails));
+					}
+				}	
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+                if (statement != null)
+                    statement.close();
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+		}
+		return slider;
+	}
+	
+	
 
 	/**
      * Deletes a given product
@@ -1021,5 +1107,5 @@ public class ProductDAO implements ProductModel
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
     ResultSet firstResults, secondResults, results;
-	
+
 }

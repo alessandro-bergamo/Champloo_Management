@@ -32,6 +32,8 @@ public interface ProductModel
 	
 	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createWindow() throws SQLException;
 	
+	public ArrayList<Pair<ProductBean, ProductDetailsBean>> createSlider() throws SQLException;
+	
 	public boolean deleteProduct(int id_product) throws SQLException;
 	
 	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;
