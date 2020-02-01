@@ -71,8 +71,8 @@ public class CartControl extends HttpServlet {
 				try {
 					//CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
 					cartDAO.modifyQuantity(id_cart, id_product_details, operator);
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -140,13 +140,15 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("deleteProduct"))
 			{
-				int id_product_details = Integer.parseInt(request.getParameter("id_products_details"));
+				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+				int id_cart = Integer.parseInt(request.getParameter("id_cart"));
 				
 				synchronized (session) {
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					
 					try {
-						cartDAO.deleteProduct(cart, id_product_details);
+						cartDAO.deleteProduct(id_cart, id_product_details);
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}		
