@@ -24,7 +24,7 @@ public class UserControl extends HttpServlet {
        
     public UserControl() { super();	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		String operation = request.getParameter("operation");
 		RequestDispatcher dispatcher;
@@ -53,6 +53,7 @@ public class UserControl extends HttpServlet {
 						dispatcher = request.getRequestDispatcher("Address");
 						dispatcher.forward(request,response);
 					} else {
+						System.out.println("Utente non loggato");
 						request.setAttribute("login", false);
 						response.sendRedirect("user_log.jsp");
 					}
@@ -61,12 +62,15 @@ public class UserControl extends HttpServlet {
 			else if(operation.equals("forgetPassword")) {
 				String user_email = request.getParameter("email");
 				UserBean userBean = userDAO.getUserByEmail(user_email);
-				if(userBean.getEmail().equals(user_email)) {
+				if(userBean.isEmpty()) {
+					request.setAttribute("accreditate", false);
+				} else {
 					PasswordGenerator passwordGenerator = new PasswordGenerator();
 					String nuovaPsw = passwordGenerator.generate(10);
 					String newPassword = nuovaPsw;
 					userBean.setPassword(newPassword);
 					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password � " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
+					request.setAttribute("accreditate", true);
 				}
 			}
 			else if(operation.equals("modifyPassword")) {
@@ -75,13 +79,15 @@ public class UserControl extends HttpServlet {
 				UserBean user = userDAO.getUserByUsername(username);
 				System.out.println("USER: "+user.getFirstName()+" PASSWORD: "+user.getPassword());
 				String newPassword = request.getParameter("new_psw");
-				userDAO.changePassword(user, newPassword);
+				boolean result = userDAO.changePassword(user, newPassword);
+				request.setAttribute("result", result);
 				session.invalidate();
 			}
 			else if(operation.equals("logout"))
 			{
 				synchronized(session)
 				{
+					request.setAttribute("result", true);
 					session.invalidate();
 					response.sendRedirect("index.jsp");
 				}
@@ -92,7 +98,7 @@ public class UserControl extends HttpServlet {
 				UserBean user = new UserBean();
 				user = userDAO.getUserByEmail(userEmail);
 				
-				request.setAttribute("userById", user);
+				request.setAttribute("userByEmail", user);
 			}
 			else if(operation.equals("getUserByUsername"))
 			{
@@ -106,11 +112,11 @@ public class UserControl extends HttpServlet {
 			{
 				synchronized(session)
 				{
-					ArrayList<UserBean> allUsers = new ArrayList<>();
+					ArrayList<UserBean> allUsers;
 					allUsers = userDAO.getAllUsers();
-
 					session.setAttribute("allUsers", allUsers);
 					session.setAttribute("redirectURL", "area_admin.jsp");
+					request.setAttribute("allUsers", allUsers); // for testing
 
 					dispatcher = request.getRequestDispatcher("Redirect");
 					dispatcher.forward(request, response);
@@ -123,6 +129,7 @@ public class UserControl extends HttpServlet {
 				String lastName = request.getParameter("lastname");
 				String password = request.getParameter("password");
 				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: http://localhost:8080/ChamplooWebsite_war_exploded/registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
+				request.setAttribute("accreditate", true);
 			}
 			else if(operation.equals("validateUser")) 
 			{
@@ -141,9 +148,9 @@ public class UserControl extends HttpServlet {
 				user.setPassword(password);
 				user.setRegistration_date(new Date(System.currentTimeMillis()));
 				user.setType(UserBean.NORMAL_USER);
-				//SET DEL TIPO DELLO USER DISCUTERNE
 				
-				userDAO.registerUser(user);
+				boolean result = userDAO.registerUser(user);
+				request.setAttribute("accreditate", result);
 				response.sendRedirect("user_log.jsp");
 			}
 			else if(operation.equals("updateUser")) 
@@ -158,7 +165,8 @@ public class UserControl extends HttpServlet {
 				updatedUser.setEmail(user.getEmail());
 				updatedUser.setUsername(user.getUsername());
 
-				userDAO.updateUser(updatedUser);
+				boolean result = userDAO.updateUser(updatedUser);
+				request.setAttribute("accreditate", result);
 				session.setAttribute("utenteLoggato", updatedUser);
 			}
 			else if(operation.equals("deleteUser")) 
@@ -188,7 +196,7 @@ public class UserControl extends HttpServlet {
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		doGet(request, response);
 	}

@@ -42,7 +42,7 @@ public class PaymentMethodDAOTest {
                 {Type.DELETEPMETHOD, new Integer(3), false},
                 {Type.RETRIEVEBYCARDNUMBER, "40824280482", false},
                 {Type.RETRIEVEBYCARDNUMBER, "111112", true},
-                {Type.RETRIEVEBYUSERID, new Integer(3), false},
+                {Type.RETRIEVEBYUSERID, new Integer(2), false},
                 {Type.RETRIEVEBYUSERID, new Integer(10), true}
         });
     }
