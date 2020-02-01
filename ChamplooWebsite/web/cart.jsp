@@ -156,7 +156,7 @@
 									<input type="hidden" id="products_to_checkout" value="<%=products_in_cart%>">
 									<li class="cart_item item_list d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-end justify-content-start">
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
-											<div><div class="product_number"><%=num_products++%></div></div>
+											<div><div class="product_number"><img src="images/delete.png" style="margin:-30px"></div></div>
 											<div><div class="product_image"><img src=<%=productDetails.getImg_path_folder()%>img1.png" alt=""></div></div>
 											<div class="product_name_container">
 												<div class="product_name"><a href="Product?operation=showProduct&id_product=<%=product.getId_prod()%>&color=<%=productDetails.getColor()%>"><%=product.getName()%></a></div>
