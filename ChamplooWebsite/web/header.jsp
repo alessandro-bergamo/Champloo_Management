@@ -48,12 +48,14 @@
                     <% } else { %>
                     <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <!-- Cart -->
+                    <div class="cart"><a href="Cart?operation=retrieveProducts"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <% }} else { %>
                     <!-- User che si deve loggare -->
                     <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                  	<% } %>
-                    <!-- Cart -->
+                  	<!-- Cart -->
                     <div class="cart"><a href="Cart?operation=retrieveProducts"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                  	<% } %>
                     <!-- Phone -->
                     <div class="header_phone d-flex flex-row align-items-center justify-content-start">
                     

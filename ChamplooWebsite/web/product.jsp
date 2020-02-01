@@ -161,7 +161,7 @@
 					<!-- Product Info -->
 					<div class="col-lg-6 product_col">
 						<div class="product_info">
-							<div class="product_name"><%=product.getName()%>  <%=selectedProductsByColor.get(0).getSize()%>  <%=selectedProductsByColor.get(0).getId_prod_details()%> </div>
+							<div class="product_name"><%=product.getName()%></div>
 							<div class="product_category">In <a href="category.html"><%=product.getType()%></a></div>
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
@@ -333,7 +333,6 @@
 		{
 			var value1 = $("[name='product_radio']");
 			var checkedValue = value1.filter(":checked").val();
-			alert("VALUE "+checkedValue);
 			var value2 = ("insertProduct");
 			$.ajax({
 				type: "GET",

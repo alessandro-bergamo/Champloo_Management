@@ -70,8 +70,8 @@
 		<%@ include file="header.jsp" %>
 
 		<%
-			if(utenteLoggato == null)
-				response.sendRedirect("user_log.jsp");
+			//if(utenteLoggato == null)
+				//response.sendRedirect("user_log.jsp");
 			
 		//	HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart;
 			//if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null))
@@ -139,7 +139,7 @@
 								<ul class="cart_items_list">
 									<%
 									int total_price = 0;
-										if(products_in_cart != null || !products_in_cart.isEmpty())
+										if(products_in_cart != null)
 										{
 											Iterator iterator = products_in_cart.entrySet().iterator();
 											int num_products = 1;

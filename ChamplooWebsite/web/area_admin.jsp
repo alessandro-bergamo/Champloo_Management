@@ -1,7 +1,7 @@
 <%@page
 		language="java"
-		contentType="text/html; charset=ISO-8859-1"
-		pageEncoding="ISO-8859-1"
+		contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
 		import="java.util.*"
 %>
@@ -255,13 +255,13 @@
                                        </div>
                                        <div class="row">
                                            <div class="col-xl-6">
-                                               <p id="utP">Indirizzo:</p><p id="utP2">Via Francescantonio Biondo n° 14</p>
+                                               <p id="utP">Indirizzo:</p><p id="utP2">Via Francescantonio Biondo nÂ° 14</p>
                                            </div>
                                            <div class="col-xl-3">
                                                <p id="utP">Data Ordine:</p><p id="utP2">27/10/2019</p>
                                            </div>
                                            <div class="col-xl-3">
-                                               <p id="utP">Prezzo Totale:</p><p id="utP2">383€</p>
+                                               <p id="utP">Prezzo Totale:</p><p id="utP2">383â¬</p>
                                            </div>
                                        </div>
                                    </div>

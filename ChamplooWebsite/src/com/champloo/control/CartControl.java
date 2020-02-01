@@ -94,22 +94,34 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("retrieveProducts"))
 			{
-				System.out.println("RETRIEVE PRODUCTS");
 				HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> productsInCart = new HashMap<Pair<ProductBean,ProductDetailsBean>, Integer>();
 				
 				synchronized (session) {
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					try {
-						productsInCart = cartDAO.retrieveProducts(cart);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				session.setAttribute("productsInCart", productsInCart);
-				session.setAttribute("redirectURL", "cart.jsp");
+					UserBean utenteLoggato = (UserBean) session.getAttribute("utenteLoggato");
+					if (utenteLoggato != null)
+					{
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						try {
+							productsInCart = cartDAO.retrieveProducts(cart);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						session.setAttribute("productsInCart", productsInCart);
+						session.setAttribute("redirectURL", "cart.jsp");
 
-				dispatcher = request.getRequestDispatcher("Redirect");
-				dispatcher.forward(request, response);
+						dispatcher = request.getRequestDispatcher("Redirect");
+						dispatcher.forward(request, response);
+					}
+					else
+					{
+						session.setAttribute("redirectURL", "cart.jsp");
+
+						dispatcher = request.getRequestDispatcher("Redirect");
+						dispatcher.forward(request, response);
+					}
+					
+				}
+				
 			}
 			else if(operation.equals("retrieveTotal"))
 			{
