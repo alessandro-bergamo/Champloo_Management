@@ -107,7 +107,7 @@
 		<div class="product">
 			<div class="container">
 				<div class="row">
-					
+					<input type="hidden" id="id_product" value="<%=product.getId_prod()%>">
 					<!-- Product Image -->
 					<div class="col-lg-6">
 						<div class="product_image_slider_container">
@@ -334,10 +334,11 @@
 			var value1 = $("[name='product_radio']");
 			var checkedValue = value1.filter(":checked").val();
 			var value2 = ("insertProduct");
+			var value3 = $("#id_product").val();
 			$.ajax({
 				type: "GET",
 				url: "Cart",
-				data: {"id_product_details" : checkedValue, "operation" : value2},
+				data: {"id_product" : value3, "id_product_details" : checkedValue, "operation" : value2},
 				success: function(results){
 					Swal.fire({
 						title: 'Aggiunto al Carrello',

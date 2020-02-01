@@ -3,19 +3,22 @@
 		contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"
 		import="com.champloo.bean.*"
+		import="com.champloo.util.*"
 %>
 
 <%
 	UserBean utenteLoggato;
 	CartBean cart;
+	ActiveCart activeCart;
 	synchronized(session) 
         {
             utenteLoggato = (UserBean) request.getSession().getAttribute("utenteLoggato");
             cart = (CartBean) request.getSession().getAttribute("cart");
+            activeCart = (ActiveCart) request.getSession().getAttribute("activeCart");
         }
+	
+		System.out.println("activeCart: "+activeCart);
 %>
-
-
         <header class="header">
             <div class="header_overlay"></div>
             <div class="header_content d-flex flex-row align-items-center justify-content-start">
@@ -50,7 +53,7 @@
                     <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <!-- Cart -->
                     <div class="cart"><a href="Cart?operation=retrieveProducts"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <% }} else { %>
+                    <% }} else{ %>
                     <!-- User che si deve loggare -->
                     <div class="user"><a href="user_log.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                   	<!-- Cart -->

@@ -3,6 +3,7 @@ package com.champloo.control;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.model.ProductDAO;
+import com.champloo.util.ActiveCart;
 
 import javafx.util.Pair;
 
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.eclipse.jdt.internal.compiler.lookup.ImplicitNullAnnotationVerifier;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -350,6 +354,19 @@ public class ProductControl extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			else if(operation.equals("addToActiveCart"))
+			{
+				int id_product = (int) request.getAttribute("id_product");
+				int id_product_details = (int) request.getAttribute("id_product_details");
+				ActiveCart activeCart = (ActiveCart) request.getAttribute("activeCart");
+				
+				try {
+					Pair<ProductBean, ProductDetailsBean> product = productDAO.retrieveProductWithDetails(id_product, id_product_details);
+					activeCart.insertProduct(product.getKey(), product.getValue());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} 
 			}
 		}
 
