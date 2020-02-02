@@ -21,35 +21,33 @@ public class ActiveCart {
 	public synchronized void insertProduct (ProductBean newProduct, ProductDetailsBean newProductDetails) 
 	{
 		boolean isInCart = false;
-		Pair<ProductBean, ProductDetailsBean> newProductPair = new Pair<ProductBean, ProductDetailsBean>(newProduct, newProductDetails);
-		
-		if (cartList.isEmpty())
-			cartList.put(newProductPair, 1);
-		else
-		{
-			// hashMap -> entrySet -> Iterator
-			Iterator iterator = cartList.entrySet().iterator();
+			
+		Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> iterator = cartList.entrySet().iterator();
 			
 			while(iterator.hasNext())
 			{
-				HashMap.Entry entry = (HashMap.Entry) iterator.next();
+				Entry<Pair<ProductBean, ProductDetailsBean>, Integer> entry = iterator.next();
 				
-				Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair)entry.getKey();
+				Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair<ProductBean, ProductDetailsBean>)entry.getKey();
 				ProductBean productInCart = (ProductBean) pairInCart.getKey();
 				ProductDetailsBean productDetailsInCart = (ProductDetailsBean) pairInCart.getValue();
 				
-				int qntInCart = (int) entry.getKey();
+				int qntInCart = (int) entry.getValue();
 				
 				if(productInCart.getId_prod() == newProduct.getId_prod() && productDetailsInCart.getId_prod_details() == newProductDetails.getId_prod_details())
 				{
 					isInCart = true;
-					cartList.put(newProductPair, qntInCart + 1);
+					Pair<ProductBean, ProductDetailsBean> newProductPair = new Pair<ProductBean, ProductDetailsBean>(newProduct, newProductDetails);
+					entry.setValue(qntInCart + 1);
 				}
 				
 			}
-			
-			if(!isInCart)
-				cartList.put(newProductPair, 1);
+			System.out.println("1° isInCart -> "+isInCart);
+		if(!isInCart)
+		{
+			System.out.println("2° isInCart -> "+isInCart);
+			Pair<ProductBean, ProductDetailsBean> newProductPair = new Pair<ProductBean, ProductDetailsBean>(newProduct, newProductDetails);
+			cartList.put(newProductPair, 1);
 		}
 	}
 	
@@ -74,9 +72,28 @@ public class ActiveCart {
 		return isRemoved;
 	}
 	
-	public void modifyQuantity(ProductBean newProduct, ProductDetailsBean newProductDetails)
+	public void modifyQuantity(int id_product, int id_product_details, String operator)
 	{
+		Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> iterator = cartList.entrySet().iterator();
 		
+		while(iterator.hasNext())
+		{
+			Entry<Pair<ProductBean, ProductDetailsBean>, Integer> entry = iterator.next();
+			
+			Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair<ProductBean, ProductDetailsBean>)entry.getKey();
+			ProductBean productInCart = (ProductBean) pairInCart.getKey();
+			ProductDetailsBean productDetailsInCart = (ProductDetailsBean) pairInCart.getValue();
+			
+			int qntInCart = (int) entry.getValue();
+			
+			if(productInCart.getId_prod() == id_product && productDetailsInCart.getId_prod_details() == id_product_details)
+			{
+				if(operator.equals("-"))
+					entry.setValue(qntInCart - 1);
+				else if (operator.equals("+"))
+					entry.setValue(qntInCart + 1);		
+			}	
+		}
 	}
 	
 	public Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> getCartIterator()
@@ -88,6 +105,12 @@ public class ActiveCart {
 	public HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> getHaspMap()
 	{
 		return cartList;
+	}
+	
+	public void clearCart()
+	{
+		cartList.clear();
+		cartList = new HashMap<Pair<ProductBean, ProductDetailsBean>, Integer>();
 	}
 	
 	
