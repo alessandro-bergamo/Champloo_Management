@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
+import java.util.LinkedHashMap;
 
 
 @WebServlet("/Order")
@@ -124,7 +124,7 @@ public class OrderControl extends HttpServlet
                 //nothing
             } else if(operation.equals("showOrdersPerUser"))
             {
-                HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
 
                 try {
                     UserBean user = (UserBean) session.getAttribute("utenteLoggato");

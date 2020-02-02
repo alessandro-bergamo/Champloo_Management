@@ -84,9 +84,9 @@
     <%@ include file="header.jsp" %>
 
     <%
-        HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+        LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap <OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
 
-        orders = (HashMap) session.getAttribute("orders");
+        orders = (LinkedHashMap) session.getAttribute("orders");
     %>
 
     <div class="super_container_inner">

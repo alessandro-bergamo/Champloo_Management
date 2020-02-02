@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 public interface OrderModel
 {
@@ -27,7 +28,7 @@ public interface OrderModel
     OrderBean retrieveByID(int id_order) throws SQLException;
 
     //Method that retrieves orders having a username
-    HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByUserID(int user_id) throws SQLException;
+    LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByUserID(int user_id) throws SQLException;
 
     //Method that retrieves order having a start date and an end date
     HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws Exception;
