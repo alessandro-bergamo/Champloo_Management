@@ -14,18 +14,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.mail.Session;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 import static org.easymock.EasyMock.mock;
 
@@ -73,7 +68,11 @@ public class UserControlTest {
                 {Type.VALIDATEUSER, new Object[]{"palermi", "tuttookay@hotmail.it", "Montana", "Castagna", "nonsochemettere"}, true},
                 {Type.VALIDATEUSER, new Object[]{"enderson", "gokuantony@live.it", "Montana", "Castagna", "nonsochemettere"}, false},
                 {Type.UPDATEUSER, new Object[]{new UserBean("", "", "yeezus", "", "", new Date(), 1), "nuovoFirst", "nuovoLast"}, true},
-                {Type.UPDATEUSER, new Object[]{new UserBean("", "", "WEFEWF", "", "", new Date(), 1), "nuovoFirst2", "nuovoLast2"}, false}
+                {Type.UPDATEUSER, new Object[]{new UserBean("", "", "WEFEWF", "", "", new Date(), 1), "nuovoFirst2", "nuovoLast2"}, false},
+                {Type.DELETEUSER, new UserBean("", "", "yeezus", "", "", new Date(), 1), true},
+                {Type.DELETEUSER, new UserBean("", "", "fwefwe", "", "", new Date(), 1), false},
+                {Type.BLOCKUSER, "alexalex", true},
+                {Type.BLOCKUSER, "mariooo", false}
         });
     }
 
@@ -276,7 +275,232 @@ public class UserControlTest {
         String firstName = (String)objects[1];
         String lastName = (String)objects[2];
 
-        //CONTINUARE DA QUI
+        request.setSession(new HttpSession() {
+            @Override
+            public long getCreationTime() {
+                return 0;
+            }
+
+            @Override
+            public String getId() {
+                return null;
+            }
+
+            @Override
+            public long getLastAccessedTime() {
+                return 0;
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return null;
+            }
+
+            @Override
+            public void setMaxInactiveInterval(int i) {
+
+            }
+
+            @Override
+            public int getMaxInactiveInterval() {
+                return 0;
+            }
+
+            @Override
+            public HttpSessionContext getSessionContext() {
+                return null;
+            }
+
+            @Override
+            public Object getAttribute(String s) {
+                return userBean;
+            }
+
+            @Override
+            public Object getValue(String s) {
+                return null;
+            }
+
+            @Override
+            public Enumeration<String> getAttributeNames() {
+                return null;
+            }
+
+            @Override
+            public String[] getValueNames() {
+                return new String[0];
+            }
+
+            @Override
+            public void setAttribute(String s, Object o) {
+
+            }
+
+            @Override
+            public void putValue(String s, Object o) {
+
+            }
+
+            @Override
+            public void removeAttribute(String s) {
+
+            }
+
+            @Override
+            public void removeValue(String s) {
+
+            }
+
+            @Override
+            public void invalidate() {
+
+            }
+
+            @Override
+            public boolean isNew() {
+                return false;
+            }
+        });
+
+        request.addParameter("operation", "updateUser");
+        request.addParameter("firstname", firstName);
+        request.addParameter("lastname", lastName);
+
+        try {
+            servlet.doPost(request, response);
+        }catch(ServletException e) {
+            e.printStackTrace();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        boolean result = (boolean)request.getAttribute("accreditate");
+        Assert.assertEquals(expectedResult, result);
+    }
+
+    @org.junit.Test
+    public void deleteUser() {
+        Assume.assumeTrue(type.equals(Type.DELETEUSER));
+        UserBean userBean = (UserBean)paramForServlet;
+        request.setSession(new HttpSession() {
+            @Override
+            public long getCreationTime() {
+                return 0;
+            }
+
+            @Override
+            public String getId() {
+                return null;
+            }
+
+            @Override
+            public long getLastAccessedTime() {
+                return 0;
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return null;
+            }
+
+            @Override
+            public void setMaxInactiveInterval(int i) {
+
+            }
+
+            @Override
+            public int getMaxInactiveInterval() {
+                return 0;
+            }
+
+            @Override
+            public HttpSessionContext getSessionContext() {
+                return null;
+            }
+
+            @Override
+            public Object getAttribute(String s) {
+                return userBean;
+            }
+
+            @Override
+            public Object getValue(String s) {
+                return null;
+            }
+
+            @Override
+            public Enumeration<String> getAttributeNames() {
+                return null;
+            }
+
+            @Override
+            public String[] getValueNames() {
+                return new String[0];
+            }
+
+            @Override
+            public void setAttribute(String s, Object o) {
+
+            }
+
+            @Override
+            public void putValue(String s, Object o) {
+
+            }
+
+            @Override
+            public void removeAttribute(String s) {
+
+            }
+
+            @Override
+            public void removeValue(String s) {
+
+            }
+
+            @Override
+            public void invalidate() {
+
+            }
+
+            @Override
+            public boolean isNew() {
+                return false;
+            }
+        });
+
+        request.addParameter("operation", "deleteUser");
+
+        try {
+            servlet.doPost(request, response);
+        }catch(ServletException e) {
+            e.printStackTrace();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        boolean result = (boolean)request.getAttribute("accreditate");
+        Assert.assertEquals(expectedResult, result);
+
+    }
+
+    @org.junit.Test
+    public void blockUser() {
+        Assume.assumeTrue(type.equals(Type.BLOCKUSER));
+        String username = (String)paramForServlet;
+        request.addParameter("username", username);
+        request.addParameter("operation", "blockUser");
+
+        try {
+            servlet.doPost(request, response);
+        }catch(ServletException e) {
+            e.printStackTrace();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        boolean result = (boolean)request.getAttribute("accreditate");
+        Assert.assertEquals(expectedResult, result);
     }
 
 }

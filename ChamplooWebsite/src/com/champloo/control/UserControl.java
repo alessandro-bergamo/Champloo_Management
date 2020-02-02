@@ -172,7 +172,8 @@ public class UserControl extends HttpServlet {
 			else if(operation.equals("deleteUser")) 
 			{
 				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
-				userDAO.deleteUser(user);				
+				boolean result = userDAO.deleteUser(user);
+				request.setAttribute("accreditate", result);
 			}
 			else if(operation.equals("userManager"))
 			{
@@ -185,7 +186,8 @@ public class UserControl extends HttpServlet {
 			else if(operation.equals("blockUser"))
 			{
 				String username = request.getParameter("username");
-				userDAO.blockUser(username);
+				boolean result = userDAO.blockUser(username);
+				request.setAttribute("accreditate", result);
 			}
 		}
 
