@@ -2,6 +2,7 @@ package com.champloo.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
@@ -52,14 +53,41 @@ public class ActiveCart {
 		}
 	}
 	
-	public boolean removeProduct(ProductBean newProduct, ProductDetailsBean newProductDetails)
+	public boolean removeProduct(int id_product, int id_product_details)
 	{
-		return cartList.remove(newProduct, newProductDetails);	
+		boolean isRemoved = false;
+		Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> iterator = cartList.entrySet().iterator();
+		ProductBean productBean = null;
+		ProductDetailsBean productDetailsBean = null;
+		while (iterator.hasNext())
+		{
+			Entry<Pair<ProductBean, ProductDetailsBean>, Integer> entry = iterator.next();
+			Pair<ProductBean, ProductDetailsBean> pairInCart = (Pair<ProductBean, ProductDetailsBean>)entry.getKey();
+			productBean = pairInCart.getKey();
+			productDetailsBean = pairInCart.getValue();
+			if(productBean.getId_prod() == id_product && productDetailsBean.getId_prod_details() == id_product_details)
+			{
+				cartList.remove(pairInCart);
+				isRemoved = true;
+			}
+		}
+		return isRemoved;
 	}
 	
 	public void modifyQuantity(ProductBean newProduct, ProductDetailsBean newProductDetails)
 	{
 		
+	}
+	
+	public Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> getCartIterator()
+	{
+		Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> iterator = cartList.entrySet().iterator();
+		return iterator;
+	}
+	
+	public HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> getHaspMap()
+	{
+		return cartList;
 	}
 	
 	
