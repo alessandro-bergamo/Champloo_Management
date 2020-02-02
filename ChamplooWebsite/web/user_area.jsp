@@ -213,7 +213,7 @@
                                        stampati++;
                                %>
                                <div class="row justify-content-start">
-                                   <div class="col-xl-7">
+                                   <div class="col-xl-6">
                                        <div class="row">
                                            <h4 class="upH4">Indirizzo: </h4>
                                            <p class="upPCircle"><%=datiUtente.get(I).getAddress()%>, <%=datiUtente.get(I).getCivic_number()%></p>
@@ -224,6 +224,11 @@
                                            <h4 class="upH4">Città: </h4>
                                            <p class="upPCircle"><%=datiUtente.get(I).getCity()%>, <%=datiUtente.get(I).getProvince()%>, <%=datiUtente.get(I).getCAP()%></p>
                                        </div>
+                                   </div> 
+                                   <div class="col-xl-1">
+                                   		<div class="row">
+                                           <img src="images/delete.png" height="42" width="42">
+                                   		</div>
                                    </div>
                                </div>
                    <%               }
@@ -236,7 +241,7 @@
                                    </div>
                                </div>
                                <div class="row justify-content-start" id="inputNewInd">
-                                   <form action="Address" method="POST">
+                                   <form action="Address" id="addressModify" method="POST">
                                        <div class="col-xl-12">
                                            <input name="operation" type="hidden" value="insert">
                                            <div class="row">
@@ -315,17 +320,24 @@
                                    </div>
                                </div>
                                <div class="row spacerUP2 justify-content-start">
-                                   <div class="col-xl-5">
+                                   <div class="col-xl-6">
                                        <div class="row">
                                            <h4 class="upH4">Codice Carta: </h4>
                                            <p class="upPCircle"><%=paymentMethods.get(I).getCard_number()%></p>
                                        </div>
                                    </div>
-                                   <div class="col-xl-3">
+                                   <div class="col-xl-5">
                                        <div class="row">
                                            <h4 class="upH4">Codice CVC: </h4>
-                                           <p class="upPCircle">&#8226;&#8226;&#8226;</p>
+                                           <p class="upPCircle">&#8226;&#8226;&#8226;
+                                           
+                                           </p>
                                        </div>
+                                   </div>
+                                   <div class="col-xl-1">
+                                  		<div class="row">
+                                  			<img src="images/delete.png" height="42" width="42">
+                                  	 	</div>
                                    </div>
                                </div>
                            </div>
@@ -336,7 +348,7 @@
                                    <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
                                </div>
                            </div>
-                           <form action="PaymentMethod" method="POST">
+                           <form action="PaymentMethod" id="insertPaymentMethod" method="POST">
                                <div class="row justify-content-start" id="inputNewCard">
                                    <div class="row">
                                        <div class="col-xl-3">
@@ -399,12 +411,7 @@
 
     <script>
 
-          document.getElementById('number').addEventListener('input', function (e) {
-          var target = e.target, position = target.selectionEnd, length = target.value.length;
 
-              target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-              target.selectionEnd = position += ((target.value.charAt(position - 1) === ' ' && target.value.charAt(length - 1) === ' ' && length !== target.value.length) ? 1 : 0);
-          });
 
           $(function() {
               $("#txtDate").datepicker({dateFormat: 'mm/yy'});
@@ -429,7 +436,7 @@
           });
 
       </script>
-
+ 
 
 
     <script src="plugins/greensock/TweenMax.min.js"></script>
