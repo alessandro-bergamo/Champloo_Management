@@ -121,46 +121,19 @@ public class OrderControl extends HttpServlet
                 }
             } else if(operation.equals("showOrder"))
             {
-                request.removeAttribute("order");
-
-                OrderBean order = new OrderBean();
-                ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
-
-                int id_order = Integer.parseInt(request.getParameter("id_order"));
-
-                try {
-                    order = model_order.retrieveByID(id_order);
-                    items_in_order = model_order.retrieveByOrder(id_order);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                request.setAttribute("order", order);
-                request.setAttribute("items_in_order", items_in_order);
+                //nothing
             } else if(operation.equals("showOrdersPerUser"))
             {
-                request.removeAttribute("orders");
-
-                HashMap<Integer, ArrayList> item_in_order = new HashMap<Integer, ArrayList>();
-
-                ArrayList<OrderBean> ordersByUser = new ArrayList<OrderBean>();
-                ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
-
-                int Registred_User = Integer.parseInt(request.getParameter("id_user"));
+                HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
 
                 try {
-                    ordersByUser = model_order.retrieveByUserID(Registred_User);
-                    for(int I=0; I<ordersByUser.size(); I++)
-                    {
-                        items_in_order = model_order.retrieveByOrder(ordersByUser.get(I).getId_order());
-                        item_in_order.put(I, items_in_order);
-                    }
+                    UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+                    orders = model_order.retrieveByUserID(user.getID());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
-                request.setAttribute("orders", ordersByUser);
-                request.setAttribute("item_in_orders", item_in_order);
+                session.setAttribute("orders", orders);
             } else if(operation.equals("showOrdersPerDate"))
             {
                 request.removeAttribute("orders");
@@ -208,6 +181,8 @@ public class OrderControl extends HttpServlet
 
         if(operation.equals("ordersManager"))
             response.sendRedirect("area_admin.jsp");
+        else if(operation.equals("showOrdersPerUser"))
+            response.sendRedirect("user_area_orders.jsp");
 
     }
 

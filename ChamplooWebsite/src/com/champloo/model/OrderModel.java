@@ -27,7 +27,7 @@ public interface OrderModel
     OrderBean retrieveByID(int id_order) throws SQLException;
 
     //Method that retrieves orders having a username
-    ArrayList<OrderBean> retrieveByUserID(int user_id) throws SQLException;
+    HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByUserID(int user_id) throws SQLException;
 
     //Method that retrieves order having a start date and an end date
     HashSet<OrderBean> retrieveByDate(Date start_date, Date end_date) throws Exception;
@@ -39,6 +39,6 @@ public interface OrderModel
     HashMap<OrderBean, ArrayList<OrderItemBean>> retrieveAll() throws SQLException;
 
     //Method that retrieves all the Order_Items contained in an order.
-    ArrayList<OrderItemBean> retrieveByOrder(int id_order) throws SQLException;
+    HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> retrieveByOrder(int id_order) throws SQLException;
 
 }

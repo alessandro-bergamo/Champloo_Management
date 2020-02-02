@@ -209,43 +209,126 @@ public class OrderDAO implements OrderModel
     /**
      * Retrieves all the orders with a specific username
      * @param user_id
-     * @return orders
+     * @return all the orders of a specific user
      */
-    public ArrayList<OrderBean> retrieveByUserID(int user_id) throws SQLException
+    public HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByUserID(int user_id) throws SQLException
     {
-        ArrayList<OrderBean> orders = new ArrayList<OrderBean>();
+        HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+        OrderBean order = null;
+        ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>> products_in_order;
+        OrderItemBean order_item = null;
+        ProductDetailsBean productDetails = null;
+        ProductBean product = null;
+
         connection = connectionPool.getConnection();
 
-        if(user_id==0)
-            query = "SELECT * FROM orders";
-        else
-            query = "SELECT * FROM orders WHERE Registred_User = '"+user_id+"'";
+        query = "SELECT * FROM orders WHERE Registred_User = ?";
 
         try {
-            statement = connection.createStatement();
-            results = statement.executeQuery(query);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, user_id);
+            firstResults = preparedStatement.executeQuery();
 
-            while(results.next())
+            while(firstResults.next())
             {
-                OrderBean order = new OrderBean();
+                order = new OrderBean();
 
-                order.setId_order(results.getInt(1));
-                order.setRegistred_User(results.getInt(2));
-                order.setAddress(results.getString(3));
-                order.setPayment_method(results.getString(4));
-                order.setOrder_owner(results.getString(5));
-                order.setCreation_date(results.getDate(6));
-                order.setDelivery_date(results.getDate(7));
-                order.setStatus_order(results.getInt(8));
+                order.setId_order(firstResults.getInt(1));
+                order.setRegistred_User(firstResults.getInt(2));
+                order.setAddress(firstResults.getString(3));
+                order.setPayment_method(firstResults.getString(4));
+                order.setOrder_owner(firstResults.getString(5));
+                order.setTotal_price(firstResults.getFloat(6));
+                order.setCreation_date(firstResults.getDate(7));
+                order.setDelivery_date(firstResults.getDate(8));
+                order.setStatus_order(firstResults.getInt(9));
 
-                orders.add(order);
+                query = "SELECT * FROM order_item WHERE Order_number = ?";
+
+                products_in_order = new ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>();
+
+                try {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setInt(1, order.getId_order());
+                    secondResults = preparedStatement.executeQuery();
+
+                    while(secondResults.next())
+                    {
+                        order_item = new OrderItemBean();
+
+                        order_item.setId_order_item(secondResults.getInt(1));
+                        order_item.setId_order(secondResults.getInt(2));
+                        order_item.setId_product(secondResults.getInt(3));
+                        order_item.setPrice_in_order(secondResults.getFloat(4));
+                        order_item.setQnt_in_order(secondResults.getInt(5));
+
+                        query = "SELECT * FROM product_details WHERE id_product_details = ?";
+
+                        try {
+                            preparedStatement = connection.prepareStatement(query);
+                            preparedStatement.setInt(1, order_item.getId_product());
+                            thirdResults = preparedStatement.executeQuery();
+
+                            if(thirdResults.first())
+                            {
+                                productDetails = new ProductDetailsBean();
+
+                                productDetails.setId_prod_details(thirdResults.getInt(1));
+                                productDetails.setProduct(thirdResults.getInt(2));
+                                productDetails.setColor(thirdResults.getString(3));
+                                productDetails.setSize(thirdResults.getString(4));
+                                productDetails.setDiscount_percent(thirdResults.getInt(5));
+                                productDetails.setQnt_stock(thirdResults.getInt(6));
+                                productDetails.setImg_path_folder(thirdResults.getString(7));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        query = "SELECT * FROM products WHERE id_product = ?";
+
+                        try {
+                            preparedStatement = connection.prepareStatement(query);
+                            preparedStatement.setInt(1, productDetails.getProduct());
+                            fourthResults = preparedStatement.executeQuery();
+
+                            if(fourthResults.first())
+                            {
+                                product = new ProductBean();
+
+                                product.setId_prod(fourthResults.getInt(1));
+                                product.setName(fourthResults.getString(2));
+                                product.setBrand(fourthResults.getString(3));
+                                product.setModel(fourthResults.getString(4));
+                                product.setType(fourthResults.getString(5));
+                                product.setPrice(fourthResults.getFloat(6));
+                                product.setStatus(fourthResults.getInt(7));
+                                product.setTotal_rating(fourthResults.getInt(8));
+                                product.setAverage_rating(fourthResults.getFloat(9));
+                                product.setNumber_feedback_users(fourthResults.getInt(10));
+                                product.setDescription(fourthResults.getString(11));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        products_in_order.add(new Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>(order_item, new Pair<ProductBean, ProductDetailsBean>(product, productDetails)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                orders.put(order, products_in_order);
             }
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
             try {
                 if (statement != null)
                     statement.close();
             } finally {
-            	connectionPool.releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
             }
         }
 
@@ -430,39 +513,131 @@ public class OrderDAO implements OrderModel
      * @param order_id
      * @return order_items
      */
-    public ArrayList<OrderItemBean> retrieveByOrder(int order_id) throws SQLException
+    public HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> retrieveByOrder(int order_id) throws SQLException
     {
-        ArrayList<OrderItemBean> items_in_order = new ArrayList<OrderItemBean>();
+        HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> orders = new HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>>();
+        HashMap<ProductBean, ProductDetailsBean> products = new HashMap<ProductBean, ProductDetailsBean>();
+        ArrayList<OrderItemBean> order_items = new ArrayList<OrderItemBean>();
+        ProductBean product = null;
+        ProductDetailsBean productDetails = null;
+
         connection = connectionPool.getConnection();
 
-        query = "SELECT * FROM order_item WHERE Order_number = '"+order_id+"'";
+        query = "SELECT * FROM orders WHERE id_order = ?";
 
         try {
-            statement = connection.createStatement();
-            results = statement.executeQuery(query);
 
-            while(results.next())
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, order_id);
+            firstResults = preparedStatement.executeQuery();
+
+            if(firstResults.first())
             {
-                OrderItemBean item_in_order = new OrderItemBean();
+                OrderBean order = new OrderBean();
 
-                item_in_order.setId_order_item(results.getInt(1));
-                item_in_order.setId_order(results.getInt(2));
-                item_in_order.setId_product(results.getInt(3));
-                item_in_order.setPrice_in_order(results.getFloat(4));
-                item_in_order.setQnt_in_order(results.getInt(5));
+                order.setId_order(firstResults.getInt(1));
+                order.setRegistred_User(firstResults.getInt(2));
+                order.setAddress(firstResults.getString(3));
+                order.setPayment_method(firstResults.getString(4));
+                order.setOrder_owner(firstResults.getString(5));
+                order.setTotal_price(firstResults.getFloat(6));
+                order.setCreation_date(firstResults.getDate(7));
+                order.setDelivery_date(firstResults.getDate(8));
+                order.setStatus_order(firstResults.getInt(9));
 
-                items_in_order.add(item_in_order);
+                query = "SELECT * FROM order_item WHERE Order_number = ?";
+
+                order_items = new ArrayList<OrderItemBean>();
+
+                try
+                {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setInt(1, order.getId_order());
+                    secondResults = preparedStatement.executeQuery();
+
+                    while(secondResults.next())
+                    {
+                        OrderItemBean order_item = new OrderItemBean();
+
+                        order_item.setId_order_item(secondResults.getInt(1));
+                        order_item.setId_order(secondResults.getInt(2));
+                        order_item.setId_product(secondResults.getInt(3));
+                        order_item.setPrice_in_order(secondResults.getFloat(4));
+                        order_item.setQnt_in_order(secondResults.getInt(5));
+
+                        order_items.add(order_item);
+
+                        query = "SELECT * FROM product_details WHERE id_product_details = ?";
+
+                        try {
+                            preparedStatement = connection.prepareStatement(query);
+                            preparedStatement.setInt(1, order_item.getId_product());
+                            thirdResults = preparedStatement.executeQuery();
+
+                            if(thirdResults.first())
+                            {
+                                productDetails = new ProductDetailsBean();
+
+                                productDetails.setId_prod_details(thirdResults.getInt(1));
+                                productDetails.setProduct(thirdResults.getInt(2));
+                                productDetails.setColor(thirdResults.getString(3));
+                                productDetails.setSize(thirdResults.getString(4));
+                                productDetails.setDiscount_percent(thirdResults.getInt(5));
+                                productDetails.setQnt_stock(thirdResults.getInt(6));
+                                productDetails.setImg_path_folder(thirdResults.getString(7));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        query = "SELECT * FROM products WHERE id_product = ?";
+
+                        try {
+                            preparedStatement = connection.prepareStatement(query);
+                            preparedStatement.setInt(1, productDetails.getProduct());
+                            fourthResults = preparedStatement.executeQuery();
+
+                            if(fourthResults.first())
+                            {
+                                product = new ProductBean();
+
+                                product.setId_prod(fourthResults.getInt(1));
+                                product.setName(fourthResults.getString(2));
+                                product.setBrand(fourthResults.getString(3));
+                                product.setModel(fourthResults.getString(4));
+                                product.setType(fourthResults.getString(5));
+                                product.setPrice(fourthResults.getFloat(6));
+                                product.setStatus(fourthResults.getInt(7));
+                                product.setTotal_rating(fourthResults.getInt(8));
+                                product.setAverage_rating(fourthResults.getFloat(9));
+                                product.setNumber_feedback_users(fourthResults.getInt(10));
+                                product.setDescription(fourthResults.getString(11));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        products.put(product, productDetails);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                orders.put(new Pair<OrderBean, ArrayList<OrderItemBean>>(order, order_items), products);
             }
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
             try {
                 if (statement != null)
                     statement.close();
             } finally {
-            	connectionPool.releaseConnection(connection);
+                connectionPool.releaseConnection(connection);
             }
         }
 
-        return items_in_order;
+        return orders;
     }
 
     private static ConnectionPool connectionPool;
@@ -470,5 +645,5 @@ public class OrderDAO implements OrderModel
     String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
-    ResultSet results, firstResults, secondResults;
+    ResultSet results, firstResults, secondResults, thirdResults, fourthResults;
 }

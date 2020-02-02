@@ -95,13 +95,13 @@
                 </div>
                 <div class="container border-utentepage">
                     <div class="row justify-content-start">
-                       <div class="col-xl-6">
-                           <h4 id="list1" class="utenteh4">Informazioni Utente</h4>
-                       </div>
-                       <div class="col-xl-6">
-                           <h4 id="list2" class="utenteh42">Lista Ordini</h4>
-                       </div>
-                   </div>
+                        <div class="col-xl-6">
+                            <a href="user_area.jsp"><h4 class="utenteh4">Area Utente</h4></a>
+                        </div>
+                        <div class="col-xl-6">
+                            <a href="Order?operation=showOrdersPerUser"><h4 class="utenteh42">Ordini</h4></a>
+                        </div>
+                    </div>
                </div>
                <div class="container" id="utdiv">
                    <div class="container spacerUP borderutdiv" id="infPut">
@@ -371,96 +371,6 @@
                    </div>
                </div>
 
-               <!--- INIZIO DIV ORDINI --->
-               <div class="container" id="ordiv">
-                   <div class="container spacerUP borderutdiv">
-                       <div class="container" style="margin-bottom: 15px">
-                           <div class="row justify-content-start test">
-                               <div class="col-xl-3">
-                                   <div class="row">
-                                       <h4 class="upH43">ORDINE EFFETTUATO IL: </h4>
-                                       <p class="ordP">14 Giugno 2019</p>
-                                   </div>
-                               </div>
-                               <div class="col-xl-3">
-                                   <div class="row">
-                                       <h4 class="upH43">IMPORTO TOTALE: </h4>
-                                       <div class="col-xl-12">
-                                           <div class="row">
-                                               <p class="ordP">291 €</p>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                               <div class="col-xl-6">
-                                   <div class="row">
-                                       <h4 class="upH43">SPEDITO A: </h4>
-                                       <p class="ordP">Alessandro Bergamo, Mercato San Severino (SA), 84085</p>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="row justify-content-start test3">
-                               <div class="col-xl-12">
-                                   <div class="row">
-                                       <h4 class="upH43">Consegnato: 2 Luglio 2019</h4>
-                                   </div>
-                                   <div class="row">
-                                       <h4 class="uph44">Il pacco è stato consegnato presso il domicilio selezionato</h4>
-                                   </div>
-                                   <div class="row">
-                                       <div class="col-xl-2">
-                                           <img src="img/prodotti/sv1.jpg" class="imgItem7" width="auto" height="auto">
-                                       </div>
-                                       <div class="col-xl-3 spacerInfo">
-                                           <h4 class="upH45">nVidia 1070 8GB DDR5</h4>
-                                           <h4 class="upH45">Spedizione Gratuita</h4>
-                                           <h4 class="upH45">293,80 €</h4>
-                                           <input type="button" class="site-btn5" value="COMPRA DI NUOVO">
-                                       </div>
-                                       <div class="col-xl-4 spacerDetails" id="details">
-                                           <h4 class="uph44" style="margin-bottom: 0px;">Metodo di pagamento:</h4>
-                                           <h4 class="upH45">Paypal</h4>
-                                           <h4 class="uph44" style="margin-bottom: 0px;">Spedito a:</h4>
-                                           <h4 class="upH45">Via Francescantonio Biondo n°12 Mercato San Severino (SA)</h4>
-                                       </div>
-                                       <div class="col-xl-3 spacerBtnUP">
-                                           <div class="row justify-content-center">
-                                               <input type="button" class="site-btn6 setupbtnUP" value="Traccia il mio pacco">
-                                           </div>
-                                           <div class="row justify-content-center">
-                                               <input type="button" class="site-btn6 setupbtnUP" id="detailsBtn" value="Dettagli dell'ordine">
-                                           </div>
-                                           <div class="row justify-content-center">
-                                               <input type="button" class="site-btn6 setupbtnUP" value="Fattura">
-                                           </div>
-                                           <div class="row justify-content-center">
-                                               <input type="button" class="site-btn6 setupbtnUP" value="Informativa sugli acquisti">
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="row justify-content-start test2">
-                               <div class="col-xl-12">
-                                   <div class="row justify-content-end">
-                                       <h4 class="upH43">Ordine</h4>
-                                       <p class="ordP"># 239-103-9</p>
-                                   </div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </section>
-        
-        <!-- END SECTION -->
-
-
-        <!-- Footer -->
-        <%@ include file="footer.jsp" %>
-
-
-
     <script>
         $(document).ready(function() {
             $('#txtDate').datepicker({
@@ -500,16 +410,6 @@
               $("#txtDate").datepicker({dateFormat: 'mm/yy'});
           });
 
-          $("#list1").on('click', function() {
-              $("#ordiv").hide();
-              $("#utdiv").show();
-          });
-
-          $("#list2").on('click', function() {
-              $("#utdiv").hide();
-              $("#ordiv").show();
-          });
-
           $("#btninfo").on('click', function() {
               $("#infPut").hide();
               $("#infPut2").show();
@@ -526,13 +426,6 @@
 
           $("#newCard").on('click', function() {
               $("#inputNewCard").toggle();
-          });
-
-          $('#detailsBtn').click(function(){
-          if ( $('#details').css('visibility') == 'hidden' )
-              $('#details').css('visibility','visible');
-          else
-              $('#details').css('visibility','hidden');
           });
 
       </script>

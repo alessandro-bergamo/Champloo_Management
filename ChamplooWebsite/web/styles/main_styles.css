@@ -812,7 +812,7 @@ section
 }
 
 .spacerUP {
-    margin-top: 35px;
+    margin: 35px 0px;
     padding: 30px 30px;
 }
 
@@ -910,7 +910,7 @@ section
 }
 
 .uph44 {
-    color: navy;
+    color: black;
     font-weight: 400;
     margin-bottom: 20px;
     font-size: 13px;
