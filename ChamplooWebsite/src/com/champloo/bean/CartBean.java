@@ -1,7 +1,16 @@
 package com.champloo.bean;
 
 public class CartBean {
-	
+
+	public CartBean(int user, int id_cart) {
+		this.user = user;
+		this.id_cart = id_cart;
+	}
+
+	public CartBean() {
+
+	}
+
 	private int user;
 	private int id_cart;
 	

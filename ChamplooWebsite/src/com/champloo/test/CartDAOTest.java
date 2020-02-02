@@ -31,6 +31,7 @@ public class CartDAOTest {
     @Parameterized.Parameters
     public static Collection objects() {
         return Arrays.asList(new Object [][] {
+                {Type.INSERTPRODUCT, }
 
         });
     }
@@ -39,6 +40,7 @@ public class CartDAOTest {
     @org.junit.Test
     public void insertProduct() {
         Assume.assumeTrue(type.equals(Type.INSERTPRODUCT));
+
     }
 
     @org.junit.Test

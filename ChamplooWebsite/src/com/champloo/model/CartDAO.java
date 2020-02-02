@@ -276,15 +276,14 @@ public class CartDAO implements CartModel
 	}
 
 	@Override
-	public boolean deleteProduct(CartBean cart, int id_product_details) throws SQLException {
+	public boolean deleteProduct(int id_cart, int id_product_details) throws SQLException {
 		
 		int isDeleted = 0;
 		
 		connection = connectionPool.getConnection();
 		
-		try {
-			
-			query = "DELETE FROM cart_item WHERE id_product_details='"+id_product_details+"' AND Cart='"+cart.getId_cart()+"'";
+		try {			
+			query = "DELETE FROM cart_item WHERE Product_Details='"+id_product_details+"' AND Cart='"+id_cart+"'";
 			statement = connection.createStatement();
 			isDeleted = statement.executeUpdate(query);
 			

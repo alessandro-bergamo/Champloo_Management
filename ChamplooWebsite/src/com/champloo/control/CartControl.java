@@ -2,6 +2,9 @@ package com.champloo.control;
 
 import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
+import com.champloo.model.ProductDAO;
+import com.champloo.util.ActiveCart;
+
 import javafx.util.Pair;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -48,17 +52,33 @@ public class CartControl extends HttpServlet {
 				}
 			}
 			else if(operation.equals("insertProduct"))
-			{
-				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
-				
+			{		
 				synchronized(session) {
+					int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+					int id_product = Integer.parseInt(request.getParameter("id_parameter"));
 					CartBean cart = (CartBean) session.getAttribute("cart");
-					try {
-						cartDAO.insertProduct(cart, id_product_details);
-						session.removeAttribute("productsInCart");
-						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
-					} catch (SQLException e) {	
-						e.printStackTrace();
+					ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+					if(cart != null)
+					{
+						try {
+							cartDAO.insertProduct(cart, id_product_details);
+							session.removeAttribute("productsInCart");
+							session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						} catch (SQLException e) {	
+							e.printStackTrace();
+						}
+					}
+					else if (activeCart != null)
+					{
+						request.removeAttribute("operation");
+						request.setAttribute("operation", "addToActiveCart");
+						request.setAttribute("id_product_details", id_product_details);
+						request.setAttribute("id_product", id_product);
+						request.setAttribute("activeCart", activeCart);
+						dispatcher = request.getRequestDispatcher("Product");
+						dispatcher.forward(request, response);
+						
+						//activeCart.insertProduct(newProduct, newProductDetails);
 					}
 				}
 			}
@@ -71,8 +91,8 @@ public class CartControl extends HttpServlet {
 				try {
 					//CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
 					cartDAO.modifyQuantity(id_cart, id_product_details, operator);
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -95,6 +115,7 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("retrieveProducts"))
 			{
 				HashMap<Pair<ProductBean,ProductDetailsBean>, Integer> productsInCart = new HashMap<Pair<ProductBean,ProductDetailsBean>, Integer>();
+				ActiveCart activeCart;
 				
 				synchronized (session) {
 					UserBean utenteLoggato = (UserBean) session.getAttribute("utenteLoggato");
@@ -114,14 +135,26 @@ public class CartControl extends HttpServlet {
 					}
 					else
 					{
-						session.setAttribute("redirectURL", "cart.jsp");
-
-						dispatcher = request.getRequestDispatcher("Redirect");
-						dispatcher.forward(request, response);
-					}
-					
-				}
-				
+						activeCart = (ActiveCart) session.getAttribute("activeCart");
+						
+						if(activeCart == null)
+						{
+							activeCart = new ActiveCart();
+							session.setAttribute("activeCart", activeCart);
+							session.setAttribute("redirectURL", "cart.jsp");
+							dispatcher = request.getRequestDispatcher("Redirect");
+							dispatcher.forward(request, response);
+						}
+						else
+						{
+							activeCart = (ActiveCart) session.getAttribute("activeCart");
+							session.setAttribute("activeCart", activeCart);
+							session.setAttribute("redirectURL", "cart.jsp");
+							dispatcher = request.getRequestDispatcher("Redirect");
+							dispatcher.forward(request, response);
+						}
+					}					
+				}				
 			}
 			else if(operation.equals("retrieveTotal"))
 			{
@@ -140,13 +173,15 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("deleteProduct"))
 			{
-				int id_product_details = Integer.parseInt(request.getParameter("id_products_details"));
+				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+				int id_cart = Integer.parseInt(request.getParameter("id_cart"));
 				
 				synchronized (session) {
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					
 					try {
-						cartDAO.deleteProduct(cart, id_product_details);
+						cartDAO.deleteProduct(id_cart, id_product_details);
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}		
@@ -192,7 +227,6 @@ public class CartControl extends HttpServlet {
 				}
 			}
 
-
 			if(operation.equals("login"))
 				response.sendRedirect("index.jsp");
 			else if(operation.equals("createOrder"))
@@ -205,8 +239,6 @@ public class CartControl extends HttpServlet {
     {
         doGet(request, response);
     }
-
-
 
 	 private static final long serialVersionUID = 1L;
 	 private static CartDAO cartDAO = new CartDAO();

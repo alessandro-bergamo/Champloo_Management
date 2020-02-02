@@ -24,7 +24,7 @@ public interface CartModel {
 	
 	public float retrieveTotal(CartBean cart) throws SQLException;
 	
-	public boolean deleteProduct(CartBean cart, int id_product_details) throws SQLException;
+	public boolean deleteProduct(int id_cart, int id_product_details) throws SQLException;
 	
 	public boolean clearCart(CartBean cart) throws SQLException;
 	

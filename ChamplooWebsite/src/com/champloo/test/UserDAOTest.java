@@ -56,7 +56,7 @@ public class UserDAOTest {
                 {Type.BLOCKUSER, "ciaociao", false},
                 {Type.LOGIN, new String[]{"gokuantony@live.it", "yeezy"}, true},
                 {Type.LOGIN, new String[]{"fewiof@hotmail.it", "paswfe"}, false},
-                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Salvatore", "Villano", "tabitabi", "tatoresammino@gmail.com", "villivilli", new Date(), 1), "provaaa"}, true},
+                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Salvatore", "Villano", "tabitabi", "tatoresammino@gmail.com", "villivilli32", new Date(), 1), "provaaa"}, true},
                 {Type.CHANGEPASSWORD, new Object[]{new UserBean("Luca", "Giugliano", "giougly", "lucag@gmail.com", "welcome", new Date(), 1), "provaaa"}, false}
         });
     }
