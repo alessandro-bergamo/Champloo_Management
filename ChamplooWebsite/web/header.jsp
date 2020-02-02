@@ -37,15 +37,21 @@
                         </form>
                     </div>
                    <%
-                       if(utenteLoggato != null && cart != null)
-                       {
-                           if(utenteLoggato.getType()==2 || utenteLoggato.getType()==3 || utenteLoggato.getType()==4)
-                           {
+                        if(utenteLoggato != null && cart != null)
+                        {
+                            if(utenteLoggato.getType()==2)
+                            {
                    %>
                     <!-- User loggato -->
-                    <div class="user"><a href="area_admin.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a href="UserControl?operation=userManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <% } else { %>
+                    <%      } else if(utenteLoggato.getType()==3) { %>
+                    <div class="user"><a href="Product?operation=productManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <%      } else if(utenteLoggato.getType()==4) { %>
+                    <div class="user"><a href="Order?operation=ordersManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <%      } else { %>
                     <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <!-- Cart -->

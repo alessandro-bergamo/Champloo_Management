@@ -144,7 +144,8 @@ public class UserDAO implements UserModel {
 	 * Retrieve all the users in the database
 	 *@return all users in the database 
 	 */
-	public ArrayList<UserBean> getAllUsers() {
+	public ArrayList<UserBean> getAllUsers()
+	{
 		ArrayList<UserBean> arrayList = new ArrayList<UserBean>();
 		
 		try {

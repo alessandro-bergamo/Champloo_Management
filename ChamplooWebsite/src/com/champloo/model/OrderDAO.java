@@ -351,35 +351,69 @@ public class OrderDAO implements OrderModel
     /**
      * Retrieves all the orders
      * @param
-     * @return orders
+     * @return all the orders
      */
-    public HashSet<OrderBean> retrieveAll() throws SQLException
+    public HashMap<OrderBean, ArrayList<OrderItemBean>> retrieveAll() throws SQLException
     {
-        HashSet<OrderBean> orders = new HashSet<OrderBean>();
+        HashMap<OrderBean, ArrayList<OrderItemBean>> orders = new HashMap<OrderBean, ArrayList<OrderItemBean>>();
+        ArrayList<OrderItemBean> order_items;
+
         connection = connectionPool.getConnection();
 
         query = "SELECT * FROM orders";
 
         try {
-            statement = connection.createStatement();
-            results = statement.executeQuery(query);
 
-            while(results.next())
+            preparedStatement = connection.prepareStatement(query);
+            firstResults = preparedStatement.executeQuery();
+
+            while(firstResults.next())
             {
                 OrderBean order = new OrderBean();
 
-                order.setId_order(results.getInt(1));
-                order.setRegistred_User(results.getInt(2));
-                order.setAddress(results.getString(3));
-                order.setPayment_method(results.getString(4));
-                order.setOrder_owner(results.getString(5));
-                order.setCreation_date(results.getDate(6));
-                order.setDelivery_date(results.getDate(7));
-                order.setStatus_order(results.getInt(8));
+                order.setId_order(firstResults.getInt(1));
+                order.setRegistred_User(firstResults.getInt(2));
+                order.setAddress(firstResults.getString(3));
+                order.setPayment_method(firstResults.getString(4));
+                order.setOrder_owner(firstResults.getString(5));
+                order.setTotal_price(firstResults.getFloat(6));
+                order.setCreation_date(firstResults.getDate(7));
+                order.setDelivery_date(firstResults.getDate(8));
+                order.setStatus_order(firstResults.getInt(9));
 
-                orders.add(order);
+                query = "SELECT * FROM order_item WHERE Order_number = ?";
+
+                order_items = new ArrayList<OrderItemBean>();
+
+                try
+                {
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setInt(1, order.getId_order());
+                    secondResults = preparedStatement.executeQuery();
+
+                    while(secondResults.next())
+                    {
+                        OrderItemBean order_item = new OrderItemBean();
+
+                        order_item.setId_order_item(secondResults.getInt(1));
+                        order_item.setId_order(secondResults.getInt(2));
+                        order_item.setId_product(secondResults.getInt(3));
+                        order_item.setPrice_in_order(secondResults.getFloat(4));
+                        order_item.setQnt_in_order(secondResults.getInt(5));
+
+                        order_items.add(order_item);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                orders.put(order, order_items);
             }
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
             try {
                 if (statement != null)
                     statement.close();
@@ -436,5 +470,5 @@ public class OrderDAO implements OrderModel
     String query;
     PreparedStatement preparedStatement;		// parametric queries
     Statement statement;						// normal queries
-    ResultSet results;
+    ResultSet results, firstResults, secondResults;
 }

@@ -834,7 +834,7 @@ section
 }
 
 #ordiv {
-    display: none;
+    display: block;
 }
 
 .upH4 {
@@ -1068,13 +1068,12 @@ input[type="date"], focus {
 /* NEW PAGE ADMIN */
 
 .border-adminpage {
-    padding-top: 30px;
-    border-top: 1px solid grey;
+    padding: 30px 0px;
 }
 
 .admin-section {
     padding: 15px 0px 0px;
-    margin: 0px 0px;
+    margin: 100px 0px 20px;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#330d38+0,190d36+100 */
     background: #ffffff;
     /* Old browsers */
@@ -1087,7 +1086,6 @@ input[type="date"], focus {
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=1);
     /* IE6-9 */
-    height: 500px;
 }
 
 .adminh4 {
@@ -1100,13 +1098,13 @@ input[type="date"], focus {
 }
 
 .divutenti {
-    position: absolute;
+	position: relative;
     margin-top: 25px;
     padding: 9px 30px 2px 0px;
 }
 
 .divprod {
-    position: absolute;
+    position: relative;
     margin-top: 25px;
     padding: 9px 30px 2px 0px;
 }
@@ -1114,7 +1112,7 @@ input[type="date"], focus {
 .divordini {
     margin-top: 25px;
     padding: 9px 30px 2px 0px;
-    position: absolute;
+    position: relative;
 }
 
 .spacerUt {

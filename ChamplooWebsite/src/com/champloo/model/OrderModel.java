@@ -36,7 +36,7 @@ public interface OrderModel
     HashSet<OrderBean> retrieveCancelledOrders(int status_order) throws SQLException;
 
     //Method that retrieves all the orders
-    HashSet<OrderBean> retrieveAll() throws SQLException;
+    HashMap<OrderBean, ArrayList<OrderItemBean>> retrieveAll() throws SQLException;
 
     //Method that retrieves all the Order_Items contained in an order.
     ArrayList<OrderItemBean> retrieveByOrder(int id_order) throws SQLException;

@@ -954,12 +954,12 @@ public class ProductDAO implements ProductModel
 					
 					preparedStatement.setInt(1, product.getId_prod());
 					
-					secondResults = preparedStatement.executeQuery();	
-					
+					secondResults = preparedStatement.executeQuery();
+
+					productsDetails = new ArrayList<ProductDetailsBean>();
+
 					while(secondResults.next())
 					{
-						productsDetails = new ArrayList<ProductDetailsBean>();
-						
 						ProductDetailsBean productDetails = new ProductDetailsBean();
 						
 						productDetails.setId_prod_details(secondResults.getInt(1));

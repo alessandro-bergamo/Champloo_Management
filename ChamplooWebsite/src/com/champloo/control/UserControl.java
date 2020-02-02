@@ -166,6 +166,14 @@ public class UserControl extends HttpServlet {
 				UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
 				userDAO.deleteUser(user);				
 			}
+			else if(operation.equals("userManager"))
+			{
+				ArrayList<UserBean> users = new ArrayList<UserBean>();
+
+				users = userDAO.getAllUsers();
+
+				session.setAttribute("users", users);
+			}
 			else if(operation.equals("blockUser"))
 			{
 				String username = request.getParameter("username");
@@ -176,15 +184,14 @@ public class UserControl extends HttpServlet {
 
 		if(operation.equals("registerUser"))
 			response.sendRedirect("user_log.jsp");
-		
-		if(operation.equals("deleteUser"))
+		else if(operation.equals("deleteUser"))
 			response.sendRedirect("user_area.jsp");
-		
-		if(operation.equals("blockUSer"))
+		else if(operation.equals("blockUser"))
 			response.sendRedirect("area_admin.jsp");
-		
-		if(operation.equals("updateUser"))
+		else if(operation.equals("updateUser"))
 			response.sendRedirect("user_area.jsp");
+		else if(operation.equals("userManager"))
+			response.sendRedirect("area_admin.jsp");
 
 	}
 

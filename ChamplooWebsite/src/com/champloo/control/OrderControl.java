@@ -177,11 +177,11 @@ public class OrderControl extends HttpServlet
                 }
 
                 request.setAttribute("orders", orders);
-            } else if(operation.equals("showAllOrders"))
+            } else if(operation.equals("ordersManager"))
             {
                 request.removeAttribute("orders");
 
-                HashSet<OrderBean> orders = new HashSet<OrderBean>();
+                HashMap<OrderBean, ArrayList<OrderItemBean>> orders = new HashMap<OrderBean, ArrayList<OrderItemBean>>();
 
                 try {
                     orders = model_order.retrieveAll();
@@ -189,7 +189,7 @@ public class OrderControl extends HttpServlet
                     e.printStackTrace();
                 }
 
-                request.setAttribute("orders", orders);
+                session.setAttribute("orders", orders);
             } else if(operation.equals("showCanceledOrders"))
             {
                 request.removeAttribute("orders");
@@ -205,6 +205,9 @@ public class OrderControl extends HttpServlet
                 request.setAttribute("orders", orders);
             }
         }
+
+        if(operation.equals("ordersManager"))
+            response.sendRedirect("area_admin.jsp");
 
     }
 

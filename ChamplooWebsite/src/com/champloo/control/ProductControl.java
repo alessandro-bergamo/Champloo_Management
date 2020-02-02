@@ -350,16 +350,30 @@ public class ProductControl extends HttpServlet{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else if(operation.equals("productManager"))
+			{
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+				try {
+					products = productDAO.retrieveAll();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				session.setAttribute("products", products);
 			}
 		}
 
 		if(operation.equals("showProduct"))
 			response.sendRedirect("product.jsp");
-		if(operation.equals("addProduct"))
+		else if(operation.equals("addProduct"))
 			response.sendRedirect("area_admin.jsp");
-		if(operation.equals("deleteProduct"))
+		else if(operation.equals("deleteProduct"))
 			response.sendRedirect("area_admin.jsp");
-		if(operation.equals("updateProduct"))
+		else if(operation.equals("updateProduct"))
+			response.sendRedirect("area_admin.jsp");
+		else if(operation.equals("productManager"))
 			response.sendRedirect("area_admin.jsp");
     }
 	
