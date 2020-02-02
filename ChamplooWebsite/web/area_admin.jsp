@@ -143,7 +143,7 @@
                                        </div>
                                    </div>
                                    <div class="col-xl-1">
-                                       <img src="images/delete.png">
+                                       <img src="images/block.png">
                                        <i class="glyphicon glyphicon-remove remove"> </i>
                                    </div>
                                </div>

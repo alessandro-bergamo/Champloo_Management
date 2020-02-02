@@ -76,7 +76,7 @@
 	
 	<%
 	
-		if(utenteLoggato==null)
+		if(utenteLoggato!=null)
 		{
 			response.sendRedirect("user_log.jsp");
 			return;
@@ -85,29 +85,28 @@
 	%>
 	
 	
-	<!-- MAIN SECTION Modifica Password -->
-
+	<!-- MAIN SECTION Recupera Password -->
 	<div class="main">
 		<div class="shop_top" id="regimargin2">
 		    <div class="container">
 				<div class="row justify-content-center">
 					<div class="register-top-grid register-bottom-grid justify-content-center">
-						<h3>MODIFICA PASSWORD</h3>
+						<h3>RECUPERA PASSWORD</h3>
 						<div>
-							<span>Vecchia Password<label>*</label></span>
-							<input name="password" type="password" id="old_psw" autofocus> 
+							<span>Username account<label>*</label></span>
+							<input name="username" type="text" id="usernameAccount" autofocus> 
 						</div>
 						<div style="visibility: hidden">
 							<span>USELESS<label>*</label></span>
-							<input id="usernameUtente" name="username" type="text" value="<%=utenteLoggato.getUsername()%>" disabled> 
+							<input id="usernameUtente" name="username" type="text"disabled> 
 						</div>
 						<div>
-						<span>Nuova Password<label>*</label></span>
-							<input name="password2" type="password" id="new_psw"> 
+						<span>Email associata all'account<label>*</label></span>
+							<input name="email1" type="text" id="email1"> 
 						</div>
 						<div>
-							<span>Conferma nuova Password<label>*</label></span>
-							<input name="password2" type="password" id="cnfr_new_psw"> 
+							<span>Conferma email associata<label>*</label></span>
+							<input name="email2" type="text" id="email2"> 
 						</div>
 					</div>
 				</div>
@@ -119,7 +118,6 @@
 			</div>
 		</div>
 	</div>
-
 
 
 
