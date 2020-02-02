@@ -4,6 +4,8 @@ import com.champloo.bean.*;
 import com.champloo.model.CartDAO;
 import com.champloo.model.ProductDAO;
 import com.champloo.util.ActiveCart;
+import com.sun.mail.handlers.image_gif;
+import com.sun.org.apache.xml.internal.serializer.ElemDesc;
 
 import javafx.util.Pair;
 
@@ -55,7 +57,7 @@ public class CartControl extends HttpServlet {
 			{		
 				synchronized(session) {
 					int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
-					int id_product = Integer.parseInt(request.getParameter("id_parameter"));
+					int id_product = Integer.parseInt(request.getParameter("id_product"));
 					CartBean cart = (CartBean) session.getAttribute("cart");
 					ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
 					if(cart != null)
@@ -174,14 +176,30 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("deleteProduct"))
 			{
 				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
-				int id_cart = Integer.parseInt(request.getParameter("id_cart"));
+				int id_product = Integer.parseInt(request.getParameter("id_product"));
+				
+				int id_cart = 0;
+				String checkCart = request.getParameter("id_cart");
+				
+				if(checkCart != null)
+					id_cart = Integer.parseInt(checkCart);
 				
 				synchronized (session) {
 					try {
-						cartDAO.deleteProduct(id_cart, id_product_details);
 						CartBean cart = (CartBean) session.getAttribute("cart");
-						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
-						
+						if (cart != null)
+						{
+							cartDAO.deleteProduct(id_cart, id_product_details);
+							session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						}
+						else
+						{
+							ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+							if (activeCart != null)
+							{
+								activeCart.removeProduct(id_product, id_product_details);
+							}	
+						}								
 					} catch (Exception e) {
 						e.printStackTrace();
 					}		
@@ -198,10 +216,8 @@ public class CartControl extends HttpServlet {
 						dispatcher.forward(request, response);
 					} catch (Exception e) {
 						e.printStackTrace();
-					}	
-					
-				}
-				
+					}		
+				}	
 			}
 			else if(operation.equals("submitCheckout"))
 			{

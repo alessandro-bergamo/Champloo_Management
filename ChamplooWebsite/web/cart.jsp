@@ -95,6 +95,9 @@
 		//	}
 			
 			HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart");
+			
+			if (products_in_cart == null)
+				products_in_cart = (HashMap) request.getSession().getAttribute("products_in_activeCart");
 		%>
 
 		<!-- Home -->
@@ -158,6 +161,7 @@
 										<div class="product d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-start mr-auto">
 											<div><div class="product_number">
 												<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>">
+												<input type="hidden" id="product" value="<%=product.getId_prod()%>">
 												<img id="removeProd" src="images/delete.png" style="margin:-30px; cursor: pointer;">
 											</div></div>
 											<div><div class="product_image"><img src=<%=productDetails.getImg_path_folder()%>img1.png" alt=""></div></div>
@@ -400,12 +404,13 @@
 	
 	$("[id ='removeProd']").on('click', function deletefromcart(){
 		var id_cart = $("#id_cart").val();
-	    var id_product_details = $(this).prev().val();
+	    var id_product_details = $(this).prev().prev().val();
+	    var id_product = $(this).prev().val();
 	    
 	    $.ajax({
 			type: "GET",
 			url : "Cart",
-			data : {"operation" : "deleteProduct", "id_product_details" : id_product_details, "id_cart" : id_cart},
+			data : {"operation" : "deleteProduct", "id_product" : id_product ,"id_product_details" : id_product_details, "id_cart" : id_cart},
 			success:function() {   //handle the successful return by reloading the current page
 	            location.reload();
 	        }
@@ -418,7 +423,7 @@
 		total_price_order = $("#total_price_order").find("p").text();
 		total_price = $("#total_price").find("p").text();
 	});
-	
+		
 	</script>
 
 	<script src="js/jquery-3.2.1.min.js"></script>

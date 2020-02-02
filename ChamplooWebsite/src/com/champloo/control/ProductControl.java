@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.eclipse.jdt.internal.compiler.lookup.ImplicitNullAnnotationVerifier;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 @WebServlet("/Product")
 public class ProductControl extends HttpServlet{
@@ -367,7 +367,7 @@ public class ProductControl extends HttpServlet{
 
 				session.setAttribute("products", products);
 			}
-			else if(operation.equals("addToActiveCart"))
+			else if(operation.equals("insertProduct"))
 			{
 				int id_product = (int) request.getAttribute("id_product");
 				int id_product_details = (int) request.getAttribute("id_product_details");
@@ -376,6 +376,7 @@ public class ProductControl extends HttpServlet{
 				try {
 					Pair<ProductBean, ProductDetailsBean> product = productDAO.retrieveProductWithDetails(id_product, id_product_details);
 					activeCart.insertProduct(product.getKey(), product.getValue());
+					session.setAttribute("products_in_activeCart", activeCart.getHaspMap());
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} 
