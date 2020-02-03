@@ -5,9 +5,6 @@
 		import="com.champloo.bean.*"
 		import="com.champloo.util.*"
 %>
-
-
-
     <!-- CDN SWEETALERT2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
@@ -54,10 +51,10 @@
                     <div class="user"><a href="UserControl?operation=userManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else if(utenteLoggato.getType()==3) { %>
-                    <div class="user"><a href="Product?operation=productManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a href="Order?operation=ordersManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else if(utenteLoggato.getType()==4) { %>
-                    <div class="user"><a href="Order?operation=ordersManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a href="Product?operation=productManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else { %>
                     <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
@@ -81,5 +78,37 @@
             <div class="super_overlay"></div>
 
         <script>
-           
+            function logout()
+            {
+             var value = ("logout");
+                Swal.fire({
+                    title: 'Sei sicuro di voler effettuare il Logout?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Logout',
+                    cancelButtonText: 'Annulla',
+                    width: '700px'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "UserControl",
+                            data: {"operation" : value},
+                            success: function(results){
+                                Swal.fire({
+                                    title: 'Logout Effettuato',
+                                    timer: 1700,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    width: '400px',
+                                })
+                                setTimeout(function(){location.href="index.jsp"} , 1350);
+                            }
+                        })
+                    }
+                })
+            };
         </script>

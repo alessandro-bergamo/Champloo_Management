@@ -112,7 +112,7 @@
 			<div class="container">
 				<div class="row">
 					<input type="hidden" id="id_product" value="<%=product.getId_prod()%>">
-					<input type="hidden" id="status_product" value="<%=product.getStatus()%>">
+					<input type="hidden" id="product_status" value="<%=product.getStatus()%>">
 					<!-- Product Image -->
 					<div class="col-lg-6">
 						<div class="product_image_slider_container">
@@ -340,6 +340,7 @@
 			var value2 = ("insertProduct");
 			var value3 = $("#id_product").val();
 			var value4 = $("#product_status").val();
+			alert(checkedValue);
 			
 			$.ajax({
 				type: "GET",

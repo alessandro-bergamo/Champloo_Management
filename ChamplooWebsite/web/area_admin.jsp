@@ -23,11 +23,7 @@
     <link href="images/icona.png" rel="shortcut icon"/>
 
     <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -89,9 +85,10 @@
             if(utenteLoggato.getType()==2)
                 users = (ArrayList) session.getAttribute("users");
             else if(utenteLoggato.getType()==3)
-                products = (HashMap) session.getAttribute("products");
+            	 orders = (HashMap) session.getAttribute("orders");
             else if(utenteLoggato.getType()==4)
-                orders = (HashMap) session.getAttribute("orders");
+            	 products = (HashMap) session.getAttribute("products");
+               
 
         %>
 
@@ -168,7 +165,7 @@
                                <%       }
                                     } %>
                            </div>
-                           <%   } else if(utenteLoggato.getType()==3)
+                           <%   } else if(utenteLoggato.getType()==4)
                                 {
                            %>
                            <div class="container divprod" id="prodiv">
@@ -287,7 +284,8 @@
                                    </div>
                                    <div class="col-xl-1">
                                        <div class="row justify-content-center">
-                                           <a href="Product?operation=modifyProduct&prod_id=<%=product.getId_prod()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
+                                          <!-- <a href="Product?operation=modifyProduct&prod_id=<%=product.getId_prod()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a> -->
+                                       		<a href ="Product?operation=openModifyProductJSP&id_product=<%=product.getId_prod()%>&id_product_details=<%=productDetails.get(I).getId_prod_details()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
                                        </div>
                                        <div class="row justify-content-center">
                                            <input type="hidden" id="product_id" value="<%=product.getId_prod()%>">
@@ -302,7 +300,7 @@
                                %>
                            </div>
                            <%
-                                } else if(utenteLoggato.getType()==4)
+                                } else if(utenteLoggato.getType()==3)
                                 {
                            %>
                            <div class="container divordini" id="ordiv">
@@ -501,7 +499,6 @@
     <script src="plugins/progressbar/progressbar.min.js"></script>
     <script src="plugins/parallax-js-master/parallax.min.js"></script>
     <script src="js/custom.js"></script>
-    <script src="js/logout.js"></script>
 
 </body>
 

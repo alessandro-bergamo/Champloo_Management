@@ -1223,7 +1223,7 @@ public class ProductDAO implements ProductModel
 		statement.executeUpdate(updateProduct("size", newProductDetails.getSize(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("discount_percent", ""+newProductDetails.getDiscount_percent(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 		statement.executeUpdate(updateProduct("qnt_stock", ""+newProductDetails.getQnt_stock(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
-		statement.executeUpdate(updateProduct("img_path_folder", newProductDetails.getColor(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
+		statement.executeUpdate(updateProduct("img_path_folder", newProductDetails.getImg_path_folder(), newProduct.getId_prod(), newProductDetails.getId_prod_details()));
 
 		}
 		catch (Exception e) {
