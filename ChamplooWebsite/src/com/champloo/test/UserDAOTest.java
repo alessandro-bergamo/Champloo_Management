@@ -104,7 +104,7 @@ public class UserDAOTest {
     @org.junit.Test
     public void blockUser() {
         Assume.assumeTrue((type.equals(Type.BLOCKUSER)));
-        assertEquals(expectedResult, userDAO.blockUser((String)paramForDAO));
+        assertEquals(expectedResult, userDAO.blockUser((Integer)paramForDAO));
     }
 
     @org.junit.Test

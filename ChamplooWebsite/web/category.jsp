@@ -159,18 +159,6 @@
 					</div>
 					<%	}	%>
 				</div>
-				<div class="row page_nav_row">
-					<div class="col">
-						<div class="page_nav">
-							<ul class="d-flex flex-row align-items-start justify-content-center">
-								<li class="active"><a href="#">01</a></li>
-								<li><a href="#">02</a></li>
-								<li><a href="#">03</a></li>
-								<li><a href="#">04</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<%

@@ -42,33 +42,52 @@ public class PaymentMethodControl extends HttpServlet
             try
             {
                 payment_method.setId_method(1);  //USELESS
-                payment_method.setCard_cvc(Integer.parseInt(request.getParameter("cvc")));
-                payment_method.setCard_number(request.getParameter("number"));
                 payment_method.setCard_bank(request.getParameter("bank"));
+                payment_method.setCard_number(request.getParameter("number"));
+                payment_method.setCard_cvc(Integer.parseInt(request.getParameter("cvc")));
                 payment_method.setCard_owner(request.getParameter("owner"));
                 payment_method.setRegistred_User(user.getID());
 
                 System.out.println(request.getParameter("expiry"));
 
-                DateTimeFormatter df = DateTimeFormatter.ofPattern("MM-YYYY");
-                LocalDate date = LocalDate.parse(request.getParameter("expiry"), df);
-                payment_method.setExpiry_date(date);
+                payment_method.setExpiry_date(request.getParameter("expiry"));
 
                 payment_method.setRegistration_method_date(LocalDate.now());
 
                 model_pmethod.insertPMethod(payment_method);
+
+                ArrayList<PaymentMethodBean> methods = new ArrayList<PaymentMethodBean>();
+
+                try {
+                    methods = model_pmethod.retrieveByUserID(user.getID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                session.setAttribute("methods", methods);
             } catch (SQLException e)
             {
                 e.printStackTrace();
             }
         } else if(operation.equals("delete"))
         {
+            int paymentMethod_id = Integer.parseInt(request.getParameter("id_pmethod"));
             try {
-                UserBean user = (UserBean) request.getSession().getAttribute("utenteLoggato");
-                model_pmethod.deletePMethod(user.getID());
+                model_pmethod.deletePMethod(paymentMethod_id);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+            ArrayList<PaymentMethodBean> methods = new ArrayList<PaymentMethodBean>();
+
+            try {
+                UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+                methods = model_pmethod.retrieveByUserID(user.getID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            session.setAttribute("methods", methods);
         } else if(operation.equals("submitCheckout"))
         {
             ArrayList<PaymentMethodBean> methods = null;

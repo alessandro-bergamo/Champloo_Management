@@ -138,12 +138,26 @@
                                                <p id="utP">E-mail:</p><p id="utP2"><%=users.get(I).getEmail()%></p>
                                            </div>
                                            <div class="col-xl-4">
-                                               <p id="utP">Password:</p><p id="utP2">********</p>
+                                               <%
+                                                   String status = null;
+                                                   if(users.get(I).getType()==1)
+                                                       status="Utente";
+                                                   else if(users.get(I).getType()==2)
+                                                       status="Manager Utenti";
+                                                   else if(users.get(I).getType()==3)
+                                                       status="Manager Prodotti";
+                                                   else if(users.get(I).getType()==4)
+                                                       status="Manager Ordini";
+                                                   else if(users.get(I).getType()==5)
+                                                       status="Utente Bloccato";
+                                               %>
+                                               <p id="utP">Status:</p><p id="utP2"><%=status%></p>
                                            </div>
                                        </div>
                                    </div>
                                    <div class="col-xl-1">
-                                       <img src="images/block.png">
+                                       <input type="hidden" value="<%=users.get(I).getID()%>">
+                                       <img src="images/block.png" id="blockUser" style="cursor: pointer;">
                                        <i class="glyphicon glyphicon-remove remove"> </i>
                                    </div>
                                </div>
@@ -267,10 +281,11 @@
                                    </div>
                                    <div class="col-xl-1">
                                        <div class="row justify-content-center">
-                                           <img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
+                                           <a href="Product?operation=modifyProduct&prod_id=<%=product.getId_prod()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
                                        </div>
                                        <div class="row justify-content-center">
-                                           <a href="Product?operation=deleteProduct"><img src="images/delete.png" height="42" width="42"><i class="glyphicon glyphicon-remove remove2"> </i></a>
+                                           <input type="hidden" id="product_id" value="<%=product.getId_prod()%>">
+                                           <img src="images/delete.png" id="deleteProdID" style="cursor: pointer;" height="42" width="42"><i class="glyphicon glyphicon-remove remove2"> </i>
                                        </div>
                                    </div>
                                </div>
@@ -396,16 +411,90 @@
         </div>
     </div>
 
-        <script src="plugins/greensock/TweenMax.min.js"></script>
-        <script src="plugins/greensock/TimelineMax.min.js"></script>
-        <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
-        <script src="plugins/greensock/animation.gsap.min.js"></script>
-        <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
-        <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-        <script src="plugins/easing/easing.js"></script>
-        <script src="plugins/progressbar/progressbar.min.js"></script>
-        <script src="plugins/parallax-js-master/parallax.min.js"></script>
-        <script src="js/custom.js"></script>
+    <script>
+        $("[id = 'deleteProdID']").on('click', function deleteProductt() {
+            var value1 = $(this).prev().val();
+            var value2 = ("deleteProduct");
+            Swal.fire({ //PRIMO POPUP
+                title: "Sei sicuro di voler bloccare l'utente?",
+                text: "Assicurati di aver dei motivi ben validi per farlo.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Blocca',
+                cancelButtonText: 'Annulla',
+                width: '700px'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: "Product",
+                        data: {"operation": value2, "id_product": value1},
+                        success: function (results) {
+                            Swal.fire({ //SECONDO POPUP
+                                title: 'Utente Bloccato con successo',
+                                timer: 1200,
+                                icon: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                width: '500px',
+                            });
+                            setTimeout(function () {location.reload()}, 1350);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("[id = 'blockUser']").on('click', function blockUser() {
+            var value1 = $(this).prev().val();
+            var value2 = ("blockUser");
+            Swal.fire({ //PRIMO POPUP
+                title: "Sei sicuro di voler bloccare l'utente?",
+                text: "Assicurati di aver dei motivi ben validi per farlo.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Blocca',
+                cancelButtonText: 'Annulla',
+                width: '700px'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: "UserControl",
+                        data: {"operation": value2, "user_id": value1},
+                        success: function (results) {
+                            Swal.fire({ //SECONDO POPUP
+                                title: 'Utente Bloccato con successo',
+                                timer: 1200,
+                                icon: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                width: '500px',
+                            });
+                            setTimeout(function () {location.reload()}, 1350);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script src="plugins/greensock/TweenMax.min.js"></script>
+    <script src="plugins/greensock/TimelineMax.min.js"></script>
+    <script src="plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="plugins/greensock/animation.gsap.min.js"></script>
+    <script src="plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="plugins/progressbar/progressbar.min.js"></script>
+    <script src="plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="js/custom.js"></script>
 
 </body>
 

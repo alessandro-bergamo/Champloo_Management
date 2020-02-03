@@ -46,7 +46,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
             preparedStatement.setString(2, newPMethod.getCard_number());
             preparedStatement.setString(3, newPMethod.getCard_bank());
             preparedStatement.setInt(4, newPMethod.getCard_cvc());
-            preparedStatement.setDate(5, java.sql.Date.valueOf(newPMethod.getExpiry_date()));
+            preparedStatement.setString(5, newPMethod.getExpiry_date());
             preparedStatement.setDate(6, java.sql.Date.valueOf(newPMethod.getRegistration_method_date()));
             preparedStatement.setString(7, newPMethod.getCard_owner());
 
@@ -118,7 +118,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
             PMethod.setCard_number(results.getString(3));
             PMethod.setCard_bank(results.getString(4));
             PMethod.setCard_cvc(results.getInt(5));
-            PMethod.setExpiry_date(results.getDate(6).toLocalDate());
+            PMethod.setExpiry_date(results.getString(6));
             PMethod.setRegistration_method_date(results.getDate(7).toLocalDate());
             PMethod.setCard_owner(results.getString(8));
         } finally {
@@ -164,7 +164,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
                 PMethod.setCard_number(results.getString(3));
                 PMethod.setCard_bank(results.getString(4));
                 PMethod.setCard_cvc(results.getInt(5));
-                PMethod.setExpiry_date(results.getDate(6).toLocalDate());
+                PMethod.setExpiry_date(results.getString(6));
                 PMethod.setRegistration_method_date(results.getDate(7).toLocalDate());
                 PMethod.setCard_owner(results.getString(8));
 

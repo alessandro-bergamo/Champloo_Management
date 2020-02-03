@@ -62,11 +62,24 @@ public class AddressControl extends HttpServlet {
                 e.printStackTrace();
             }
 
-        } else if (operation.equals("delete"))
+        } else if (operation.equals("deleteAddress"))
         {
             try {
-                model_address.deleteAddress(Integer.parseInt(request.getParameter("id")));
+                model_address.deleteAddress(Integer.parseInt(request.getParameter("id_address")));
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<AddressBean> addresses = null;
+            UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+
+            try
+            {
+                session.removeAttribute("addresses");
+                addresses = model_address.retrieveByUserID(user.getID());
+                session.setAttribute("addresses", addresses);
+            } catch (SQLException e)
+            {
                 e.printStackTrace();
             }
         } else if (operation.equals("login"))

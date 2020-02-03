@@ -19,7 +19,7 @@ public interface UserModel
 	
 	public boolean deleteUser(UserBean user) throws SQLException;
 	
-	public boolean blockUser(String username) throws SQLException;
+	public boolean blockUser(int user_id) throws SQLException;
 	
 	public boolean login(String username, String password) throws SQLException;
 

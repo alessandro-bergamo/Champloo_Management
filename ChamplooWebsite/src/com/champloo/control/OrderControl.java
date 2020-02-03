@@ -66,7 +66,7 @@ public class OrderControl extends HttpServlet
                 newOrder.setTotal_price(order_price);
                 newOrder.setCreation_date(creation_date);
                 newOrder.setDelivery_date(delivery_date);
-                newOrder.setStatus_order(0);
+                newOrder.setStatus_order(1);
 
                 try
                 {

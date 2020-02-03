@@ -102,8 +102,8 @@
                             <a href="Order?operation=showOrdersPerUser"><h4 class="utenteh42">Ordini</h4></a>
                         </div>
                     </div>
-               </div>
-               <div class="container" id="utdiv">
+                </div>
+                <div class="container" id="utdiv">
                    <div class="container spacerUP borderutdiv" id="infPut">
                        <div class="row justify-content-start">
                            <div class="col-xl-3">
@@ -227,7 +227,22 @@
                                    </div> 
                                    <div class="col-xl-1">
                                    		<div class="row">
-                                           <img src="images/delete.png" height="42" width="42">
+                                            <input type="hidden" id="id_address" value="<%=datiUtente.get(I).getId_address()%>">
+                                            <%
+                                                if(I==0) {
+                                            %>
+                                                <img src="images/delete.png" id="deleteAddressID" height="30" width="30" style="cursor: pointer !important;">
+                                            <%
+                                                } else if(I==1) {
+                                            %>
+                                                <img src="images/delete.png" id="deleteAddressID" height="30" width="30" style="margin-top: -3px !important; cursor: pointer !important;">
+                                            <%
+                                                } else if(I==2) {
+                                            %>
+                                                <img src="images/delete.png" id="deleteAddressID" height="30" width="30" style="margin-top: -5px !important; cursor: pointer !important;">
+                                            <%
+                                                }
+                                            %>
                                    		</div>
                                    </div>
                                </div>
@@ -241,35 +256,32 @@
                                    </div>
                                </div>
                                <div class="row justify-content-start" id="inputNewInd">
-                                   <form action="Address" id="addressModify" method="POST">
-                                       <div class="col-xl-12">
-                                           <input name="operation" type="hidden" value="insert">
-                                           <div class="row">
-                                               <div class="col-xl-4">
-                                                   <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
-                                               </div>
-                                               <div class="col-xl-4">
-                                                   <input type="text" class="form-input" name="city" placeholder="Inserisci città">
-                                               </div>
-                                               <div class="col-xl-1">
-                                                   <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
-                                               </div>
+                                   <div class="col-xl-12">
+                                       <div class="row">
+                                           <div class="col-xl-4">
+                                               <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
                                            </div>
-                                           <div class="row spacerUP2 justify-content-start">
-                                               <div class="col-xl-4">
-                                                   <input type="text" class="form-input" name="cap" placeholder="Inserisci CAP">
-                                               </div>
-                                               <div class="col-xl-3">
-                                                   <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
-                                               </div>
-                                               <div class="col-xl-5">
-                                                   <div class="row justify-content-center">
-                                                       <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px; padding: 0px !important;">
-                                                   </div>
+                                           <div class="col-xl-4">
+                                               <input type="text" class="form-input" name="city" placeholder="Inserisci città">
+                                           </div>
+                                           <div class="col-xl-1">
+                                               <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
+                                           </div>
+                                       </div>
+                                       <div class="row spacerUP2 justify-content-start">
+                                           <div class="col-xl-4">
+                                               <input type="text" class="form-input" name="cap" placeholder="Inserisci CAP">
+                                           </div>
+                                           <div class="col-xl-3">
+                                               <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
+                                           </div>
+                                           <div class="col-xl-5">
+                                               <div class="row justify-content-center">
+                                                   <input type="submit" class="form-button" onclick="insertAddress()" value="Salva Indirizzo" style="margin-top: 5px; padding: 0px !important;">
                                                </div>
                                            </div>
                                        </div>
-                                   </form>
+                                   </div>
                                </div>
                        <%   } %>
                            </div>
@@ -288,12 +300,12 @@
                            </div>
                        </div>
                        <div class="row borderutdiv">
-                           <%
-                               for(int I=0;I<paymentMethods.size(); I++)
-                               {
-                                   methods_stampati++;
-                           %>
                            <div class="col-xl-12 spacerMethods">
+                               <%
+                                   for(int I=0;I<paymentMethods.size(); I++)
+                                   {
+                                       methods_stampati++;
+                               %>
                                <div class="row spacerUP4 justify-content-start">
                                    <div class="col-xl-4">
                                        <div class="row">
@@ -309,13 +321,8 @@
                                    </div>
                                    <div class="col-xl-3">
                                        <div class="row">
-                                           <%
-                                                DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                                                String date = paymentMethods.get(I).getExpiry_date().format(pattern);
-                                                date = date.substring(3);
-                                           %>
                                            <h4 class="upH4">Scadenza Carta: </h4>
-                                           <p class="upPCircle"><%=date%></p>
+                                           <p class="upPCircle"><%=paymentMethods.get(I).getExpiry_date()%></p>
                                        </div>
                                    </div>
                                </div>
@@ -336,52 +343,112 @@
                                    </div>
                                    <div class="col-xl-1">
                                   		<div class="row">
-                                  			<img src="images/delete.png" height="42" width="42">
+                                            <input type="hidden" value="<%=paymentMethods.get(I).getId_method()%>">
+                                  			<img src="images/delete.png" style="margin-top: -10px; cursor:pointer;" id="deleteMethod" height="42" width="42">
                                   	 	</div>
                                    </div>
                                </div>
-                           </div>
-                           <%           }
-                                } if(methods_stampati < 3) {   %>
-                           <div class="row justify-content-start">
-                               <div class="col-xl-12" style="margin-top: 10px;">
-                                   <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
-                               </div>
-                           </div>
-                           <form action="PaymentMethod" id="insertPaymentMethod" method="POST">
-                               <div class="row justify-content-start" id="inputNewCard">
-                                   <div class="row">
-                                       <div class="col-xl-3">
-                                           <input name="operation" type="hidden" value="insert">
-                                           <select class="arrows form-input4" style="margin-left: 20px">
-                                               <option value="selTipoCarta" id="bank" name="bank" disabled selected hidden>Tipo Carta</option>
-                                               <option class="singleOption" value="hurr">Paypal</option>
-                                               <option class="singleOption" value="hurr">Carta di Credito</option>
-                                           </select>
-                                       </div>
-                                       <div class="col-xl-4">
-                                           <input type="text" class="form-input2" id="number" name="number" maxlength="19" autocomplete="off" placeholder="Codice Carta">
-                                       </div>
-                                       <div class="col-xl-2">
-                                           <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" autocomplete="off" placeholder="Codice CVC">
-                                       </div>
-                                       <div class="col-xl-2">
-                                            <input type="text" class="form-input4" name="expiry" id="txtDate" autocomplete="off" style="margin-left: 40px" placeholder="Data scadenza">
+                               <%
+                                   }
+                               %>
+                           <%
+                                } if(methods_stampati < 3 && methods_stampati!=0) {   %>
+                                <div class="row justify-content-start">
+                                    <div class="col-xl-12" style="margin-top: 10px;">
+                                        <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-start" id="inputNewCard">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <select class="form-control" id="paymentMethodType" style="margin-left: 20px !important;">
+                                                <option value="N26">N26</option>
+                                                <option value="Hype">Hype</option>
+                                                <option value="Paypal">Paypal</option>
+                                                <option value="Postepay">Postepay</option>
+                                                <option value="ViaBuy">ViaBuy</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xl-4">
+                                            <input type="text" class="form-input2" id="number" name="number" maxlength="16" autocomplete="off" placeholder="Codice Carta">
+                                        </div>
+                                        <div class="col-xl-2">
+                                            <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" autocomplete="off" placeholder="Codice CVC">
+                                        </div>
+                                        <div class="col-xl-2">
+                                             <input type="text" class="form-input4" name="expiry" id="txtDate" autocomplete="off" style="margin-left: 40px" placeholder="Data scadenza">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-7">
+                                            <div class="row justify-content-center">
+                                                <input type="text" class="form-input4" style="width: 220px; margin-top: 20px !important;" id="owner" autocomplete="off" placeholder="Proprietario Carta">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-5">
+                                            <div class="row justify-content-center">
+                                                <input type="submit" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           <%   } else if(methods_stampati == 0) {  %>
+                               <div class="container spacerUP3">
+                                   <div class="row justify-content-start">
+                                       <div class="col-xl-5">
+                                           <h4 style="color:#2fce98">Metodi di Pagamento</h4>
                                        </div>
                                    </div>
-                                   <div class="row">
-                                       <div class="col-xl-12">
-                                           <div class="row justify-content-center">
-                                               <input type="submit" class="site-btn7" value="Salva Carta" style="margin-top: 25px;">
+                                   <div class="row justify-content-start">
+                                       <div class="col-xl-12" style="margin-top: 10px;">
+                                           <h4 style="color:#2fce98; margin-left: 5px; margin-bottom: 15px; cursor: pointer;" id="newCard">+ Inserisci nuovo Metodo di Pagamento</h4>
+                                       </div>
+                                   </div>
+                                   <div class="row justify-content-start" id="inputNewCard">
+                                       <div class="row">
+                                           <div class="col-xl-3">
+                                               <select class="form-control" id="paymentMethodType" style="margin-left: 20px !important;">
+                                                   <option value="N26">N26</option>
+                                                   <option value="Hype">Hype</option>
+                                                   <option value="Paypal">Paypal</option>
+                                                   <option value="Postepay">Postepay</option>
+                                                   <option value="ViaBuy">ViaBuy</option>
+                                               </select>
+                                           </div>
+                                           <div class="col-xl-4">
+                                               <input type="text" class="form-input2" id="number" name="number" maxlength="16" autocomplete="off" placeholder="Codice Carta">
+                                           </div>
+                                           <div class="col-xl-2">
+                                               <input type="password" class="form-input4" name="cvc" id="cvc" maxlength="3" autocomplete="off" placeholder="Codice CVC">
+                                           </div>
+                                           <div class="col-xl-2">
+                                               <input type="text" class="form-input4" name="expiry" id="txtDate" autocomplete="off" style="margin-left: 40px" placeholder="Data scadenza">
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-xl-7">
+                                               <div class="row justify-content-center">
+                                                   <input type="text" class="form-input4" style="width: 220px; margin-top: 20px !important;" id="owner" autocomplete="off" placeholder="Proprietario Carta">
+                                               </div>
+                                           </div>
+                                           <div class="col-xl-5">
+                                               <div class="row justify-content-center">
+                                                   <input type="submit" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
+                                               </div>
                                            </div>
                                        </div>
                                    </div>
                                </div>
-                           </form>
-                           <%   } %>
+                           <%   }   %>
+                       </div>
                        </div>
                    </div>
-               </div>
+                </div>
+
+
+            </section>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -411,8 +478,6 @@
 
     <script>
 
-
-
           $(function() {
               $("#txtDate").datepicker({dateFormat: 'mm/yy'});
           });
@@ -435,7 +500,135 @@
               $("#inputNewCard").toggle();
           });
 
-      </script>
+    </script>
+
+    <script>
+        function insertMethod()
+        {
+            var value1 = $("#paymentMethodType").val();
+            var value2 = $("#number").val();
+            var value3 = $("#cvc").val();
+            var value4 = $("#txtDate").val();
+            var value5 = $("#owner").val();
+            $.ajax({
+                type: "POST",
+                url: "PaymentMethod",
+                data: {"bank": value1, "number": value2, "cvc": value3, "owner" : value5, "expiry" : value4, "operation" : "insert"},
+                success: function (results) {
+                    Swal.fire({
+                        title: 'Metodo di Pagamento Aggiunto',
+                        timer: 1700,
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        width: '600px',
+                    }); setTimeout(function(){location.reload()} , 1350);
+                },
+            });
+        }
+    </script>
+
+    <script>
+        $("[id = 'deleteMethod']").on('click', function deleteMethod(){
+            var value1 = $(this).prev().val();
+            var value2 = ("delete");
+            Swal.fire({ //PRIMO POPUP
+                title: "Sei sicuro di voler eliminare il metodo di pagamento?",
+                text: "Verrà eliminato permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Elimina',
+                cancelButtonText: 'Annulla',
+                width: '800px'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "GET",
+                        url: "PaymentMethod",
+                        data: {"operation": value2, "id_pmethod": value1},
+                        success: function (results) {
+                            Swal.fire({ //SECONDO POPUP
+                                title: 'Metodo Eliminato',
+                                timer: 1200,
+                                icon: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                width: '500px',
+                            });
+                            setTimeout(function () {location.reload()}, 1350);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("[id = 'deleteAddressID']").on('click', function deleteAddress() {
+            var value1 = $(this).prev().val();
+            var value2 = ("deleteAddress");
+            Swal.fire({ //PRIMO POPUP
+                title: "Sei sicuro di voler eliminare l'indirizzo?",
+                text: "L'indirizzo sarà eliminato permanentemente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Elimina',
+                cancelButtonText: 'Annulla',
+                width: '600px'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "GET",
+                        url: "Address",
+                        data: {"operation": value2, "id_address": value1},
+                        success: function (results) {
+                            Swal.fire({ //SECONDO POPUP
+                                title: 'Indirizzo Eliminato',
+                                timer: 1200,
+                                icon: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                width: '500px',
+                            });
+                            setTimeout(function () {
+                                location.reload()
+                            }, 1350);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function insertAddress()
+        {
+            var value1 = $("input[name=address]").val();
+            var value2 = $("input[name=city]").val();
+            var value3 = $("input[name=province]").val();
+            var value4 = $("input[name=civic_number]").val();
+            var value5 = $("input[name=cap]").val();
+            $.ajax({
+                type: "POST",
+                url: "Address",
+                data: {"address": value1, "city": value2, "province": value3, "civic_number" : value4, "cap" : value5, "operation" : "insert"},
+                success: function (results) {
+                    Swal.fire({
+                        title: 'Indirizzo Aggiunto',
+                        timer: 1700,
+                        icon: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        width: '400px',
+                    }); setTimeout(function(){location.reload()} , 1350);
+                },
+            });
+        }
+    </script>
  
 
 
@@ -452,8 +645,6 @@
     <script src="/ChamplooWebsite/js/userAreaForm.js"></script>
     <script src="/ChamplooWebsite/js/addressForm.js"></script>
     <script src="/ChamplooWebsite/js/paymentMethodForm.js"></script>
-    
-    
 
 </body>
 
