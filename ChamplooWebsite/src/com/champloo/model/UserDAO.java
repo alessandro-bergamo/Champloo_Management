@@ -242,17 +242,17 @@ public class UserDAO implements UserModel {
 	
 	/**
 	 * Block the specified user
-	 * @param username user's username to be blocked
+	 * @param user_id user's ID to be blocked
 	 * @return boolean result of the operation
 	 */
-	public boolean blockUser(String username) {
+	public boolean blockUser(int user_id) {
 		try {
 			connection = connectionPool.getConnection();
 			Statement resultStatement = connection.createStatement();
-			ResultSet resultSetUser = resultStatement.executeQuery("select * from registred_users where username = " + "'" + username + "'");
+			ResultSet resultSetUser = resultStatement.executeQuery("select * from registred_users where id_registred_user = " + "'" + user_id + "'");
 			if(resultSetUser.first()) {
 				Statement statement = connection.createStatement();
-				String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where username ='" + username + "'";
+				String SQL = "update registred_users set type_user ='" + UserBean.BANNED_USER + "' where id_registred_user ='" + user_id + "'";
 				statement.executeUpdate(SQL);
 			} else
 				return false;
@@ -274,7 +274,7 @@ public class UserDAO implements UserModel {
 		try {
 			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + email + "'" + "and password_user=" + "'"+ password + "'" + "and type_user != 99");
+			ResultSet resultSetUser = statement.executeQuery("select * from registred_users where email = " + "'" + email + "'" + "and password_user=" + "'"+ password + "'" + "and type_user != 5");
 			if(!resultSetUser.first()) {
 				return false;
 			} else

@@ -108,6 +108,7 @@
 			<div class="container">
 				<div class="row">
 					<input type="hidden" id="id_product" value="<%=product.getId_prod()%>">
+					<input type="hidden" id="status_product" value="<%=product.getStatus()%>">
 					<!-- Product Image -->
 					<div class="col-lg-6">
 						<div class="product_image_slider_container">
@@ -228,46 +229,46 @@
 											}
 										}
 						
-										if(tagliaS) {
+										if(tagliaS && !( product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT) ) {
 											%>
 											<input type="radio" id="radio_1" name="product_radio" value="<%=id_product_details_by_sizeS%>" class="regular_radio radio_1" required>
 											<label for="radio_1">S</label>
 											<%
 										}
-										if (!tagliaS)
+										if (!tagliaS || product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT)
 										{	%>
 											<input type="radio" id="radio_1" disabled name="product_radio" class="regular_radio radio_1">
 											<label for="radio_1">S</label>
 										<%}
-										if(tagliaM) {
+										if(tagliaM && !( product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT) ) {
 											%>
 											<input type="radio" id="radio_2" name="product_radio" value="<%=id_product_details_by_sizeM%>" class="regular_radio radio_2" required>
 											<label for="radio_2">M</label>
 											<%
 										}
-										if (!tagliaM)
+										if (!tagliaM || product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT)
 										{	%>
 											<input type="radio" id="radio_2" disabled name="product_radio" class="regular_radio radio_2">
 											<label for="radio_2">M</label>
 										<%}
-										if(tagliaL) {
+										if(tagliaL && !( product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT) ) {
 											%>
 											<input type="radio" id="radio_3" name="product_radio" value="<%=id_product_details_by_sizeL%>" class="regular_radio radio_3" required>
 											<label for="radio_3">L</label>
 											<%
 										}
-										if (!tagliaL)
+										if (!tagliaL || product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT)
 										{	%>
 											<input type="radio" id="radio_3" disabled name="product_radio" class="regular_radio radio_3">
 											<label for="radio_3">L</label>
 										<%}
-										if(tagliaXL) {
+										if(tagliaXL && !( product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT)) {
 											%>
 											<input type="radio" id="radio_4" name="product_radio" value="<%=id_product_details_by_sizeXL%>" class="regular_radio radio_4" required>
 											<label for="radio_4">XL</label>
 											<%
 										}
-										if (!tagliaXL)
+										if (!tagliaXL || product.getStatus() == ProductBean.UNAVAILABLE_PRODUCT)
 										{	%>
 											<input type="radio" id="radio_4" disabled name="product_radio" class="regular_radio radio_4">
 											<label for="radio_4">XL</label>
@@ -334,10 +335,12 @@
 			var checkedValue = value1.filter(":checked").val();
 			var value2 = ("insertProduct");
 			var value3 = $("#id_product").val();
+			var value4 = $("#product_status").val();
+			
 			$.ajax({
 				type: "GET",
 				url: "Cart",
-				data: {"id_product" : value3, "id_product_details" : checkedValue, "operation" : value2},
+				data: {"id_product" : value3, "status_product" : value4 ,"id_product_details" : checkedValue, "operation" : value2},
 				success: function(results){
 					Swal.fire({
 						title: 'Aggiunto al Carrello',

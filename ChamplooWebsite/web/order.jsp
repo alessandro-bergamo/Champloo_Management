@@ -400,7 +400,7 @@
 						data: {"operation" : value3, "status" : value1, "delivery_date" : value2, "order_id" : value4},
 						success: function(results){
 							Swal.fire({ //SECONDO POPUP
-								title: 'Ordine Annullato',
+								title: 'Ordine Modificato',
 								timer: 1200,
 								icon: 'success',
 								showCancelButton: false,

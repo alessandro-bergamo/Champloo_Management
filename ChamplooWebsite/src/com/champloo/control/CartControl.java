@@ -56,35 +56,42 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("insertProduct"))
 			{		
 				synchronized(session) {
-					int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
-					int id_product = Integer.parseInt(request.getParameter("id_product"));
-					CartBean cart = (CartBean) session.getAttribute("cart");
-					ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
-					if(cart != null)
-					{
-						try {
-							cartDAO.insertProduct(cart, id_product_details);
-							session.removeAttribute("productsInCart");
-							session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
-						} catch (SQLException e) {	
-							e.printStackTrace();
-						}
-					}
-					else 
-					{
-						if (activeCart == null)
-						{
-							activeCart = new ActiveCart();
-							session.setAttribute("activeCart", activeCart);
-						}
+					try {
+						int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+						int id_product = Integer.parseInt(request.getParameter("id_product"));
+						int status_product = Integer.parseInt(request.getParameter("status_product"));
+						if(status_product == 6)
+							response.setStatus(500);
 						
-						request.removeAttribute("operation");
-						request.setAttribute("operation", "addToActiveCart");
-						request.setAttribute("id_product_details", id_product_details);
-						request.setAttribute("id_product", id_product);
-						request.setAttribute("activeCart", activeCart);
-						dispatcher = request.getRequestDispatcher("Product");
-						dispatcher.forward(request, response);
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+						
+						if(cart != null)
+						{
+								cartDAO.insertProduct(cart, id_product_details);
+								session.removeAttribute("productsInCart");
+								session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));	
+						}
+						else 
+						{
+							if (activeCart == null)
+							{
+								activeCart = new ActiveCart();
+								session.setAttribute("activeCart", activeCart);
+							}
+							
+							request.removeAttribute("operation");
+							request.setAttribute("operation", "addToActiveCart");
+							request.setAttribute("id_product_details", id_product_details);
+							request.setAttribute("id_product", id_product);
+							request.setAttribute("activeCart", activeCart);
+							dispatcher = request.getRequestDispatcher("Product");
+							dispatcher.forward(request, response);
+						}
+				
+					} catch (Exception e) {
+						response.setStatus(500);
+						e.printStackTrace();
 					}
 				}
 			}
@@ -122,8 +129,6 @@ public class CartControl extends HttpServlet {
 						e.printStackTrace();
 					}		
 				}
-				
-				
 			}
 			else if(operation.equals("retrieveNumberOfProducts"))
 			{
@@ -233,12 +238,26 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("clearCart"))
 			{
 				synchronized (session) {
-					CartBean cart = (CartBean) session.getAttribute("cart");
 					try {
-						cartDAO.clearCart(cart);
-						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
-						dispatcher = request.getRequestDispatcher("cart.jsp");
-						dispatcher.forward(request, response);
+						CartBean cart = (CartBean) session.getAttribute("cart");
+						if(cart != null)
+						{	
+							cartDAO.clearCart(cart);
+							session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+							dispatcher = request.getRequestDispatcher("cart.jsp");
+							dispatcher.forward(request, response);
+						}
+						else 
+						{
+							ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+							if(activeCart != null)
+							{
+								activeCart.clearCart();
+								session.setAttribute("activeCart", activeCart);
+								dispatcher = request.getRequestDispatcher("cart.jsp");
+								dispatcher.forward(request, response);
+							}
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}		
@@ -246,6 +265,7 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("submitCheckout"))
 			{
+				// controllare se l'ordine è effettuato su un ActiveCart
 				Float total_price_order, shipping_price, total_price;
 				total_price = Float.parseFloat(request.getParameter("total_price"));
 				shipping_price = Float.parseFloat(request.getParameter("shipping_price"));
@@ -275,7 +295,6 @@ public class CartControl extends HttpServlet {
 		}
 	}
 		
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doGet(request, response);

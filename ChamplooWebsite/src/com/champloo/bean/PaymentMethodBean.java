@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class PaymentMethodBean
 {
 
-    public PaymentMethodBean(int card_cvc, String card_number, String card_bank, String card_owner, int Registred_User, LocalDate expiry_date, LocalDate registration_method_date)
+    public PaymentMethodBean(int card_cvc, String card_number, String card_bank, String card_owner, int Registred_User, String expiry_date, LocalDate registration_method_date)
     {
         this.card_cvc = card_cvc;
         this.card_number = card_number;
@@ -38,9 +38,9 @@ public class PaymentMethodBean
 
     public void setCard_owner(String card_owner) { this.card_owner = card_owner; }
 
-    public LocalDate getExpiry_date() { return expiry_date; }
+    public String getExpiry_date() { return expiry_date; }
 
-    public void setExpiry_date(LocalDate expiry_date) { this.expiry_date = expiry_date; }
+    public void setExpiry_date(String expiry_date) { this.expiry_date = expiry_date; }
 
     public LocalDate getRegistration_method_date() { return registration_method_date; }
 
@@ -56,7 +56,7 @@ public class PaymentMethodBean
     }
 
     private int id_method, Registred_User, card_cvc;
-    private String card_number, card_bank, card_owner;
-    private LocalDate expiry_date, registration_method_date;
+    private String card_number, card_bank, card_owner, expiry_date;
+    private LocalDate registration_method_date;
 
 }

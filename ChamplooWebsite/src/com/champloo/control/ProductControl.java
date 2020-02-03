@@ -306,13 +306,32 @@ public class ProductControl extends HttpServlet{
 			else if(operation.equals("deleteProduct"))
 			{
 				int id_product = Integer.parseInt(request.getParameter("id_product"));
-				
+
+				System.out.println("ID: "+id_product);
+
 				try {
 					productDAO.deleteProduct(id_product);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				session.removeAttribute("products");
+
+				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+
+				try {
+					products = productDAO.retrieveAll();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				session.setAttribute("products", products);
+			}
+			else if(operation.equals("modifyProduct"))
+			{
+
 			}
 			else if(operation.equals("updateProduct"))
 			{

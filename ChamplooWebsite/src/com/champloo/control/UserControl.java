@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 //mamaa
@@ -54,8 +55,7 @@ public class UserControl extends HttpServlet {
 						dispatcher.forward(request,response);
 					} else {
 						System.out.println("Utente non loggato");
-						request.setAttribute("login", false);
-						response.sendRedirect("user_log.jsp");
+						response.setStatus(500);
 					}
 				}
 			}
@@ -185,9 +185,15 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("blockUser"))
 			{
-				String username = request.getParameter("username");
-				boolean result = userDAO.blockUser(username);
+				int user_id = Integer.parseInt(request.getParameter("user_id"));
+				boolean result = userDAO.blockUser(user_id);
 				request.setAttribute("accreditate", result);
+
+				ArrayList<UserBean> users = new ArrayList<UserBean>();
+
+				users = userDAO.getAllUsers();
+
+				session.setAttribute("users", users);
 			}
 		}
 

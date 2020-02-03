@@ -242,6 +242,7 @@
                                         <h4 class="upH45"><%=order_item.getPrice_in_order()%> &euro; - Quantità: <%=order_item.getQnt_in_order()%></h4>
                                         <input type="hidden" id="id_product" value="<%=product.getId_prod()%>">
                                         <input type="hidden" id="id_product_details" value="<%=productDetails.getId_prod_details()%>">
+                                        <input type="hidden" id="status_product" value="<%=product.getStatus()%>">
                                         <input type="button" id="buyAgainButton" class="site-btn5" value="COMPRA DI NUOVO">
                                     </div>
                                     <%
@@ -292,13 +293,15 @@
 
         <script>
             $("[id ='buyAgainButton']").on('click', function addtocart(){
-                var value1 = $(this).prev().prev().val();
-                var value2 = $(this).prev().val();
-                var value3 = ("insertProduct");
+                var value1 = $(this).prev().prev().prev().val();
+                var value2 = $(this).prev().prev().val();
+                var value3 = $(this).prev().val();
+                var value4 = ("insertProduct");
+            
                 $.ajax({
                     type: "GET",
                     url: "Cart",
-                    data: {"id_product" : value1, "id_product_details" : value2, "operation" : value3},
+                    data: {"id_product" : value1, "id_product_details" : value2,"status_product" : value3 ,"operation" : value4},
                     success: function(results){
                         Swal.fire({
                             title: 'Aggiunto al Carrello',
