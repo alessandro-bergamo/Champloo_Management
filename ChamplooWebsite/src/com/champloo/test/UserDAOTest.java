@@ -2,15 +2,19 @@ package com.champloo.test;
 
 import com.champloo.bean.UserBean;
 import com.champloo.model.UserDAO;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import com.champloo.storage.ConnectionPool;
+import org.junit.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import javax.jws.soap.SOAPBinding;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,12 +28,49 @@ public class UserDAOTest {
     enum Type {REGISTERUSER, GETUSERBYEMAIL, GETUSERBYUSERNAME, GETALLUSERS, UPDATEUSER, DELETEUSER, BLOCKUSER, LOGIN, CHANGEPASSWORD};
     private Type type;
     private Boolean expectedResult;
-    private UserDAO userDAO;
+    private static UserDAO userDAO;
     private Object paramForDAO;
+    static ConnectionPool connectionPool;
+    static Connection connection;
 
-    @Before
-    public void initialize() {
-        userDAO = new UserDAO();
+    @BeforeClass
+    public static void initialize() {
+        userDAO = new UserDAO("");
+        try {
+            connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
+            connection = connectionPool.getConnection();
+            PreparedStatement insertQuery = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('David','Capuano','david98','davidecap00@hotmail.it','capucapu','2020-02-06','1');");
+            PreparedStatement insertQuery2 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Alex','Esposito','alexBab','alex98@hotmail.it','freepsw','2020-02-06','1');");
+            PreparedStatement insertQuery3 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Maria','Rossi','mRed','mrossi@hotmail.it','rossi46','2020-02-06','1');");
+            PreparedStatement insertQuery4 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Rosario','Crescenzo','rosCz','roscres@outlook.it','cres00','2020-02-06','1');");
+            PreparedStatement insertQuery5 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Tina','Esposito','tinEs98','tina@hotmail.it','espyus','2020-02-06','1');");
+
+            insertQuery.executeUpdate();
+            insertQuery2.executeUpdate();
+            insertQuery3.executeUpdate();
+            insertQuery4.executeUpdate();
+            insertQuery5.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            connectionPool.releaseConnection(connection);
+        }
+    }
+
+    @AfterClass
+    public static void tearDown() {
+       try {
+           connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
+           connection = connectionPool.getConnection();
+           Statement statement = connection.createStatement();
+           statement.executeUpdate("DELETE FROM registred_users");
+
+       }catch (Exception e) {
+            e.printStackTrace();
+       }finally {
+           connectionPool.releaseConnection(connection);
+       }
+
     }
 
     public UserDAOTest(Type type, Object paramForDAO, Boolean expectedResult) {
@@ -41,22 +82,22 @@ public class UserDAOTest {
     @Parameterized.Parameters
     public static Collection objects() {
         return Arrays.asList(new Object [] [] {
-                {Type.REGISTERUSER, new UserBean("David", "Capuano", "daviddavid", "davidecap00@hotmail.it", "capucapu", new Date(), 1), false},
-                {Type.REGISTERUSER, new UserBean("Antonio", "Mancuso", "yeezus", "gokuantony@live.it", "yeezy", new Date(), 1), true},
-                {Type.GETUSERBYEMAIL, "gokuantony@live.it", false},
-                {Type.GETUSERBYEMAIL, "wasdxd@hotmail.it", true},
-                {Type.GETUSERBYUSERNAME, "alexalex", false},
-                {Type.GETUSERBYUSERNAME, "okokok", true},
+                {Type.REGISTERUSER, new UserBean("Mario", "Rossi", "supermario", "mariorossi@hotmail.it", "red9898", new Date(), 1), true},
+                {Type.REGISTERUSER, new UserBean("David", "Capuano", "david98", "davidecap00@hotmail.it", "capucapu", new Date(), 1), false},
+                {Type.GETUSERBYEMAIL, "mariorossi@hotmail.it", false},
+                {Type.GETUSERBYEMAIL, "lucagiugliano@outlook.it", true},
+                {Type.GETUSERBYUSERNAME, "alexBab", false},
+                {Type.GETUSERBYUSERNAME, "kanyeZus", true},
                 {Type.GETALLUSERS, null, false},
-                {Type.UPDATEUSER, new UserBean("Davide", "Cap", "daviddavid", "davidecap00@hotmail.it", "capucapu", new Date(), 1), true},
+                {Type.UPDATEUSER, new UserBean("Rosaria", "Crescenzi", "rosCz", "roscres@outlook.it", "cres00", new Date(), 1), true},
                 {Type.UPDATEUSER, new UserBean("Tony", "Mank", "yee", "gokuan@live.it", "yeezy", new Date(), 1), false},
-                {Type.DELETEUSER, new UserBean("Davide", "Cap", "daviddavid", "davidecap00@hotmail.it", "capucapu", new Date(), 1), true},
-                {Type.DELETEUSER, new UserBean("ok", "ok", "ok", "ok", "ok", new Date(), 1), false},
-                {Type.BLOCKUSER, "alexalex", true},
-                {Type.BLOCKUSER, "ciaociao", false},
-                {Type.LOGIN, new String[]{"gokuantony@live.it", "yeezy"}, true},
-                {Type.LOGIN, new String[]{"fewiof@hotmail.it", "paswfe"}, false},
-                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Salvatore", "Villano", "tabitabi", "tatoresammino@gmail.com", "villivilli32", new Date(), 1), "provaaa"}, true},
+                {Type.DELETEUSER, new UserBean("Tina", "Esposito", "tinEs98", "tina@hotmail.it", "espyus", new Date(), 1), true},
+                {Type.DELETEUSER, new UserBean("Nicola", "Marciano", "marcix", "nikmar@gmail.com", "nicoo98", new Date(), 1), false},
+                {Type.BLOCKUSER, "alexBab", true},
+                {Type.BLOCKUSER, "yeezy", false},
+                {Type.LOGIN, new String[]{"roscres@outlook.it", "cres00"}, true},
+                {Type.LOGIN, new String[]{"footbalpassion@hotmail.it", "calcio00"}, false},
+                {Type.CHANGEPASSWORD, new Object[]{new UserBean("Maria", "Rossi", "mRed", "mrossi@hotmail.it", "rossi46", new Date(), 1), "nuovaPsw"}, true},
                 {Type.CHANGEPASSWORD, new Object[]{new UserBean("Luca", "Giugliano", "giougly", "lucag@gmail.com", "welcome", new Date(), 1), "provaaa"}, false}
         });
     }
@@ -64,6 +105,7 @@ public class UserDAOTest {
    @org.junit.Test
     public void registerUser() {
         Assume.assumeTrue((type.equals(Type.REGISTERUSER)));
+        System.out.println((UserBean)paramForDAO);
         assertEquals(expectedResult, userDAO.registerUser((UserBean)paramForDAO));
 
     }

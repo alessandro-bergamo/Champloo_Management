@@ -27,6 +27,15 @@ public class UserDAO implements UserModel {
 			e.printStackTrace();
 		}		
 	}
+
+	//constructor for testing purpose
+	public UserDAO(String s) {
+		try {
+			connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Insert a new user into the database
@@ -44,9 +53,11 @@ public class UserDAO implements UserModel {
 			ResultSet resultSetEmail = statement2.executeQuery("select * from registred_users where email = " + "'" + newUser.getEmail() + "'");
 			resultSetEmail.first();
 			int rowEmail = resultSetEmail.getRow();
-			
+			System.out.println("sono qui");
 			//prima di inserire l'utente controllo che non ci sia nessun utente con lo stesso username o stessa email
 			if(rowUsername == 0 && rowEmail == 0) {
+
+				System.out.println("sono qui");
 				PreparedStatement insertQuery = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values(?,?,?,?,?,?,?);");
 				insertQuery.setString(1, newUser.getFirstName());
 				insertQuery.setString(2, newUser.getSurname());

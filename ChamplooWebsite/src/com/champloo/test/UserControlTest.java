@@ -2,24 +2,20 @@ package com.champloo.test;
 
 import com.champloo.bean.UserBean;
 import com.champloo.control.UserControl;
-import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.MockitoSession;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import javax.mail.Session;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
+import java.sql.Connection;
 import java.util.*;
 
 import static org.easymock.EasyMock.mock;
@@ -27,6 +23,7 @@ import static org.easymock.EasyMock.mock;
 
 @RunWith(Parameterized.class)
 public class UserControlTest {
+    private Connection mConnection;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HttpSession session;
@@ -41,6 +38,7 @@ public class UserControlTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         servlet = new UserControl();
+
     }
 
     public UserControlTest(Type type, Object paramForServlet, Boolean expectedResult) {
