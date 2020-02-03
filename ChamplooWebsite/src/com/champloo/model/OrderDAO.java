@@ -109,15 +109,16 @@ public class OrderDAO implements OrderModel
 
     /**
      * Modifies an order
-     * @param order
+     * @param status, delivery_date
      * @return order_modified
      */
-    public boolean modifyOrder(OrderBean order) throws SQLException
+    public boolean modifyOrder(int order_id, int status, Date delivery_date) throws SQLException
     {
        int order_modified = 0;
+
        connection = connectionPool.getConnection();
 
-       query = "UPDATE orders SET shipping_address = '"+order.getAddress()+"', payment_method = '"+order.getPayment_method()+"', delivery_date = '"+order.getDelivery_date()+"', status_order = '"+order.getStatus_order()+"' WHERE id_order = '"+order.getId_order()+"'";
+       query = "UPDATE orders SET delivery_date = '"+delivery_date+"', status_order = '"+status+"' WHERE id_order = '"+order_id+"'";
 
        try {
            statement = connection.createStatement();
@@ -137,16 +138,15 @@ public class OrderDAO implements OrderModel
 
     /**
      * Cancels an order
-     * @param order
+     * @param order_id
      * @return order_canceled
      */
-    public boolean cancelOrder(OrderBean order) throws SQLException
+    public boolean cancelOrder(int order_id) throws SQLException
     {
         int order_canceled = 0;
         connection = connectionPool.getConnection();
 
-        //SETTARE LO STATUS AD ANNULLATO (3 E' COME ESEMPIO)
-        query = "UPDATE orders SET status_order = '3' WHERE id_order = '"+order.getId_order()+"'";
+        query = "UPDATE orders SET status_order = '5' WHERE id_order = '"+order_id+"'";
 
         try {
             statement = connection.createStatement();
@@ -511,27 +511,27 @@ public class OrderDAO implements OrderModel
      * @param order_id
      * @return order_items
      */
-    public HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> retrieveByOrder(int order_id) throws SQLException
+    public LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByOrder(int order_id) throws SQLException
     {
-        HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> orders = new HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>>();
-        HashMap<ProductBean, ProductDetailsBean> products = new HashMap<ProductBean, ProductDetailsBean>();
-        ArrayList<OrderItemBean> order_items = new ArrayList<OrderItemBean>();
-        ProductBean product = null;
+        LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap <OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+        OrderBean order = null;
+        ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>> products_in_order;
+        OrderItemBean order_item = null;
         ProductDetailsBean productDetails = null;
+        ProductBean product = null;
 
         connection = connectionPool.getConnection();
 
         query = "SELECT * FROM orders WHERE id_order = ?";
 
         try {
-
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, order_id);
             firstResults = preparedStatement.executeQuery();
 
             if(firstResults.first())
             {
-                OrderBean order = new OrderBean();
+                order = new OrderBean();
 
                 order.setId_order(firstResults.getInt(1));
                 order.setRegistred_User(firstResults.getInt(2));
@@ -545,25 +545,22 @@ public class OrderDAO implements OrderModel
 
                 query = "SELECT * FROM order_item WHERE Order_number = ?";
 
-                order_items = new ArrayList<OrderItemBean>();
+                products_in_order = new ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>();
 
-                try
-                {
+                try {
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.setInt(1, order.getId_order());
                     secondResults = preparedStatement.executeQuery();
 
                     while(secondResults.next())
                     {
-                        OrderItemBean order_item = new OrderItemBean();
+                        order_item = new OrderItemBean();
 
                         order_item.setId_order_item(secondResults.getInt(1));
                         order_item.setId_order(secondResults.getInt(2));
                         order_item.setId_product(secondResults.getInt(3));
                         order_item.setPrice_in_order(secondResults.getFloat(4));
                         order_item.setQnt_in_order(secondResults.getInt(5));
-
-                        order_items.add(order_item);
 
                         query = "SELECT * FROM product_details WHERE id_product_details = ?";
 
@@ -615,13 +612,13 @@ public class OrderDAO implements OrderModel
                             e.printStackTrace();
                         }
 
-                        products.put(product, productDetails);
+                        products_in_order.add(new Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>(order_item, new Pair<ProductBean, ProductDetailsBean>(product, productDetails)));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                orders.put(new Pair<OrderBean, ArrayList<OrderItemBean>>(order, order_items), products);
+                orders.put(order, products_in_order);
             }
         } catch (Exception e) {
             e.printStackTrace();

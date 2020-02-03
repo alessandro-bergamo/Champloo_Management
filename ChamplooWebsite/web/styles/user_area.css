@@ -27,7 +27,9 @@
 /*********************************
 2. Body and some general stuff
 *********************************/
-
+:focus{
+	outline: none !important;
+}
 *
 {
 	margin: 0;
@@ -549,6 +551,7 @@ section
 }
 
 .button1 input[type="submit"],
+fieldset.input input[type="button"],
 fieldset.input input[type="submit"] {
 	float: right;  /* CREARLI STILE BOTTONI ITEK */
 	border: 1px solid black;
@@ -566,6 +569,7 @@ fieldset.input input[type="submit"] {
 }
 
 .button1 input[type="submit"]:hover,
+fieldset.input input[type="button"]:hover,
 fieldset.input input[type="submit"]:hover {
 	background: #FAFAFA;
 	color: rgb(46, 204, 141);

@@ -6,6 +6,12 @@
 		import="com.champloo.util.*"
 %>
 
+    <!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- CDN SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <%
 	UserBean utenteLoggato;
 	CartBean cart;
@@ -47,16 +53,16 @@
                    %>
                     <!-- User loggato -->
                     <div class="user"><a href="UserControl?operation=userManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else if(utenteLoggato.getType()==3) { %>
                     <div class="user"><a href="Product?operation=productManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else if(utenteLoggato.getType()==4) { %>
                     <div class="user"><a href="Order?operation=ordersManager"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <%      } else { %>
                     <div class="user"><a href="user_area.jsp"><div><img src="images/user.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
-                    <div class="user"> <a href="UserControl?operation=logout"><div><img src="images/logout.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
+                    <div class="user"><a herf=""><div><img src="images/logout.svg" style="cursor: pointer; !important;" onclick="logout()"alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <!-- Cart -->
                     <div class="cart"><a href="Cart?operation=retrieveProducts"><div><img class="svg" src="images/cart.svg" alt="https://www.flaticon.com/authors/freepik"></div></a></div>
                     <% }} else{ %>
@@ -67,7 +73,6 @@
                   	<% } %>
                     <!-- Phone -->
                     <div class="header_phone d-flex flex-row align-items-center justify-content-start">
-                    
                     </div>
                 </div>
             </div>
@@ -75,3 +80,39 @@
 
         <div class="super_container_inner">
             <div class="super_overlay"></div>
+
+        <script>
+            function logout()
+            {
+                var value = ("logout");
+                Swal.fire({
+                    title: 'Sei sicuro di voler effettuare il Logout?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Logout',
+                    cancelButtonText: 'Annulla',
+                    width: '700px'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            type: "POST",
+                            url: "UserControl",
+                            data: {"operation" : value},
+                            success: function(results){
+                                Swal.fire({
+                                    title: 'Logout Effettuato',
+                                    timer: 1700,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    width: '400px',
+                                })
+                                setTimeout(function(){location.href="index.jsp"} , 1350);
+                            }
+                        })
+                    }
+                })
+            };
+        </script>

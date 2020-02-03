@@ -327,8 +327,7 @@
 	</div>
 </div>
 
-<script>
-
+	<script>
 		function addToCart()
 		{
 			var value1 = $("[name='product_radio']");

@@ -19,10 +19,10 @@ public interface OrderModel
     boolean createOrder(OrderBean newOrder, HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_order) throws SQLException;
 
     //Method that modifies an order
-    boolean modifyOrder(OrderBean order) throws SQLException;
+    boolean modifyOrder(int order_id, int status, Date delivery_date) throws SQLException;
 
     //Method that cancels an order
-    boolean cancelOrder(OrderBean order) throws SQLException;
+    boolean cancelOrder(int order_id) throws SQLException;
 
     //Method that retrieves an order by his ID
     OrderBean retrieveByID(int id_order) throws SQLException;
@@ -40,6 +40,6 @@ public interface OrderModel
     HashMap<OrderBean, ArrayList<OrderItemBean>> retrieveAll() throws SQLException;
 
     //Method that retrieves all the Order_Items contained in an order.
-    HashMap<Pair<OrderBean, ArrayList<OrderItemBean>>, HashMap<ProductBean, ProductDetailsBean>> retrieveByOrder(int id_order) throws SQLException;
+    LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByOrder(int id_order) throws SQLException;
 
 }
