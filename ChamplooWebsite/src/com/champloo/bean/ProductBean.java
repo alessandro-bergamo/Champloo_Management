@@ -7,6 +7,7 @@ public class ProductBean {
 	public static final int SLIDER_PRODUCT = 3;
 	public static final int WINDOW_PRODUCT = 4;
 	public static final int NEW_PRODUCT = 5;
+	public static final int UNAVAILABLE_PRODUCT = 6;
 	
 	private int id_prod, status, number_feedback_users, total_rating;
 	private float average_rating, price;

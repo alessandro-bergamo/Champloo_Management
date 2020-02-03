@@ -109,10 +109,14 @@ public class ActiveCart {
 	
 	public void clearCart()
 	{
+		System.out.println("AcitveCart -> cleatrCart line 112");
 		cartList.clear();
 		cartList = new HashMap<Pair<ProductBean, ProductDetailsBean>, Integer>();
 	}
 	
-	
+	public void storeActiveCartInDb()
+	{
+		
+	}
 
 }

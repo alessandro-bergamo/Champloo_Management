@@ -259,6 +259,8 @@
                                                     status = "Vetrina";
                                                 else if(status_prod == 5)
                                                     status = "Nuovo";
+                                                else if(status_prod == 6)
+                                                    status = "Non Disponibile";
                                            %>
                                            <p id="utProd2"><%=status%></p>
                                        </div>
