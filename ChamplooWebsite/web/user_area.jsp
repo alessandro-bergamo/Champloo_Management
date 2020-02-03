@@ -262,9 +262,9 @@
                                                <div class="col-xl-3">
                                                    <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
                                                </div>
-                                               <div class="col-xl-4">
-                                                   <div class="row justify-content-end">
-                                                       <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px">
+                                               <div class="col-xl-5">
+                                                   <div class="row justify-content-center">
+                                                       <input type="submit" class="form-button" value="Salva Indirizzo" style="margin-top: 5px; padding: 0px !important;">
                                                    </div>
                                                </div>
                                            </div>

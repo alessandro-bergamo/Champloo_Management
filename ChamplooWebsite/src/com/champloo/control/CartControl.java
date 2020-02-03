@@ -70,8 +70,14 @@ public class CartControl extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
-					else if (activeCart != null)
+					else 
 					{
+						if (activeCart == null)
+						{
+							activeCart = new ActiveCart();
+							session.setAttribute("activeCart", activeCart);
+						}
+						
 						request.removeAttribute("operation");
 						request.setAttribute("operation", "addToActiveCart");
 						request.setAttribute("id_product_details", id_product_details);
@@ -79,25 +85,44 @@ public class CartControl extends HttpServlet {
 						request.setAttribute("activeCart", activeCart);
 						dispatcher = request.getRequestDispatcher("Product");
 						dispatcher.forward(request, response);
-						
-						//activeCart.insertProduct(newProduct, newProductDetails);
 					}
 				}
 			}
 			else if(operation.equals("modifyQuantity"))
 			{
-				int id_cart = Integer.parseInt(request.getParameter("id_cart"));
+				int id_product = Integer.parseInt(request.getParameter("id_product"));
 				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
+				
+				int id_cart = 0;
+				String checkCart = request.getParameter("id_cart");
+				
+				if(checkCart != null)
+					id_cart = Integer.parseInt(checkCart);
+				
 				String operator = request.getParameter("operator");
 				
-				try {
-					//CartItemBean cart_item = cartDAO.retrieveCartItem(id_cart_item);
-					cartDAO.modifyQuantity(id_cart, id_product_details, operator);
+				synchronized (session) {
+					try {
 						CartBean cart = (CartBean) session.getAttribute("cart");
-						session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
-				} catch (SQLException e) {
-					e.printStackTrace();
+						if (cart != null)
+						{
+							cartDAO.modifyQuantity(id_cart, id_product_details, operator);
+							session.setAttribute("productsInCart", cartDAO.retrieveProducts(cart));
+						}
+						else
+						{
+								ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+								activeCart.modifyQuantity(id_product,id_product_details,operator);
+								session.setAttribute("activeCart", activeCart);
+								session.setAttribute("redirectURL", "cart.jsp");
+								dispatcher = request.getRequestDispatcher("Redirect");
+								dispatcher.forward(request, response);
+						}								
+					} catch (Exception e) {
+						e.printStackTrace();
+					}		
 				}
+				
 				
 			}
 			else if(operation.equals("retrieveNumberOfProducts"))

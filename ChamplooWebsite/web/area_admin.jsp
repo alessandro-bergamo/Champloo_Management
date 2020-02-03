@@ -374,7 +374,7 @@
                                        %>
                                    </div>
                                    <div class="col-xl-1">
-                                       <img src="images/setting.png" height="32" width="32" style="margin-top: 20px;"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
+                                       <a href="Order?operation=showOrder&order_id=<%=order.getId_order()%>"><img src="images/setting.png" height="32" width="32" style="margin-top: 20px;"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
                                    </div>
                                </div>
                                <%

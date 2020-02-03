@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
+import java.util.LinkedHashMap;
 
 
 @WebServlet("/Order")
@@ -33,6 +33,7 @@ public class OrderControl extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
+        System.out.println("OPERATION: "+operation);
         RequestDispatcher dispatcher;
         HttpSession session = request.getSession(true);
 
@@ -74,57 +75,79 @@ public class OrderControl extends HttpServlet
                     e.printStackTrace();
                 }
 
+                session.removeAttribute("orders");
+
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+
+                try {
+                    orders = model_order.retrieveByUserID(user.getID());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                session.setAttribute("orders", orders);
+
                 dispatcher = request.getRequestDispatcher("Cart");
                 dispatcher.forward(request, response);
             }
             else if(operation.equals("cancelOrder"))
             {
-                int id_order = Integer.parseInt(request.getParameter("id_order"));
+                int id_order = Integer.parseInt(request.getParameter("order_id"));
+                Date cancel_date = new Date(System.currentTimeMillis());
+
                 try {
-                    model_order.cancelOrder(model_order.retrieveByID(id_order));
+                    model_order.modifyOrder(id_order, 5, cancel_date);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+                try {
+                    int order_id = Integer.parseInt(request.getParameter("order_id"));
+                    orders = model_order.retrieveByOrder(order_id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                session.setAttribute("order", orders);
             } else if(operation.equals("modifyOrder"))
             {
-                UserBean user = (UserBean) request.getSession().getAttribute("user");
+                UserBean user = (UserBean) session.getAttribute("utenteLoggato");
 
-                int id_user = user.getID();
+                int id_order = Integer.parseInt(request.getParameter("order_id"));
+                int status = Integer.parseInt(request.getParameter("status"));
+                Date delivery_date = Date.valueOf(request.getParameter("delivery_date"));
 
-                String address = request.getParameter("address");
-                String payment_method = request.getParameter("payment_method");
-                String order_owner = user.getFirstName()+user.getSurname();
-                Float order_price = Float.parseFloat(request.getParameter("order_price"));
-
-                //SYSTEM DATE ON ORDER CREATION
-                Date creation_date = new Date(System.currentTimeMillis());
-
-                //DELIVERY DATE OF THE ORDER
-                Date delivery_date = new Date(System.currentTimeMillis() + 4 * 24 * 60 * 60 * 1000);
-
-                OrderBean order = new OrderBean();
-
-                order.setId_order(1);        //USELESS
-                order.setAddress(address);
-                order.setPayment_method(payment_method);
-                order.setRegistred_User(id_user);
-                order.setOrder_owner(order_owner);
-                order.setTotal_price(order_price);
-                order.setCreation_date(creation_date);
-                order.setDelivery_date(delivery_date);
-                order.setStatus_order(0);
+                System.out.println("ID: "+id_order+" STATUS: "+status+" DATA: "+delivery_date);
 
                 try {
-                    model_order.modifyOrder(order);
+                    model_order.modifyOrder(id_order, status, delivery_date);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                session.removeAttribute("order");
+
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+                try {
+                    int order_id = Integer.parseInt(request.getParameter("order_id"));
+                    orders = model_order.retrieveByOrder(order_id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                session.setAttribute("order", orders);
             } else if(operation.equals("showOrder"))
             {
-                //nothing
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+                try {
+                    int order_id = Integer.parseInt(request.getParameter("order_id"));
+                    orders = model_order.retrieveByOrder(order_id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                session.setAttribute("order", orders);
             } else if(operation.equals("showOrdersPerUser"))
             {
-                HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
 
                 try {
                     UserBean user = (UserBean) session.getAttribute("utenteLoggato");
@@ -183,6 +206,8 @@ public class OrderControl extends HttpServlet
             response.sendRedirect("area_admin.jsp");
         else if(operation.equals("showOrdersPerUser"))
             response.sendRedirect("user_area_orders.jsp");
+        else if(operation.equals("showOrder"))
+            response.sendRedirect("order.jsp");
 
     }
 

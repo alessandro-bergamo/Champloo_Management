@@ -31,7 +31,9 @@
 /*********************************
 2. Body and some general stuff
 *********************************/
-
+:focus{
+	outline: none !important;
+}
 *
 {
 	margin: 0;

@@ -84,9 +84,9 @@
     <%@ include file="header.jsp" %>
 
     <%
-        HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new HashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+        LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap <OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
 
-        orders = (HashMap) session.getAttribute("orders");
+        orders = (LinkedHashMap) session.getAttribute("orders");
     %>
 
     <div class="super_container_inner">
@@ -252,7 +252,8 @@
                                             <input type="button" class="site-btn6 setupbtnUP" value="Traccia il mio pacco">
                                         </div>
                                         <div class="row justify-content-center">
-                                            <input disabled style="cursor: pointer;" class="site-btn6 setupbtnUP" id="detailsBtn" value="Dettagli dell'ordine">
+                                            <input type="hidden" id="id_order" value="<%=order.getId_order()%>">
+                                            <input type="button" style="cursor: pointer;" class="site-btn6 setupbtnUP" id="detailsBtn" value="Dettagli dell'ordine">
                                         </div>
                                         <div class="row justify-content-center">
                                             <input type="button" class="site-btn6 setupbtnUP" value="Informativa sugli acquisti">
@@ -321,6 +322,24 @@
                         })
                     }
                 });
+            });
+        </script>
+
+        <script>
+            $("[id = 'detailsBtn']").on('click', function showOrder(){
+                var value1 = $(this).prev().val();
+                var operation = ("showOrder");
+                $.ajax({
+                    type: "GET",
+                    url: "Order",
+                    data: {"order_id" : value1, "operation" : operation},
+                    success: function(result){
+
+                    },
+                    error: function(result){
+
+                    }
+                }); window.location.href = "order.jsp";
             });
         </script>
 

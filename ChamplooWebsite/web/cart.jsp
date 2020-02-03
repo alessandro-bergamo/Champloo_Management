@@ -178,10 +178,14 @@
 												<input type="hidden"  value=<%=qntInCart%>>
 												<p class="product_text product_num" name="qntSelectorLabel"><%=qntInCart%></p>
 												<div class="qty_sub qty_button trans_200 text-center" id="qnt_selector">
-													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>-</span>
+													<input type="hidden" id="product" value="<%=product.getId_prod()%>">
+													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>">
+													<span>-</span>
 												</div>
 												<div class="qty_add qty_button trans_200 text-center" id="qnt_selector">
-													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>"><span>+</span>
+													<input type="hidden" id="product" value="<%=product.getId_prod()%>">
+													<input type="hidden" id="productDetails" value="<%=productDetails.getId_prod_details()%>">
+													<span>+</span>
 												</div>
 											</div>
 										</div>
@@ -199,8 +203,8 @@
 							<!-- Cart Buttons -->
 							<div class="cart_buttons d-flex flex-row align-items-start justify-content-start">
 								<div class="cart_buttons_inner ml-sm-auto d-flex flex-row align-items-start justify-content-start flex-wrap">
-									<div class="button button_clear trans_200"><a href="Cart?operation=clearCart">Svuota carrello</a></div>
-									<div class="button button_continue trans_200"><a href="category.jsp">Continua lo shopping</a></div>
+									<div class="button button_clear trans_200"><a href="Cart?operation=clearCart" style="text-decoration: none !important;">Svuota carrello</a></div>
+									<div class="button button_continue trans_200"><a href="Product?operation=retrieveAll" style="color: white; text-decoration: none !important;">Continua lo shopping</a></div>
 								</div>
 							</div>
 						</div>
@@ -331,7 +335,8 @@
 		$("[id ='qnt_selector']").on('click', function (){
 			var operation = "modifyQuantity";
 			var id_cart = $("#id_cart").val();
-		    var id_product_details = $(this).find("input").val();			  
+		    var id_product = $(this).find("input#product").val();
+		    var id_product_details = $(this).find("input#productDetails").val();	    
 		    var operator = $(this).find("span").html();
 			
 		    var qntInCart = parseInt($(this).parent().find("p").html());
@@ -346,16 +351,16 @@
 		    var totalProductPrice = $(this).parent().parent().next().html(total+" €");
 		   
 		    //calling the ajax function
-		    changeQnt(id_cart,id_product_details,operator,operation);
+		    changeQnt(id_cart,id_product,id_product_details,operator,operation);
 		});
 	});
 	
-	function changeQnt(id_cart,id_product_details,operator,operation)
+	function changeQnt(id_cart,id_product,id_product_details,operator,operation)
 	{
 		 $.ajax({
 		    	type: "POST",
 		    	url: "Cart",
-		    	data: {"id_cart" : id_cart, "id_product_details" : id_product_details, "operator" : operator, "operation" : operation},
+		    	data: {"id_cart" : id_cart,"id_product" : id_product, "id_product_details" : id_product_details, "operator" : operator, "operation" : operation},
 		    	success: function(results){
 		    		calcolaTot()
 		    	},
