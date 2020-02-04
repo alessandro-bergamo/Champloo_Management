@@ -256,32 +256,34 @@
                                    </div>
                                </div>
                                <div class="row justify-content-start" id="inputNewInd">
-                                   <div class="col-xl-12">
-                                       <div class="row">
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
+                                   <form id="addressModify">
+                                       <div class="col-xl-12">
+                                           <div class="row">
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="address" placeholder="Inserisci Indirizzo">
+                                               </div>
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="city" placeholder="Inserisci città">
+                                               </div>
+                                               <div class="col-xl-1">
+                                                   <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
+                                               </div>
                                            </div>
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="city" placeholder="Inserisci città">
-                                           </div>
-                                           <div class="col-xl-1">
-                                               <input type="text" class="form-input3" id="province" maxlength="2" name="province" placeholder="Provincia">
-                                           </div>
-                                       </div>
-                                       <div class="row spacerUP2 justify-content-start">
-                                           <div class="col-xl-4">
-                                               <input type="text" class="form-input" name="cap" placeholder="Inserisci CAP">
-                                           </div>
-                                           <div class="col-xl-3">
-                                               <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
-                                           </div>
-                                           <div class="col-xl-5">
-                                               <div class="row justify-content-center">
-                                                   <input type="submit" class="form-button" onclick="insertAddress()" value="Salva Indirizzo" style="margin-top: 5px; padding: 0px !important;">
+                                           <div class="row spacerUP2 justify-content-start">
+                                               <div class="col-xl-4">
+                                                   <input type="text" class="form-input" name="cap" placeholder="Inserisci CAP">
+                                               </div>
+                                               <div class="col-xl-3">
+                                                   <input type="text" class="form-input3" style="margin-left: 0px !important; width: 200px !important;" name="civic_number" maxlength="5" placeholder="Inserisci numero civico">
+                                               </div>
+                                               <div class="col-xl-5">
+                                                   <div class="row justify-content-center">
+                                                       <input type="button" class="form-button" onclick="insertAddress()" value="Salva Indirizzo" style="margin-top: 5px; padding: 0px !important;">
+                                                   </div>
                                                </div>
                                            </div>
                                        </div>
-                                   </div>
+                                   </form>
                                </div>
                        <%   } %>
                            </div>
