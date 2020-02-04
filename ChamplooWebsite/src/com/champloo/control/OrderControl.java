@@ -48,46 +48,54 @@ public class OrderControl extends HttpServlet
 
                 String address = request.getParameter("address");
                 String payment_method = request.getParameter("payment_method");
-                Float order_price = (Float) session.getAttribute("total_price_order");
-
-                //SYSTEM DATE ON ORDER CREATION
-                Date creation_date = new Date(System.currentTimeMillis());
-
-                //DELIVERY DATE OF THE ORDER
-                Date delivery_date = new Date(System.currentTimeMillis() + 4 * 24 * 60 * 60 * 1000);
-
-                OrderBean newOrder = new OrderBean();
-
-                newOrder.setAddress(address);
-                newOrder.setPayment_method(payment_method);
-                newOrder.setRegistred_User(id_user);
-                newOrder.setOrder_owner(order_owner);
-                newOrder.setTotal_price(order_price);
-                newOrder.setCreation_date(creation_date);
-                newOrder.setDelivery_date(delivery_date);
-                newOrder.setStatus_order(1);
-
-                try
+                if(address==null || payment_method == null)
+                    response.setStatus(500);
+                else
                 {
-                    model_order.createOrder(newOrder, products_in_order);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    Float order_price = (Float) session.getAttribute("total_price_order");
+
+                    //SYSTEM DATE ON ORDER CREATION
+                    Date creation_date = new Date(System.currentTimeMillis());
+
+                    //DELIVERY DATE OF THE ORDER
+                    Date delivery_date = new Date(System.currentTimeMillis() + 4 * 24 * 60 * 60 * 1000);
+
+                    OrderBean newOrder = new OrderBean();
+
+                    newOrder.setAddress(address);
+                    newOrder.setPayment_method(payment_method);
+                    newOrder.setRegistred_User(id_user);
+                    newOrder.setOrder_owner(order_owner);
+                    newOrder.setTotal_price(order_price);
+                    newOrder.setCreation_date(creation_date);
+                    newOrder.setDelivery_date(delivery_date);
+                    newOrder.setStatus_order(1);
+
+                    try
+                    {
+                        model_order.createOrder(newOrder, products_in_order);
+                    } catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    session.removeAttribute("orders");
+
+                    LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
+
+                    try
+                    {
+                        orders = model_order.retrieveByUserID(user.getID());
+                    } catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    session.setAttribute("orders", orders);
+
+                    dispatcher = request.getRequestDispatcher("Cart");
+                    dispatcher.forward(request, response);
                 }
-
-                session.removeAttribute("orders");
-
-                LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> orders = new LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>>();
-
-                try {
-                    orders = model_order.retrieveByUserID(user.getID());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                session.setAttribute("orders", orders);
-
-                dispatcher = request.getRequestDispatcher("Cart");
-                dispatcher.forward(request, response);
             }
             else if(operation.equals("cancelOrder"))
             {
