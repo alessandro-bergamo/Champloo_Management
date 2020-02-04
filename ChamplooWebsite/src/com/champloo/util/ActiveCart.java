@@ -114,9 +114,4 @@ public class ActiveCart {
 		cartList = new HashMap<Pair<ProductBean, ProductDetailsBean>, Integer>();
 	}
 	
-	public void storeActiveCartInDb()
-	{
-		
-	}
-
 }

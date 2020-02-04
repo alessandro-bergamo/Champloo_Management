@@ -171,15 +171,26 @@
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
 									
-									<label for="star5" title="5 Stelle">5 stars</label>
+									<label for="star5" title="5 Stelle" id="ratingScore">5 stars
+										<input type="hidden" id="ratingScore" value="5">
+									</label>
 									
-									<label for="star4" title="4 Stelle">4 stars</label>
+									<label for="star4" title="4 Stelle" id="ratingScore">4 stars
+										<input type="hidden" value="4">
+									</label>
 									
-									<label for="star3" title="3 Stelle">3 stars</label>
+									<label for="star3" title="3 Stelle" id="ratingScore">3 stars
+										<input type="hidden" value="3">
+									</label>
 									
-									<label for="star2" title="2 Stelle">2 stars</label>
+									<label for="star2" title="2 Stelle" id="ratingScore">2 stars
+										<input type="hidden" value="2">
+									</label>
 									
-									<label for="star1" title="1 Stella">1 star</label>
+									<label for="star1" title="1 Stella" id="ratingScore">1 star
+										<input type="hidden" value="1">
+									</label>
+									
 								</div>
 								<% 	float average_rating = product.getAverage_rating();
 									int reviewers = product.getNumber_feedback_users();
@@ -369,8 +380,41 @@
 				}
 			});
 		};
+		
+		$("[id='ratingScore']").on("click", function setRating()
+		{
+			var id_product = $("#id_product").val();
+			var rating = $(this).find("input").val();
+			var operation = "updateRating";
+			
+			$.ajax({
+				type: "GET",
+				url: "Product",
+				data: {"id_product" : id_product, "rating" : rating, "operation" : operation},
+				success: function(results)
+				{
+					Swal.fire({
+					title: 'Recnsione Effettuata',
+					timer: 1700,
+					icon: 'success',
+					showCancelButton: false,
+					showConfirmButton: false,
+					width: '400px',
+					})
+				},
+				error: function (result){
+					Swal.fire({
+						title: 'Recensione non Effettuata',
+						timer: 2000,
+						icon: 'error',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '500px'
+					})
+				}
+			});
+		});
 	</script>
-
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>

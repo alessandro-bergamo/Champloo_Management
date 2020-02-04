@@ -1197,7 +1197,55 @@ public class ProductDAO implements ProductModel
 
         return product_deleted != 0;
 	}
-
+	
+	@Override
+	public boolean updateRating(int id_product, int ratingScore) throws SQLException 
+	{
+		int wasBeenRated = 0;
+		int actualRating = 0;
+		float average_rating = 0;
+		int number_feedback_users = 0;
+		
+		connection = connectionPool.getConnection();
+		
+		try {
+			query = "SELECT total_rating,average_rating,number_feedback_users FROM products WHERE id_product = '"+id_product+"'";
+			statement = connection.createStatement(); 
+			results = statement.executeQuery(query);
+			
+			if(results.first())
+			{
+				actualRating = results.getInt(1);
+				average_rating = results.getInt(2);
+				number_feedback_users = results.getInt(3);
+			}
+			
+			actualRating += ratingScore;
+			number_feedback_users ++;
+			average_rating = actualRating / number_feedback_users;
+			
+			query = "UPDATE products SET total_rating = '"+actualRating+"', average_rating = '"+average_rating+"', number_feedback_users = '"+number_feedback_users+"' WHERE id_product = '"+id_product+"'";
+			System.out.println("line 1228 ProductDAO query -> "+ query);
+			statement = connection.createStatement(); 
+			wasBeenRated = statement.executeUpdate(query);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}finally {
+            try {
+                
+            	if (statement != null)
+                    statement.close();
+            
+            } finally {
+            	connectionPool.releaseConnection(connection);
+            }
+        }
+		
+		return wasBeenRated != 0; 
+	}
 	/**
      * Updates a given product
      * param product

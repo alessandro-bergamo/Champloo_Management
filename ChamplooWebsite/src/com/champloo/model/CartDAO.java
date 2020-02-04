@@ -2,10 +2,15 @@ package com.champloo.model;
 
 import com.champloo.bean.*;
 import com.champloo.storage.ConnectionPool;
+import com.champloo.util.ActiveCart;
+
 import javafx.util.Pair;
 
 import java.sql.*;
+
+import java.util.Map.Entry;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class CartDAO implements CartModel
 {
@@ -453,6 +458,13 @@ public class CartDAO implements CartModel
 		}
 		
 		return cartItem;
+	}
+	
+	@Override
+	public void storeActiveCartInDb(ActiveCart activeCart, int id_user) throws SQLException {
+		
+		Iterator<Entry<Pair<ProductBean, ProductDetailsBean>, Integer>> iterator =  activeCart.getCartIterator();
+				
 	}
 	
 	private static ConnectionPool connectionPool;

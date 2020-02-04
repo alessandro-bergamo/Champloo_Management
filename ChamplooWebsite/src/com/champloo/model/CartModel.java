@@ -9,6 +9,7 @@ import com.champloo.bean.CartItemBean;
 import com.champloo.bean.ProductBean;
 import com.champloo.bean.ProductDetailsBean;
 import com.champloo.bean.UserBean;
+import com.champloo.util.ActiveCart;
 
 import javafx.util.Pair;
 
@@ -33,4 +34,6 @@ public interface CartModel {
 	public CartBean retrieveCart(UserBean user) throws SQLException;
 	
 	public CartItemBean retrieveCartItem (int id_cart_item) throws SQLException;
+	
+	public void storeActiveCartInDb(ActiveCart activeCart, int id_user ) throws SQLException;
 }

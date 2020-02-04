@@ -432,6 +432,20 @@ public class ProductControl extends HttpServlet{
 					e.printStackTrace();
 				} 
 			}
+			else if(operation.equals("updateRating"))
+			{
+				int id_product = Integer.parseInt(request.getParameter("id_product"));
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				
+				try {
+					productDAO.updateRating(id_product, rating);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			}
 		}
 
 		if(operation.equals("showProduct"))

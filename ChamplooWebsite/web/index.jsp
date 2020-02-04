@@ -283,26 +283,26 @@
 										%>
 										<div class="rating_r rating_r_0 home_item_rating">
 											<%
-												} else if (product.getAverage_rating() <= 20
+												} else if (product.getAverage_rating() <= 1
 																	&& product.getAverage_rating() != 0) {
 											%>
 											<div class="rating_r rating_r_1 home_item_rating">
 												<%
-													} else if (product.getAverage_rating() > 20
-																		&& product.getAverage_rating() <= 40) {
+													} else if (product.getAverage_rating() > 1
+																		&& product.getAverage_rating() <= 2) {
 												%>
 												<div class="rating_r rating_r_2 home_item_rating">
 													<%
-														} else if (product.getAverage_rating() > 40
-																			&& product.getAverage_rating() <= 60) {
+														} else if (product.getAverage_rating() > 2
+																			&& product.getAverage_rating() <= 3) {
 													%>
 													<div class="rating_r rating_r_3 home_item_rating">
 														<%
-															} else if (product.getAverage_rating() > 60 && product.getAverage_rating() <= 80) {
+															} else if (product.getAverage_rating() > 3 && product.getAverage_rating() <= 4) {
 														%>
 														<div class="rating_r rating_r_4 home_item_rating">
 															<%
-																} else if (product.getAverage_rating() > 80) {
+																} else if (product.getAverage_rating() > 4) {
 															%>
 															<div class="rating_r rating_r_5 home_item_rating">
 																<%

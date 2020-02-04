@@ -38,6 +38,8 @@ public interface ProductModel
 	
 	public HashMap<ProductBean, ArrayList<ProductDetailsBean>> retrieveNewProducts() throws SQLException;
 	
+	public boolean updateRating(int id_product,int ratingScore) throws SQLException;
+	
 	public boolean deleteProduct(int id_product) throws SQLException;
 	
 	public boolean updateProduct(ProductBean newProduct, ProductDetailsBean newProductDetails) throws SQLException;
