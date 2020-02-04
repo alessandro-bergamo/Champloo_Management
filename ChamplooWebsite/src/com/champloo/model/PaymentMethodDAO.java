@@ -105,7 +105,7 @@ public class PaymentMethodDAO implements PaymentMethodModel
      * @param card_number
      * @return payment_method
      */
-    public PaymentMethodBean retrieveByCardNumber(String card_number) throws SQLException
+    public PaymentMethodBean retrieveByCNumber(String card_number) throws SQLException
     {
 
         PaymentMethodBean PMethod = new PaymentMethodBean();

@@ -269,7 +269,7 @@ public class CartControl extends HttpServlet {
 				ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
 				if(activeCart == null )
 				{
-					cartDAO.storeActiveCartInDb(activeCart, id_user);
+					//cartDAO.storeActiveCartInDb(activeCart, id_user);
 				}
 				Float total_price_order, shipping_price, total_price;
 				total_price = Float.parseFloat(request.getParameter("total_price"));

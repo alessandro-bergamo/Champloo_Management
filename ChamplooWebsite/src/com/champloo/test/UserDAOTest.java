@@ -4,10 +4,6 @@ import com.champloo.bean.UserBean;
 import com.champloo.model.UserDAO;
 import com.champloo.storage.ConnectionPool;
 import org.junit.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
