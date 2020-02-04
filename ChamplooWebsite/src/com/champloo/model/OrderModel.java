@@ -25,7 +25,7 @@ public interface OrderModel
     boolean cancelOrder(int order_id) throws SQLException;
 
     //Method that retrieves an order by his ID
-    OrderBean retrieveByID(int id_order) throws SQLException;
+    OrderBean retrieveByID(int order_id) throws SQLException;
 
     //Method that retrieves orders having a username
     LinkedHashMap<OrderBean, ArrayList<Pair<OrderItemBean, Pair<ProductBean, ProductDetailsBean>>>> retrieveByUserID(int user_id) throws SQLException;

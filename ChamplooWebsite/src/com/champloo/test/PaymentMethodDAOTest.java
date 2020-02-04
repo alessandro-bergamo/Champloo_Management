@@ -121,7 +121,7 @@ public class PaymentMethodDAOTest {
     public void retrieveByCardNumber() {
         Assume.assumeTrue(type.equals(Type.RETRIEVEBYCARDNUMBER));
         try {
-            Assert.assertEquals(expectedResult, paymentMethodDAO.retrieveByCardNumber((String)paramForDAO).isEmpty());
+            Assert.assertEquals(expectedResult, paymentMethodDAO.retrieveByCNumber((String)paramForDAO).isEmpty());
         }catch (Exception e) {
             e.printStackTrace();
         }
