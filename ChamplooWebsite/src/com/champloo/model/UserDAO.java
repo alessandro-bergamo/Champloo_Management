@@ -53,11 +53,9 @@ public class UserDAO implements UserModel {
 			ResultSet resultSetEmail = statement2.executeQuery("select * from registred_users where email = " + "'" + newUser.getEmail() + "'");
 			resultSetEmail.first();
 			int rowEmail = resultSetEmail.getRow();
-			System.out.println("sono qui");
 			//prima di inserire l'utente controllo che non ci sia nessun utente con lo stesso username o stessa email
 			if(rowUsername == 0 && rowEmail == 0) {
 
-				System.out.println("sono qui");
 				PreparedStatement insertQuery = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values(?,?,?,?,?,?,?);");
 				insertQuery.setString(1, newUser.getFirstName());
 				insertQuery.setString(2, newUser.getSurname());

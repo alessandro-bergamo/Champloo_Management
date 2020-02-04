@@ -32,7 +32,6 @@ public class CartControl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
-		System.out.println("-----> RIGA 29 CARTCONTROL - OPERATION CARTCONTROL: "+operation);
 		RequestDispatcher dispatcher;
 		session = request.getSession(true);
 		
@@ -52,11 +51,8 @@ public class CartControl extends HttpServlet {
 							e.printStackTrace();
 						}
 					}
-					System.out.println("-----> RIGA 39 CARTCONTROL - UTENTE: "+user.getFirstName());
 					try {
 						CartBean cart = cartDAO.retrieveCart(user);
-						System.out.println("-----> RIGA 42 CARTCONTROL - CART: "+cart);
-						System.out.println("-----> RIGA 42 CARTCONTROL - CART: "+cart.getId_cart());
 						session.setAttribute("cart", cart);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -278,7 +274,6 @@ public class CartControl extends HttpServlet {
 				// controllare se l'ordine è effettuato su un ActiveCart (utente non loggato) 
 				ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
 				UserBean user = (UserBean) session.getAttribute("utenteLoggato");
-				System.out.println("line 281 CartComtrol -> userLoggato: "+user);
 				if(user == null)
 				{
 					response.setStatus(500);

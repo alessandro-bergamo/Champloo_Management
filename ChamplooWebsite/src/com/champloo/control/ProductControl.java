@@ -34,7 +34,6 @@ public class ProductControl extends HttpServlet{
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
-		System.out.println("operation in ProductControl -> "+operation);
 		RequestDispatcher dispatcher;
 		HttpSession session = request.getSession(true);
 		
@@ -314,8 +313,6 @@ public class ProductControl extends HttpServlet{
 				boolean result = false;
 				int id_product = Integer.parseInt(request.getParameter("id_product"));
 
-				System.out.println("ID: "+id_product);
-
 				try {
 					result = productDAO.deleteProduct(id_product);
 				} catch (SQLException e) {
@@ -417,8 +414,6 @@ public class ProductControl extends HttpServlet{
 
 				try {
 					products = productDAO.retrieveAll();
-					if(products == null)
-						System.out.println("Product Control line 385 -> Products è null");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

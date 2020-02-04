@@ -33,7 +33,6 @@ public class OrderControl extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String operation = request.getParameter("operation");
-        System.out.println("OPERATION: "+operation);
         RequestDispatcher dispatcher;
         HttpSession session = request.getSession(true);
 
@@ -116,8 +115,6 @@ public class OrderControl extends HttpServlet
                 int id_order = Integer.parseInt(request.getParameter("order_id"));
                 int status = Integer.parseInt(request.getParameter("status"));
                 Date delivery_date = Date.valueOf(request.getParameter("delivery_date"));
-
-                System.out.println("ID: "+id_order+" STATUS: "+status+" DATA: "+delivery_date);
 
                 try {
                     model_order.modifyOrder(id_order, status, delivery_date);

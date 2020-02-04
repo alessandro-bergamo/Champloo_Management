@@ -48,8 +48,6 @@ public class PaymentMethodControl extends HttpServlet
                 payment_method.setCard_owner(request.getParameter("owner"));
                 payment_method.setRegistred_User(user.getID());
 
-                System.out.println(request.getParameter("expiry"));
-
                 payment_method.setExpiry_date(request.getParameter("expiry"));
 
                 payment_method.setRegistration_method_date(LocalDate.now());

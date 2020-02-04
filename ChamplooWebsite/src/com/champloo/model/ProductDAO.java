@@ -1233,7 +1233,6 @@ public class ProductDAO implements ProductModel
 			average_rating = actualRating / number_feedback_users;
 			
 			query = "UPDATE products SET total_rating = '"+actualRating+"', average_rating = '"+average_rating+"', number_feedback_users = '"+number_feedback_users+"' WHERE id_product = '"+id_product+"'";
-			System.out.println("line 1228 ProductDAO query -> "+ query);
 			statement = connection.createStatement(); 
 			wasBeenRated = statement.executeUpdate(query);
 			

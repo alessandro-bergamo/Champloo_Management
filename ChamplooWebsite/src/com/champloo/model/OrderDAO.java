@@ -295,7 +295,6 @@ public class OrderDAO implements OrderModel
 
                         try {
                             preparedStatement = connection.prepareStatement(query);
-                            System.out.println("ID PRODUCT: "+productDetails.getProduct());
                             preparedStatement.setInt(1, productDetails.getProduct());
                             fourthResults = preparedStatement.executeQuery();
 

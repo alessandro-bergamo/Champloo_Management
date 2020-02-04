@@ -42,10 +42,8 @@ public class ActiveCart {
 				}
 				
 			}
-			System.out.println("1° isInCart -> "+isInCart);
 		if(!isInCart)
 		{
-			System.out.println("2° isInCart -> "+isInCart);
 			Pair<ProductBean, ProductDetailsBean> newProductPair = new Pair<ProductBean, ProductDetailsBean>(newProduct, newProductDetails);
 			cartList.put(newProductPair, 1);
 		}
@@ -109,7 +107,6 @@ public class ActiveCart {
 	
 	public void clearCart()
 	{
-		System.out.println("AcitveCart -> cleatrCart line 112");
 		cartList.clear();
 		cartList = new HashMap<Pair<ProductBean, ProductDetailsBean>, Integer>();
 	}

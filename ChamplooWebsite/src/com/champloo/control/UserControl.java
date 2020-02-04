@@ -51,11 +51,9 @@ public class UserControl extends HttpServlet {
 						session.setAttribute("utenteLoggato", userDAO.getUserByEmail(user_email));
 						session.setAttribute("email", user_email);
 						request.setAttribute("login", true);
-						System.out.println("SONO QUI, RIGA 52 USERCONTROL");
 						dispatcher = request.getRequestDispatcher("Address");
 						dispatcher.forward(request,response);
 					} else {
-						System.out.println("Utente non loggato");
 						response.setStatus(500);
 					}
 				}
@@ -76,9 +74,7 @@ public class UserControl extends HttpServlet {
 			}
 			else if(operation.equals("modifyPassword")) {
 				String username = request.getParameter("username");
-				System.out.println("USERNAME: "+username);
 				UserBean user = userDAO.getUserByUsername(username);
-				System.out.println("USER: "+user.getFirstName()+" PASSWORD: "+user.getPassword());
 				String newPassword = request.getParameter("new_psw");
 				boolean result = userDAO.changePassword(user, newPassword);
 				request.setAttribute("result", result);

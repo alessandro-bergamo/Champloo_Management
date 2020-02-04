@@ -212,9 +212,7 @@ public class CartDAO implements CartModel
 					productDetails.setQnt_stock(secondResults.getInt(6));
 					productDetails.setImg_path_folder(secondResults.getString(7));
 					
-					query = "SELECT qnt_in_cart FROM cart_item WHERE Cart = '"+cart.getId_cart()+"' AND Product_Details = '"+productDetails.getId_prod_details()+"'";
-					
-					System.out.println(query);
+					query = "SELECT qnt_in_cart FROM cart_item WHERE Cart = '"+cart.getId_cart()+"' AND Product_Details = '"+productDetails.getId_prod_details()+"'";			
 					
 					statement = connection.createStatement();
 					results = statement.executeQuery(query);
@@ -226,7 +224,6 @@ public class CartDAO implements CartModel
 				
 					Pair<ProductBean, ProductDetailsBean> newPair = new Pair<ProductBean, ProductDetailsBean>(product, productDetails);
 					products.put(newPair, qnt);
-					System.out.println(products.get(newPair).toString());
 				}
 				
 			}
@@ -376,8 +373,6 @@ public class CartDAO implements CartModel
 			statement = connection.createStatement();
 			
 			results = statement.executeQuery(query);
-
-			System.out.println("-----> RIGA 376 CARTDAO - RESULTS: "+results.first());
 			
 			if(results.first())
 			{
@@ -385,7 +380,6 @@ public class CartDAO implements CartModel
 				cart.setId_cart(results.getInt(1));
 				cart.setUser(results.getInt(2));
 			} else {
-				System.out.println("SONO QUI - RIGA 384 CARTDAO");
 				query = "INSERT INTO carts(Registred_User) VALUES (?)";
 
 				preparedStatement = connection.prepareStatement(query);
@@ -393,7 +387,6 @@ public class CartDAO implements CartModel
 				preparedStatement.setInt(1, user.getID());
 
 				preparedStatement.executeUpdate();
-				System.out.println("SONO QUI - RIGA 392 CARTDAO");
 				query = "SELECT * FROM carts WHERE Registred_User = '"+user.getID()+"'";
 
 				statement = connection.createStatement();
@@ -421,7 +414,6 @@ public class CartDAO implements CartModel
             }
 		}
 
-		System.out.println("-----> RIGA 402 CARTDAO - CART: "+cart);
 		return cart;
 	}
 	
