@@ -351,7 +351,6 @@
 			var value2 = ("insertProduct");
 			var value3 = $("#id_product").val();
 			var value4 = $("#product_status").val();
-			alert(checkedValue);
 			
 			$.ajax({
 				type: "GET",
