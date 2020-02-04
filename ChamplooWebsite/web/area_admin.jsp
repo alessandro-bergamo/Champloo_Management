@@ -85,9 +85,10 @@
             if(utenteLoggato.getType()==2)
                 users = (ArrayList) session.getAttribute("users");
             else if(utenteLoggato.getType()==3)
-                products = (HashMap) session.getAttribute("products");
+            	 orders = (HashMap) session.getAttribute("orders");
             else if(utenteLoggato.getType()==4)
-                orders = (HashMap) session.getAttribute("orders");
+            	 products = (HashMap) session.getAttribute("products");
+               
 
         %>
 
@@ -164,7 +165,7 @@
                                <%       }
                                     } %>
                            </div>
-                           <%   } else if(utenteLoggato.getType()==3)
+                           <%   } else if(utenteLoggato.getType()==4)
                                 {
                            %>
                            <div class="container divprod" id="prodiv">
@@ -283,7 +284,8 @@
                                    </div>
                                    <div class="col-xl-1">
                                        <div class="row justify-content-center">
-                                           <a href="Product?operation=modifyProduct&prod_id=<%=product.getId_prod()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
+                                          <!-- <a href="Product?operation=modifyProduct&prod_id=<%=product.getId_prod()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a> -->
+                                       		<a href ="Product?operation=openModifyProductJSP&id_product=<%=product.getId_prod()%>&id_product_details=<%=productDetails.get(I).getId_prod_details()%>"><img src="images/setting.png" height="32" width="32"><i class="glyphicon glyphicon glyphicon-wrench wrench"> </i></a>
                                        </div>
                                        <div class="row justify-content-center">
                                            <input type="hidden" id="product_id" value="<%=product.getId_prod()%>">
@@ -298,7 +300,7 @@
                                %>
                            </div>
                            <%
-                                } else if(utenteLoggato.getType()==4)
+                                } else if(utenteLoggato.getType()==3)
                                 {
                            %>
                            <div class="container divordini" id="ordiv">

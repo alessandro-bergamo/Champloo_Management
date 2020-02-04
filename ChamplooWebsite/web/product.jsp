@@ -20,7 +20,11 @@
 	<link href="images/icona.png" rel="shortcut icon"/>
 
 	<!-- IMPORT VARI (BOOTSTRAP, JQUERY, NODE.JS) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -108,7 +112,7 @@
 			<div class="container">
 				<div class="row">
 					<input type="hidden" id="id_product" value="<%=product.getId_prod()%>">
-					<input type="hidden" id="status_product" value="<%=product.getStatus()%>">
+					<input type="hidden" id="product_status" value="<%=product.getStatus()%>">
 					<!-- Product Image -->
 					<div class="col-lg-6">
 						<div class="product_image_slider_container">
@@ -167,15 +171,26 @@
 							<div class="product_rating_container d-flex flex-row align-items-center justify-content-start">
 								<div class="rate">
 									
-									<label for="star5" title="5 Stelle">5 stars</label>
+									<label for="star5" title="5 Stelle" id="ratingScore">5 stars
+										<input type="hidden" id="ratingScore" value="5">
+									</label>
 									
-									<label for="star4" title="4 Stelle">4 stars</label>
+									<label for="star4" title="4 Stelle" id="ratingScore">4 stars
+										<input type="hidden" value="4">
+									</label>
 									
-									<label for="star3" title="3 Stelle">3 stars</label>
+									<label for="star3" title="3 Stelle" id="ratingScore">3 stars
+										<input type="hidden" value="3">
+									</label>
 									
-									<label for="star2" title="2 Stelle">2 stars</label>
+									<label for="star2" title="2 Stelle" id="ratingScore">2 stars
+										<input type="hidden" value="2">
+									</label>
 									
-									<label for="star1" title="1 Stella">1 star</label>
+									<label for="star1" title="1 Stella" id="ratingScore">1 star
+										<input type="hidden" value="1">
+									</label>
+									
 								</div>
 								<% 	float average_rating = product.getAverage_rating();
 									int reviewers = product.getNumber_feedback_users();
@@ -336,6 +351,7 @@
 			var value2 = ("insertProduct");
 			var value3 = $("#id_product").val();
 			var value4 = $("#product_status").val();
+			alert(checkedValue);
 			
 			$.ajax({
 				type: "GET",
@@ -364,8 +380,41 @@
 				}
 			});
 		};
+		
+		$("[id='ratingScore']").on("click", function setRating()
+		{
+			var id_product = $("#id_product").val();
+			var rating = $(this).find("input").val();
+			var operation = "updateRating";
+			
+			$.ajax({
+				type: "GET",
+				url: "Product",
+				data: {"id_product" : id_product, "rating" : rating, "operation" : operation},
+				success: function(results)
+				{
+					Swal.fire({
+					title: 'Recnsione Effettuata',
+					timer: 1700,
+					icon: 'success',
+					showCancelButton: false,
+					showConfirmButton: false,
+					width: '400px',
+					})
+				},
+				error: function (result){
+					Swal.fire({
+						title: 'Recensione non Effettuata',
+						timer: 2000,
+						icon: 'error',
+						showCancelButton: false,
+						showConfirmButton: false,
+						width: '500px'
+					})
+				}
+			});
+		});
 	</script>
-
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>
@@ -381,6 +430,7 @@
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="plugins/flexslider/jquery.flexslider-min.js"></script>
 <script src="js/product.js"></script>
+<script src="js/logout.js"></script>
 
 </body>
 </html>

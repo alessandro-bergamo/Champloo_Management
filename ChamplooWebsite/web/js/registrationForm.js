@@ -7,6 +7,9 @@ $(document).ready(function()
 	$.validator.addMethod("nomecognome", function(value, element) { 
 		return this.optional(element) || /^[a-zA-Z ]+$/i.test(value); 
 		}, "In questo campo non sono consentiti i numeri!");
+	$.validator.addMethod("password_regex", function(value, element) { 
+		return this.optional(element) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/i.test(value); 
+		}, "La password deve contenere almeno una lettera maiuscola, un numero e un carattere speciale!");
 
 		
 	$("#registrationForm").validate(

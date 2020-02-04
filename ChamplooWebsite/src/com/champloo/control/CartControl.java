@@ -266,6 +266,11 @@ public class CartControl extends HttpServlet {
 			else if(operation.equals("submitCheckout"))
 			{
 				// controllare se l'ordine è effettuato su un ActiveCart
+				ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
+				if(activeCart == null )
+				{
+					cartDAO.storeActiveCartInDb(activeCart, id_user);
+				}
 				Float total_price_order, shipping_price, total_price;
 				total_price = Float.parseFloat(request.getParameter("total_price"));
 				shipping_price = Float.parseFloat(request.getParameter("shipping_price"));

@@ -69,7 +69,7 @@ public class UserControl extends HttpServlet {
 					String nuovaPsw = passwordGenerator.generate(10);
 					String newPassword = nuovaPsw;
 					userBean.setPassword(newPassword);
-					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password � " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
+					Mailer.send(user_email, "FORGET PASSWORD", "La tua nuova password è " + nuovaPsw + ". Puoi modificarla una volta effettuato l'accesso.");
 					request.setAttribute("accreditate", true);
 				}
 			}
@@ -128,7 +128,13 @@ public class UserControl extends HttpServlet {
 				String firstName = request.getParameter("firstname");
 				String lastName = request.getParameter("lastname");
 				String password = request.getParameter("password");
-				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: http://localhost:8080/ChamplooWebsite_war_exploded/registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
+
+				String URL_NSS = request.getRequestURL().toString();
+
+				String URL = URL_NSS.substring(0, URL_NSS.lastIndexOf("/"));
+
+				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: "+URL+"registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
+
 				request.setAttribute("accreditate", true);
 			}
 			else if(operation.equals("validateUser")) 

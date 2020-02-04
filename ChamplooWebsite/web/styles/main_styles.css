@@ -1889,6 +1889,26 @@ Form Validation
 	background-repeat: no-repeat;
 	text-size: Smallest;
 }
+#modifyPassword label.error {
+	color: #f33;
+	padding: 0;
+	margin-bottom: 0.5px;
+	font-size: 1em;
+	padding-left: 25px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	text-size: Smallest;
+}
+#passwordDimenticata label.error {
+	color: #f33;
+	padding: 0;
+	margin-bottom: 0.5px;
+	font-size: 1em;
+	padding-left: 25px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	text-size: Smallest;
+}
 
 .ui-datepicker-calendar {
     display: none;

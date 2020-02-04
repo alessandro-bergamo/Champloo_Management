@@ -645,6 +645,7 @@
     <script src="/ChamplooWebsite/js/userAreaForm.js"></script>
     <script src="/ChamplooWebsite/js/addressForm.js"></script>
     <script src="/ChamplooWebsite/js/paymentMethodForm.js"></script>
+    <script src="js/logout.js"></script>
 
 </body>
 

@@ -97,11 +97,11 @@
 	                                <h3>INFORMAZIONI LOGIN</h3>
 	                                <div>
 	                                    <span>Password<label>*</label></span>
-	                                    <input name="password" type="password">
+	                                    <input name="password" id="password" type="password">
 	                                </div>
 	                                <div>
 	                                    <span>Conferma Password<label>*</label></span>
-	                                    <input name="password2" type="password">
+	                                    <input name="password2" id="password2" type="password">
 	                                </div>
 	                                <div class="clear"> </div>
 	                            </div>

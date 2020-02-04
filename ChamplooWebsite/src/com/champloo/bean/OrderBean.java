@@ -2,7 +2,6 @@ package com.champloo.bean;
 
 import java.sql.Date;
 
-
 public class OrderBean
 {
 

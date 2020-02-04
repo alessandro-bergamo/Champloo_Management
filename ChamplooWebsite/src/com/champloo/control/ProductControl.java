@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.HTMLDocument.HTMLReader.ParagraphAction;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,6 +34,7 @@ public class ProductControl extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
+		System.out.println("operation in ProductControl -> "+operation);
 		RequestDispatcher dispatcher;
 		HttpSession session = request.getSession(true);
 		
@@ -329,12 +331,27 @@ public class ProductControl extends HttpServlet{
 
 				session.setAttribute("products", products);
 			}
+			else if(operation.equals("openModifyProductJSP"))
+			{
+				int idProduct = Integer.parseInt(request.getParameter("id_product"));
+				int idProductDetails = Integer.parseInt(request.getParameter("id_product_details"));
+				
+				try {
+					Pair<ProductBean, ProductDetailsBean> productPair =  productDAO.retrieveProductWithDetails(idProduct, idProductDetails);
+					session.setAttribute("productPair", productPair);
+					session.setAttribute("redirectURL", "modifica_prodotto.jsp");
+
+					dispatcher = request.getRequestDispatcher("Redirect");
+					dispatcher.forward(request, response);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			else if(operation.equals("modifyProduct"))
 			{
-
-			}
-			else if(operation.equals("updateProduct"))
-			{
+				int id_product = Integer.parseInt(request.getParameter("id_product"));
+				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
 				String name_product = request.getParameter("name_product");
 				String brand_product = request.getParameter("brand_product");
 				String model_product = request.getParameter("model_product");
@@ -345,6 +362,7 @@ public class ProductControl extends HttpServlet{
 					
 				ProductBean newProduct = new ProductBean();
 				
+				newProduct.setId_prod(id_product);
 				newProduct.setName(name_product);
 				newProduct.setBrand(brand_product);
 				newProduct.setModel(model_product);
@@ -361,6 +379,7 @@ public class ProductControl extends HttpServlet{
 				
 				ProductDetailsBean newProductDetails = new ProductDetailsBean();
 				
+				newProductDetails.setId_prod_details(id_product_details);
 				newProductDetails.setColor(color);
 				newProductDetails.setSize(size);
 				newProductDetails.setDiscount_percent(discount_percent);
@@ -369,16 +388,29 @@ public class ProductControl extends HttpServlet{
 				
 				try {
 					productDAO.updateProduct(newProduct, newProductDetails);
+					HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
+					products = productDAO.retrieveAll();
+					session.setAttribute("products", products);
+					
+					session.setAttribute("redirectURL", "area_admin.jsp");
+
+					dispatcher = request.getRequestDispatcher("Redirect");
+					dispatcher.forward(request, response);
+					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else if(operation.equals("productManager"))
 			{
+				session.removeAttribute("products");
+				
 				HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
 
 				try {
 					products = productDAO.retrieveAll();
+					if(products == null)
+						System.out.println("Product Control line 385 -> Products è null");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -399,6 +431,19 @@ public class ProductControl extends HttpServlet{
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} 
+			}
+			else if(operation.equals("updateRating"))
+			{
+				int id_product = Integer.parseInt(request.getParameter("id_product"));
+				int rating = Integer.parseInt(request.getParameter("rating"));
+				
+				try {
+					productDAO.updateRating(id_product, rating);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
 			}
 		}
 

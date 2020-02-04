@@ -1,3 +1,4 @@
+<%@page import="javafx.util.Pair"%>
 <%@page
 		language="java"
 		contentType="text/html; charset=UTF-8"
@@ -32,8 +33,12 @@
    <script src="/ChamplooWebsite/js/aggiuntaProdotto.js"></script>
     <!-- STILI CSS -->
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-    
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+    
+    <% 	Pair<ProductBean, ProductDetailsBean> productPair = ( Pair<ProductBean, ProductDetailsBean> ) session.getAttribute("productPair"); 
+    	ProductBean product = (ProductBean) productPair.getKey();
+    	ProductDetailsBean productDetails = (ProductDetailsBean) productPair.getValue();
+    %>
 </head>
 <body>
 
@@ -72,21 +77,14 @@
 
        			<%@ include file="header.jsp" %>
 
-
         <div class="super_container_inner">
             <div class="super_overlay"></div>
         <br>
         <br>
-           
-           
-            
-
-         <br>
-         <br>
-         <br>
+        <br>
+        <br>
+        <br>
                <!-- Header section end -->
-
-
                <section class="insform-pages">
                    <div class="container">
                        <div class="row justify-content-center">
@@ -94,119 +92,86 @@
                        </div>
                    </div>
                    <div class="container border-insformpage">
-                       <form action="Product" id="aggiuntaProdotto" name="aggiuntaProdotto" method="GET">
+                       <form action="Product" method="GET">
                            <div class="row form-group">
-                           <input name="operation" type="hidden" value="addProduct"> 
+                           <input name="operation" type="hidden" value="modifyProduct">
+                           <input name="id_product" type="hidden" value=<%=product.getId_prod()%>>
+                           <input name="id_product_details" type="hidden" value=<%=productDetails.getId_prod_details()%>> 
                                <label for="type_product" class="4 form-label">Tipo</label>
                                <div class="col-xl-8">
-                                   <select class="form-input" name="type_product" id="type_product">
-                                   <option disabled="disabled" selected="" value="default">Seleziona il tipo di prodotto</option>
-                                   <option value=T-shirt>T-shirt</option>
-                                   <option value="Felpa">Felpa</option>
-                                   <option value="Camicia">Camicia</option>
-                                   <option value="Giacca">Giacca</option>
-                                   <option value="Giubbino">Giubbino</option>
-                                   <option value="Jeans">Jeans</option>
-                                   <option value="Canotta">Canotta</option>
-                                   <option value="Tuta">Tuta</option>
-                                   <option value="Pantaloncino">Pantaloncino</option>
-                                   </select>
-                               </div>
+									<input type="text" class="form-input" name="type_product"  value="<%=product.getType()%>"  readonly>
+							   </div>
                            </div>
                            <div class="row form-group">
                                <label for="model_product" class="4 form-label">Modello</label>
                                <div class="col-xl-8">
-                                   <input type="text"  class="form-input" id="model_product"  name="model_product" placeholder="Modello Prodotto"> 
+                                   <input type="text"  class="form-input" id="model_product" name="model_product" value="<%=product.getModel()%>" placeholder="Modello Prodotto"> 
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="brand_product" class="4 form-label">Brand</label>
                                <div class="col-xl-8">
-                                   <select class="form-input" name="brand_product">
-                                   <option disabled="disabled" selected="" value="default">Seleziona il brand del prodotto</option>
-                                   <option value="Nike">Nike</option>
-                                   <option value="Adidas">Adidas</option>
-                                   <option value="Supreme">Supreme</option>
-                                   <option value="Huf">Huf</option>
-                                   <option value="Levis">Levi's</option>
-                                   <option value="Vans">Vans</option>
-                                   <option value="Reebok">Reebok</option>
-                                   <option value="Dickies">Dickies</option>
-                                   <option value="Helly-Hansen">Helly-Hansen</option>
-                                   </select>
-                               </div>
+									<input type="text" class="form-input" name="brand_product" value="<%=product.getBrand()%>"  readonly>
+							   </div>
                            </div>
                            <div class="row form-group">
                                <label for="name_product" class="4 form-label">Nome</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" id="name_product" name="name_product" placeholder="Nome Prodotto">
+                                   <input type="text" class="form-input" id="name_product" name="name_product" value="<%=product.getName()%>" placeholder="Nome Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="description_product" class="4 form-label">Descrizione</label>
                                <div class="col-xl-8">
-                                   <textarea rows="3" class="form-input" name="description_product" placeholder="Descrizione Prodotto"></textarea>
+                                   <textarea rows="3" class="form-input" name="description_product" placeholder="Descrizione Prodotto"> <%=product.getDescription()%></textarea>
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="size_product" class="4 form-label">Taglia</label>
                                <div class="col-xl-8">
-                                   <select class="form-input" name="size_product">
-                                   <option disabled="disabled" selected="" value="default">Seleziona la taglia del prodotto</option>
-                                   <option value="XS">XS</option>
-                                   <option value="S">S</option>
-                                   <option value="M">M</option>
-                                   <option value="L">L</option>
-                                   <option value="XL">XL</option>
-                                   </select>
-                               </div>
+									<input type="text" class="form-input" name="size_product"  value="<%=productDetails.getSize()%>"  readonly>
+							   </div>
                            </div>
                            <div class="row form-group">
                                <label for="color_product" class="4 form-label">Colore</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="color_product" placeholder="Colore Prodotto">
+                                   <input type="text" class="form-input" name="color_product" value="<%=productDetails.getColor()%>" placeholder="Colore Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="price_product" class="4 form-label">Prezzo</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="price_product" placeholder="Prezzo Prodotto">
+                                   <input type="text" class="form-input" name="price_product" value="<%=product.getPrice()%>" placeholder="Prezzo Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="discount_product" class="4 form-label">% Prodotto in Sconto</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="discount_percent_product" placeholder="% Prodotto in Sconto">
-                               </div>
-                           </div>
-                           <div class="row form-group">
-                               <label for="discounted_price_product" class="4 form-label">Prezzo Prodotto in Sconto</label>
-                               <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="discounted_price_product" placeholder="Prezzo Prodotto in Sconto">
+                                   <input type="text" class="form-input" name="discount_percent_product" value="<%=productDetails.getDiscount_percent()%>" placeholder="% Prodotto in Sconto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="qnt_product" class="4 form-label">Quantità Prodotto</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="qnt_stock_product" placeholder="Quantità Prodotto">
+                                   <input type="text" class="form-input" name="qnt_stock_product"  value="<%=productDetails.getQnt_stock()%>" placeholder="Quantità Prodotto">
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="status_product" class="4 form-label">Status</label>
                                <div class="col-xl-8">
                                    <select class="form-input" name="status_product">
-                                   <option disabled="disabled" selected="" value="default">Seleziona lo status del prodotto</option>
-                                   <option value="1">Prodotto normale</option>
-                                   <option value="2">Prodotto nuovo</option>
-                                   <option value="3">Prodotto in sconto</option>
-                                   <option value="4">Prodotto in vetrina</option>                                   
+	                                   <option disabled="disabled" selected="" value="default">Seleziona lo status del prodotto</option>
+	                                   <option value="1">Prodotto normale</option>
+	                                   <option value="2">Prodotto nuovo</option>
+	                                   <option value="3">Prodotto in sconto</option>
+	                                   <option value="4">Prodotto in vetrina</option>                                   
                    					</select>
                                </div>
                            </div>
                            <div class="row form-group">
                                <label for="img_folder_path_product" class="4 form-label">Path Folder Immagini</label>
                                <div class="col-xl-8">
-                                   <input type="text" class="form-input" name="img_path_folder_product" placeholder="Path Folder Prodotto" value="img/">
+                                   <input type="text" class="form-input" name="img_path_folder_product" value=<%=productDetails.getImg_path_folder()%> placeholder="Path Folder Prodotto">
                                </div>
                            </div>
                            <div class="row justify-content-center">
@@ -232,9 +197,8 @@
             <script src="plugins/progressbar/progressbar.min.js"></script>
             <script src="plugins/parallax-js-master/parallax.min.js"></script>
             <script src="js/custom.js"></script>
-           
-            
-
+            <script src="js/logout.js"></script>
+                  
 </body>
 
 </html>
