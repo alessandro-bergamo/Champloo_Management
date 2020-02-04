@@ -48,9 +48,6 @@
 
 <!-- Menu -->
 
-<div class="menu">
-
-
     <div class="menu">
         <!-- Navigation -->
         <div class="menu_nav">
