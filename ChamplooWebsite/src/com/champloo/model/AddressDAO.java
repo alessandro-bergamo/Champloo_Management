@@ -20,6 +20,14 @@ public class AddressDAO implements AddressModel
 	    }
 	}
 
+	public AddressDAO(String s) {
+	    try {
+	        connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
+        }catch(SQLException e) {
+	        e.printStackTrace();
+        }
+    }
+
     /**
      * Insert a new Shipping Address
      * @param newAddress

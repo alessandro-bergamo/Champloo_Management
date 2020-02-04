@@ -37,8 +37,11 @@ public class UserDAOTest {
     public static void initialize() {
         userDAO = new UserDAO("");
         try {
+            String alterSql = "ALTER TABLE registred_users AUTO_INCREMENT = 1";
             connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
             connection = connectionPool.getConnection();
+            Statement alter = connection.createStatement();
+            alter.execute(alterSql);
             PreparedStatement insertQuery = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('David','Capuano','david98','davidecap00@hotmail.it','capucapu','2020-02-06','1');");
             PreparedStatement insertQuery2 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Alex','Esposito','alexBab','alex98@hotmail.it','freepsw','2020-02-06','1');");
             PreparedStatement insertQuery3 = connection.prepareStatement("insert into registred_users(firstname, surname, username, email, password_user, registration_date, type_user) values('Maria','Rossi','mRed','mrossi@hotmail.it','rossi46','2020-02-06','1');");
@@ -93,8 +96,8 @@ public class UserDAOTest {
                 {Type.UPDATEUSER, new UserBean("Tony", "Mank", "yee", "gokuan@live.it", "yeezy", new Date(), 1), false},
                 {Type.DELETEUSER, new UserBean("Tina", "Esposito", "tinEs98", "tina@hotmail.it", "espyus", new Date(), 1), true},
                 {Type.DELETEUSER, new UserBean("Nicola", "Marciano", "marcix", "nikmar@gmail.com", "nicoo98", new Date(), 1), false},
-                {Type.BLOCKUSER, "alexBab", true},
-                {Type.BLOCKUSER, "yeezy", false},
+                {Type.BLOCKUSER, new Integer(1), true},
+                {Type.BLOCKUSER, new Integer(21), false},
                 {Type.LOGIN, new String[]{"roscres@outlook.it", "cres00"}, true},
                 {Type.LOGIN, new String[]{"footbalpassion@hotmail.it", "calcio00"}, false},
                 {Type.CHANGEPASSWORD, new Object[]{new UserBean("Maria", "Rossi", "mRed", "mrossi@hotmail.it", "rossi46", new Date(), 1), "nuovaPsw"}, true},
@@ -146,7 +149,8 @@ public class UserDAOTest {
     @org.junit.Test
     public void blockUser() {
         Assume.assumeTrue((type.equals(Type.BLOCKUSER)));
-        assertEquals(expectedResult, userDAO.blockUser((Integer)paramForDAO));
+        Integer integer = (Integer)paramForDAO;
+        assertEquals(expectedResult, userDAO.blockUser(integer.intValue()));
     }
 
     @org.junit.Test

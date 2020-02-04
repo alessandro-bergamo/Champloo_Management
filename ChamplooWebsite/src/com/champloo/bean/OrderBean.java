@@ -6,6 +6,21 @@ import java.sql.Date;
 public class OrderBean
 {
 
+    public OrderBean(int status_order, int registred_User, float total_price, Date creation_date, Date delivery_date, String payment_method, String address, String order_owner) {
+        this.status_order = status_order;
+        Registred_User = registred_User;
+        this.total_price = total_price;
+        this.creation_date = creation_date;
+        this.delivery_date = delivery_date;
+        this.payment_method = payment_method;
+        this.address = address;
+        this.order_owner = order_owner;
+    }
+
+    public OrderBean() {
+
+    }
+
     public float getTotal_price()
     {
         return total_price;
@@ -60,8 +75,18 @@ public class OrderBean
 
     public void setRegistred_User(int registred_User) { Registred_User = registred_User; }
 
+    public boolean isEmpty() {
+        return id_order == 0 && status_order == 0 && Registred_User == 0 && total_price == 0 && creation_date == null && delivery_date == null && payment_method == null && address == null;
+    }
 
 
+
+    public static final int IN_ELABORAZIONE = 1;
+    public static final int PRONTO = 2;
+    public static final int IN_TRANSITO = 3;
+    public static final int CONSEGNATO = 4;
+    public static final int ANNULLATO = 5;
+    public static final int ANNULLATO_ADMIN = 6;
     private int id_order, status_order, Registred_User;
     private float total_price;
     private Date creation_date, delivery_date;
