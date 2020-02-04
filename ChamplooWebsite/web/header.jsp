@@ -18,8 +18,6 @@
             cart = (CartBean) request.getSession().getAttribute("cart");
             activeCart = (ActiveCart) request.getSession().getAttribute("activeCart");
         }
-	
-		System.out.println("header.jsp -> activeCart: "+activeCart);
 %>
         <header class="header">
             <div class="header_overlay"></div>
