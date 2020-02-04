@@ -361,6 +361,7 @@
                                     </div>
                                 </div>
                                 <div class="row justify-content-start" id="inputNewCard">
+                                <form id="insertPaymentMethod">
                                     <div class="row">
                                         <div class="col-xl-3">
                                             <select class="form-control" id="paymentMethodType" style="margin-left: 20px !important;">
@@ -389,10 +390,11 @@
                                         </div>
                                         <div class="col-xl-5">
                                             <div class="row justify-content-center">
-                                                <input type="submit" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
+                                                <input type="button" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
                                             </div>
                                         </div>
                                     </div>
+                                    </form>
                                 </div>
                            <%   } else if(methods_stampati == 0) {  %>
                                <div class="container spacerUP3">
@@ -407,6 +409,7 @@
                                        </div>
                                    </div>
                                    <div class="row justify-content-start" id="inputNewCard">
+                                   <form id="insertPaymentMethod">
                                        <div class="row">
                                            <div class="col-xl-3">
                                                <select class="form-control" id="paymentMethodType" style="margin-left: 20px !important;">
@@ -435,10 +438,11 @@
                                            </div>
                                            <div class="col-xl-5">
                                                <div class="row justify-content-center">
-                                                   <input type="submit" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
+                                                   <input type="button" class="site-btn7" onclick="insertMethod()" value="Salva Carta" style="margin-top: 25px; cursor: pointer !important;">
                                                </div>
                                            </div>
                                        </div>
+                                       </form>
                                    </div>
                                </div>
                            <%   }   %>
@@ -446,12 +450,9 @@
                        </div>
                    </div>
                 </div>
-
-
             </section>
         </div>
     </div>
-
     <script>
         $(document).ready(function() {
             $('#txtDate').datepicker({

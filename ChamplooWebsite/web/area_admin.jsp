@@ -420,8 +420,8 @@
             var value1 = $(this).prev().val();
             var value2 = ("deleteProduct");
             Swal.fire({ //PRIMO POPUP
-                title: "Sei sicuro di voler bloccare l'utente?",
-                text: "Assicurati di aver dei motivi ben validi per farlo.",
+                title: "Sei sicuro di voler cancellare il prodotto?",
+                text: "Non potrai recuperare il prodotto se non lo riaggiungi.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
