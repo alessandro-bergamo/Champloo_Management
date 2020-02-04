@@ -730,7 +730,33 @@ section
     background: transparent;
     cursor: pointer;
 }
-
+.submenu ul li a
+{
+	margin-left: 20px;
+	position: relative;
+	font-size: 18px;
+	color: #2e2e2e;
+	font-weight: bold;
+}
+.submenu ul li a:hover
+{
+	color: #2fce98;
+}
+.submenu ul li a::after
+{
+	content:'';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 0px;
+	height: 42px;
+	background: rgba(255,255,255,0.3);
+	transition: all 1s ease;
+}
+.submenu ul li a:hover::after
+{
+	width: 100%;
+}
 /*********************************
 5. Home
 *********************************/

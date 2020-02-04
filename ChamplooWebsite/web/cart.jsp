@@ -41,27 +41,44 @@
 	<!-- Menu -->
 
 	<div class="menu">
-
-        <!-- Navigation -->
-        <div class="menu_nav">
-            <ul>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="category.jsp">Catalogo Uomo</a></li>
-                <li><a href="#">Contatti</a></li>
-            </ul>
-        </div>
+		<!-- Navigation -->
+		<div class="menu_nav">
+			<ul>
+				<li><a href="index.jsp">Home</a></li>
+				<li><a href="Product?operation=retrieveAll">Catalogo</a>
+					<div class="submenu">
+						<ul>
+							<li><a href="Product?operation=retrieveByCategory&category=T-shirt">T-Shirt</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Felpa">Felpe</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Giacca">Giacche</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Camicia">Camicie</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Pantalone">Pantaloni</a></li>
+						</ul>
+					</div>
+				</li>
+				<li><a href="#">Contatti</a></li>
+			</ul>
+		</div>
 		<!-- Contact Info -->
 		<div class="menu_contact">
-			<div class="menu_phone d-flex flex-row align-items-center justify-content-start">
-				<div><div></div></div>
+			<div
+					class="menu_phone d-flex flex-row align-items-center justify-content-start">
+				<div>
+					<div></div>
+				</div>
 				<div></div>
 			</div>
 			<div class="menu_social">
-				<ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">
-					<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-					<li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-					<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-					<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+				<ul
+						class="menu_social_list d-flex flex-row align-items-start justify-content-start">
+					<li><a href="#"><i class="fa fa-facebook"
+									   aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-youtube-play"
+									   aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"
+									   aria-hidden="true"></i></a></li>
+					<li><a href="#"><i class="fa fa-instagram"
+									   aria-hidden="true"></i></a></li>
 				</ul>
 			</div>
 		</div>
@@ -74,30 +91,6 @@
 		<%@ include file="header.jsp" %>
 
 		<%
-			//if(utenteLoggato == null)
-				//response.sendRedirect("user_log.jsp");
-			
-		//	HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart;
-			//if (((products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart")) == null))
-			//{
-		%>
-
-		<!--  	<div style="display: none;">
-				<form action="Cart" id="hiddenform" method="POST">
-					<input type="hidden" id="loadedvalue" name="loaded" value="0">
-					<input type="hidden" name="operation" value="retrieveProducts">
-				</form>
-		)	</div>-->
-
-		<%
-	//} else {
-		%>
-
-		<!--  <input type="hidden" id="loadedvalue" name="loaded" value="1"> -->
-
-		<%
-		//	}
-			
 			HashMap<Pair<ProductBean, ProductDetailsBean>, Integer> products_in_cart = (HashMap) request.getSession().getAttribute("productsInCart");
 			
 			if (products_in_cart == null)

@@ -51,11 +51,11 @@
 				<li><a href="Product?operation=retrieveAll">Catalogo</a>
 					<div class="submenu">
 						<ul>
-							<li><a href="Product?operation=retrieveByCategory&category=T-Shirt">T-Shirt</a></li>
-							<li><a href="Product?operation=retrieveByCategory&category=Felpe">Felpe</a></li>
-							<li><a href="Product?operation=retrieveByCategory&category=Giacche">Giacche</a></li>
-							<li><a href="Product?operation=retrieveByCategory&category=Camicie">Camicie</a></li>
-							<li><a href="Product?operation=retrieveByCategory&category=Pantaloni">Pantaloni</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=T-shirt">T-Shirt</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Felpa">Felpe</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Giacca">Giacche</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Camicia">Camicie</a></li>
+							<li><a href="Product?operation=retrieveByCategory&category=Pantalone">Pantaloni</a></li>
 						</ul>
 					</div>
 				</li>
