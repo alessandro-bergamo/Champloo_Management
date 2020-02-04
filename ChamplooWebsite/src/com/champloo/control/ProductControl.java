@@ -31,7 +31,7 @@ public class ProductControl extends HttpServlet{
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
 		String operation = request.getParameter("operation");
 		System.out.println("operation in ProductControl -> "+operation);
@@ -42,6 +42,7 @@ public class ProductControl extends HttpServlet{
 		{
 			if(operation.equals("addProduct"))
 			{
+				boolean accreditate = false;
 				String name_product = request.getParameter("name_product");
 				String brand_product = request.getParameter("brand_product");
 				String model_product = request.getParameter("model_product");
@@ -81,11 +82,13 @@ public class ProductControl extends HttpServlet{
 				productDetails.setImg_path_folder(img_path_folder);
 				
 				try {
-					productDAO.addProduct(product, productDetails);
+					accreditate = productDAO.addProduct(product, productDetails);
+					request.setAttribute("accreditate", accreditate);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
 			}
 			else if(operation.equals("createWindow"))
 			{
@@ -228,6 +231,7 @@ public class ProductControl extends HttpServlet{
 
 					session.setAttribute("productsByStatus", products);
 					session.setAttribute("redirectURL", "index.jsp");
+					request.setAttribute("productByStatus", products);
 
 					dispatcher = request.getRequestDispatcher("Redirect");
 					dispatcher.forward(request, response);
@@ -263,7 +267,7 @@ public class ProductControl extends HttpServlet{
 				}
 
 				session.setAttribute("category", "I più amati - Champloo");
-				session.setAttribute("productsByCategory", products);
+				session.setAttribute("productsByAverage", products);
 				session.setAttribute("redirectURL", "category.jsp");
 
 				dispatcher = request.getRequestDispatcher("Redirect");
@@ -307,16 +311,18 @@ public class ProductControl extends HttpServlet{
 			}
 			else if(operation.equals("deleteProduct"))
 			{
+				boolean result = false;
 				int id_product = Integer.parseInt(request.getParameter("id_product"));
 
 				System.out.println("ID: "+id_product);
 
 				try {
-					productDAO.deleteProduct(id_product);
+					result = productDAO.deleteProduct(id_product);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				request.setAttribute("accreditate", result);
 
 				session.removeAttribute("products");
 
@@ -350,6 +356,7 @@ public class ProductControl extends HttpServlet{
 			}
 			else if(operation.equals("modifyProduct"))
 			{
+				boolean result = false;
 				int id_product = Integer.parseInt(request.getParameter("id_product"));
 				int id_product_details = Integer.parseInt(request.getParameter("id_product_details"));
 				String name_product = request.getParameter("name_product");
@@ -387,10 +394,11 @@ public class ProductControl extends HttpServlet{
 				newProductDetails.setImg_path_folder(img_path_folder);
 				
 				try {
-					productDAO.updateProduct(newProduct, newProductDetails);
+					result = productDAO.updateProduct(newProduct, newProductDetails);
 					HashMap<ProductBean, ArrayList<ProductDetailsBean>> products = new HashMap<ProductBean, ArrayList<ProductDetailsBean>>();
 					products = productDAO.retrieveAll();
 					session.setAttribute("products", products);
+					request.setAttribute("accreditate", result);
 					
 					session.setAttribute("redirectURL", "area_admin.jsp");
 
@@ -459,7 +467,7 @@ public class ProductControl extends HttpServlet{
 			response.sendRedirect("area_admin.jsp");
     }
 	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doGet(request, response);
     }
