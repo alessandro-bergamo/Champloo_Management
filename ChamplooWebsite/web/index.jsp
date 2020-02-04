@@ -141,7 +141,7 @@
 												<div class="row">
 													<div class="col-sm-3 offset-lg-1">
 														<div class="home_item_side">
-															<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/nike2.jpg" alt=""></a>
+															<a href="Product?operation=showProduct&id_product=9&color=grigio"><img src="images/modelli/nike2.jpg" alt=""></a>
 														</div>
 													</div>
 													<div class="col-lg-4 col-md-6 col-sm-8 offset-sm-2 offset-md-0">
@@ -153,13 +153,13 @@
 																</div>
 															</div>
 															<div class="product_image">
-																<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/ck1.jpg" alt=""></a>
+																<a href="Product?operation=showProduct&id_product=8&color=blu"><img src="images/modelli/ck1.jpg" alt=""></a>
 															</div>
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="home_item_side">
-															<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/montec.jpg" alt=""></a>
+															<a href="Product?operation=showProduct&id_product=13&color=viola"><img src="images/modelli/montec.jpg" alt=""></a>
 														</div>
 													</div>
 												</div>
@@ -187,7 +187,7 @@
 												<div class="row">
 													<div class="col-sm-3 offset-lg-1">
 														<div class="home_item_side">
-															<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/adidas.jpg" alt=""></a>
+															<a href="Product?operation=showProduct&id_product=3&color=bianco"><img src="images/modelli/adidas.jpg" alt=""></a>
 														</div>
 													</div>
 													<div
@@ -201,13 +201,13 @@
 																</div>
 															</div>
 															<div class="product_image">
-																<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/supreme.jpg" alt=""></a>
+																<a href="Product?operation=showProduct&id_product=5&color=verde"><img src="images/modelli/supreme.jpg" alt=""></a>
 															</div>
 														</div>
 													</div>
 													<div class="col-sm-3">
 														<div class="home_item_side">
-															<a href="Product?operation=showProduct&id_product=8&color=nero"><img src="images/modelli/vans.jpg" alt=""></a>
+															<a href="Product?operation=showProduct&id_product=25&color=rosso"><img src="images/modelli/vans.jpg" alt=""></a>
 														</div>
 													</div>
 												</div>
