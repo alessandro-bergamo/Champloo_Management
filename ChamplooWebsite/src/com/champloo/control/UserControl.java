@@ -2,6 +2,7 @@
 
 import com.champloo.bean.UserBean;
 import com.champloo.model.UserDAO;
+import com.champloo.util.ActiveCart;
 import com.champloo.util.Mailer;
 import com.champloo.util.PasswordGenerator;
 
@@ -131,7 +132,7 @@ public class UserControl extends HttpServlet {
 
 				String URL_NSS = request.getRequestURL().toString();
 
-				String URL = URL_NSS.substring(0, URL_NSS.lastIndexOf("/"));
+				String URL = URL_NSS.substring(0, URL_NSS.lastIndexOf("/") + 1);
 
 				Mailer.send(email, "REGISTRAZIONE", "Clicca sul seguente link per completare la registrazione: "+URL+"registration_validation.jsp?username="+ username + "&email=" + email + "&firstname=" + firstName + "&lastname=" + lastName + "&password=" + password +"");
 

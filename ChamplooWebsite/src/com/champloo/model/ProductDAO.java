@@ -21,15 +21,14 @@ public class ProductDAO implements ProductModel
 			e.printStackTrace();
 		}
 	}
-
-	public ProductDAO(String s) {
-		try {
-			connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
+	public ProductDAO(String s) {
+	    try {
+	        connectionPool = ConnectionPool.create("jdbc:mysql://@localhost:3306/testing_db?autoReconnect=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "rootroot");
+	    }catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 	/**
      * Adds a new product into DB
      * param newProduct
@@ -1185,7 +1184,8 @@ public class ProductDAO implements ProductModel
 		
 		connection = connectionPool.getConnection();
 		
-		query = "DELETE FROM products WHERE id_product = '"+id_product+"'";
+		//query = "DELETE FROM products WHERE id_product = '"+id_product+"'";
+		query = "UPDATE products SET status_product = '"+ProductBean.UNAVAILABLE_PRODUCT+"' WHERE id_product = '"+id_product+"'";
 		
 		try {
             

@@ -520,7 +520,7 @@ public class CartDAO implements CartModel
 				ProductDetailsBean productDetails = productPair.getValue();
 				int qntInCart = (int) entry.getValue();
 				
-				query = "INSERT INTO cart_item VALUES (Cart, Product_Details, qnt_in_cart) (?,?,?)";
+				query = "INSERT INTO cart_item (Cart, Product_Details, qnt_in_cart) VALUES (?,?,?)";
 				preparedStatement = connection.prepareStatement(query);
 				
 				preparedStatement.setInt(1, cart.getId_cart());

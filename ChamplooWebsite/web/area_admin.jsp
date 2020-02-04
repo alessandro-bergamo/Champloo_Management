@@ -499,6 +499,7 @@
     <script src="plugins/progressbar/progressbar.min.js"></script>
     <script src="plugins/parallax-js-master/parallax.min.js"></script>
     <script src="js/custom.js"></script>
+	<script src="js/logout.js"></script>
 
 </body>
 

@@ -312,7 +312,15 @@
 			type: "GET",
 			url: "Cart",
 			data: {"total_price_order": total_price_order, "shipping_price": shipping_price, "total_price": total_price, "operation": value1},
-		}); window.location.href = "checkout.jsp";
+			success: function()
+			{
+				window.location = 'checkout.jsp';
+			},
+			error: function()
+			{
+				window.location = 'user_log.jsp';
+			}
+		}); 
 	}
 
 	$('input[type=radio][name=shipping_radio]').change(function() {

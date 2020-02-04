@@ -41,7 +41,17 @@ public class CartControl extends HttpServlet {
 			if(operation.equals("login"))
 			{
 				synchronized (session) {
+					ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
 					UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+					if(activeCart != null)
+					{
+						try {
+							cartDAO.storeActiveCartInDb(activeCart, user.getID());
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					System.out.println("-----> RIGA 39 CARTCONTROL - UTENTE: "+user.getFirstName());
 					try {
 						CartBean cart = cartDAO.retrieveCart(user);
@@ -265,20 +275,27 @@ public class CartControl extends HttpServlet {
 			}
 			else if(operation.equals("submitCheckout"))
 			{
-				// controllare se l'ordine è effettuato su un ActiveCart
+				// controllare se l'ordine è effettuato su un ActiveCart (utente non loggato) 
 				ActiveCart activeCart = (ActiveCart) session.getAttribute("activeCart");
-				if(activeCart == null )
+				UserBean user = (UserBean) session.getAttribute("utenteLoggato");
+				System.out.println("line 281 CartComtrol -> userLoggato: "+user);
+				if(user == null)
 				{
-					//cartDAO.storeActiveCartInDb(activeCart, id_user);
+					response.setStatus(500);
 				}
-				Float total_price_order, shipping_price, total_price;
-				total_price = Float.parseFloat(request.getParameter("total_price"));
-				shipping_price = Float.parseFloat(request.getParameter("shipping_price"));
-				total_price_order = Float.parseFloat(request.getParameter("total_price_order"));
+				else 
+				{
+					Float total_price_order, shipping_price, total_price;
+					total_price = Float.parseFloat(request.getParameter("total_price"));
+					shipping_price = Float.parseFloat(request.getParameter("shipping_price"));
+					total_price_order = Float.parseFloat(request.getParameter("total_price_order"));
 
-				session.setAttribute("total_price", total_price);
-				session.setAttribute("shipping_price", shipping_price);
-				session.setAttribute("total_price_order", total_price_order);
+					session.setAttribute("total_price", total_price);
+					session.setAttribute("shipping_price", shipping_price);
+					session.setAttribute("total_price_order", total_price_order);
+					
+					response.setStatus(200);
+				}
 			}
 			else if(operation.equals("createOrder"))
 			{
